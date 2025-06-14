@@ -1,103 +1,129 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from "react";
+import BodyPartSelector from "../components/BodyPartSelector";
+import WorkoutGenerator from "../components/WorkoutGenerator";
+
+const NAV_LINKS = [
+  { name: "WOD Generator", href: "#" },
+  { name: "My Workouts", href: "#" },
+  { name: "Quick Stats", href: "#" },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [bodyParts, setBodyParts] = useState([]);
+  const [intensity, setIntensity] = useState("rx");
+  const [workoutKey, setWorkoutKey] = useState(0);
+  const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("wodFavorites") || "[]"));
+  const [generatedCount, setGeneratedCount] = useState(() => Number(localStorage.getItem("wodGeneratedCount") || 0));
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  // Load preferences on mount (optional, can be removed if not needed)
+  React.useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
+    setBodyParts(saved.bodyParts || []);
+    setIntensity(saved.intensity || "rx");
+  }, []);
+
+  const handleGenerate = () => {
+    localStorage.setItem("wodPrefs", JSON.stringify({ bodyParts, intensity }));
+    setWorkoutKey((k) => k + 1);
+    setGeneratedCount((c) => {
+      const newCount = c + 1;
+      localStorage.setItem("wodGeneratedCount", newCount);
+      return newCount;
+    });
+  };
+
+  const handleFavorite = (workout) => {
+    setFavorites((prev) => {
+      const updated = [...prev, workout];
+      localStorage.setItem("wodFavorites", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white font-sans">
+      {/* Navigation */}
+      <nav className="bg-black/80 backdrop-blur-md shadow flex items-center justify-between px-6 py-3 border-b border-white/10">
+        <div className="flex items-center gap-2">
+          <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/66a45d17d_logo.png" alt="Base44 Logo" className="h-8 w-8 rounded" />
+          <span className="font-bold text-xl tracking-tight text-blue-400">WOD Shuffler</span>
+        </div>
+      </nav>
+
+      {/* Quick Stats */}
+      <div className="max-w-2xl mx-auto flex justify-between items-center px-4 py-4 mt-4 mb-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+        <div className="flex flex-col items-center">
+          <span className="text-blue-400 font-bold text-2xl">{generatedCount}</span>
+          <span className="text-xs text-white/70">Generated WODs</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-pink-400 font-bold text-2xl">{favorites.length}</span>
+          <span className="text-xs text-white/70">Favorites</span>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="max-w-2xl mx-auto p-4 mt-2">
+        <div className="rounded-2xl bg-white/5 backdrop-blur-md shadow-lg p-8 border border-white/10">
+          <h1 className="text-3xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
+          <p className="text-center text-white/70 mb-8">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-2 text-white">Target Muscle Groups</h2>
+            <p className="text-white/60 mb-4">Select up to 3 muscle groups to focus on</p>
+            <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
+            <div className="flex justify-between items-center mt-2 text-sm">
+              <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
+              <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
+            </div>
+          </section>
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-2 text-white">Intensity Level</h2>
+            <p className="text-white/60 mb-4">Choose your workout intensity</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+              <div
+                className={`rounded-lg p-3 border transition-colors duration-150 flex flex-col items-start cursor-pointer ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
+                onClick={() => setIntensity('scaled')}
+              >
+                <div className="flex items-center gap-2 font-bold text-green-400 text-lg">⚡<span>Scaled</span></div>
+                <div className="text-xs text-white/60">Beginner-friendly modifications</div>
+                <div className="text-xs mt-1">Modified movements, lighter weights, and reduced volume</div>
+              </div>
+              <div
+                className={`rounded-lg p-3 border transition-colors duration-150 flex flex-col items-start cursor-pointer ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
+                onClick={() => setIntensity('rx')}
+              >
+                <div className="flex items-center gap-2 font-bold text-blue-400 text-lg">🔥<span>RX</span></div>
+                <div className="text-xs text-white/60">As prescribed standard</div>
+                <div className="text-xs mt-1">Standard CrossFit workout as written</div>
+              </div>
+              <div
+                className={`rounded-lg p-3 border transition-colors duration-150 flex flex-col items-start cursor-pointer ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
+                onClick={() => setIntensity('athlete')}
+              >
+                <div className="flex items-center gap-2 font-bold text-pink-400 text-lg">🚀<span>Athlete</span></div>
+                <div className="text-xs text-white/60">Elite performance level</div>
+                <div className="text-xs mt-1">Advanced movements, heavier weights, and increased volume</div>
+              </div>
+            </div>
+          </section>
+          <button
+            onClick={handleGenerate}
+            className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 text-lg font-semibold mb-6 transition-colors duration-150"
+            disabled={bodyParts.length === 0}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            Generate WOD
+          </button>
+          {bodyParts.length > 0 && (
+            <WorkoutGenerator
+              muscleGroups={bodyParts}
+              intensity={intensity}
+              key={workoutKey}
+              onFavorite={handleFavorite}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          )}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

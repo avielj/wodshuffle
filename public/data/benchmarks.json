@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bm1",
+    "name": "Fran",
+    "bodyParts": ["upper_body_push", "upper_body_pull", "lower_body"],
+    "description": "21-15-9 Thrusters (95/65 lbs), Pull-Ups",
+    "intensity": {
+      "scaled": "Thrusters (45/35 lbs), Jumping Pull-Ups",
+      "rx": "Thrusters (95/65 lbs), Pull-Ups",
+      "athlete": "Thrusters (115/85 lbs), Chest-to-Bar Pull-Ups"
+    },
+    "equipment": ["barbell", "pull-up bar"],
+    "timeCap": "10 minutes"
+  },
+  {
+    "id": "bm2",
+    "name": "Murph",
+    "bodyParts": ["full_body"],
+    "description": "1 mile run, 100 Pull-Ups, 200 Push-Ups, 300 Air Squats, 1 mile run",
+    "intensity": {
+      "scaled": "Partitioned, no vest",
+      "rx": "Partitioned, 20 lb vest",
+      "athlete": "Unpartitioned, 20 lb vest"
+    },
+    "equipment": ["pull-up bar", "vest"],
+    "timeCap": "None"
+  }
+]

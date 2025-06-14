@@ -1,0 +1,1731 @@
+[
+  {
+    "name": "Angie",
+    "type": "Benchmark Girls",
+    "description": "For time: 100 Pull-ups, 100 Push-ups, 100 Sit-ups, 100 Squats. Complete all reps of each exercise before moving to the next.",
+    "exercises": [
+      "100 Pull-ups",
+      "100 Push-ups",
+      "100 Sit-ups",
+      "100 Squats"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Barbara",
+    "type": "Benchmark Girls",
+    "description": "5 rounds for time: 20 Pull-ups, 30 Push-ups, 40 Sit-ups, 50 Squats.",
+    "exercises": [
+      "20 Pull-ups",
+      "30 Push-ups",
+      "40 Sit-ups",
+      "50 Squats"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Chelsea",
+    "type": "Benchmark Girls",
+    "description": "Each minute on the minute for 30 minutes: 5 Pull-ups, 10 Push-ups, 15 Squats.",
+    "exercises": [
+      "5 Pull-ups",
+      "10 Push-ups",
+      "15 Squats"
+    ],
+    "format": "Each min on the min for 30 min"
+  },
+  {
+    "name": "Cindy",
+    "type": "Benchmark Girls",
+    "description": "As many rounds as possible in 20 minutes: 5 Pull-ups, 10 Push-ups, 15 Squats.",
+    "exercises": [
+      "5 Pull-ups",
+      "10 Push-ups",
+      "15 Squats"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Diane",
+    "type": "Benchmark Girls",
+    "description": "21-15-9 reps for time: Deadlift 225 lbs, Handstand Push-ups.",
+    "exercises": [
+      "Deadlift 225 lbs",
+      "Handstand Push-ups"
+    ],
+    "format": "21-15-9 reps for time"
+  },
+  {
+    "name": "Elizabeth",
+    "type": "Benchmark Girls",
+    "description": "21-15-9 reps for time: Clean 135 lbs, Ring Dips.",
+    "exercises": [
+      "Clean 135 lbs",
+      "Ring Dips"
+    ],
+    "format": "21-15-9 reps for time"
+  },
+  {
+    "name": "Fran",
+    "type": "Benchmark Girls",
+    "description": "21-15-9 reps for time: Thruster 95 lbs, Pull-ups.",
+    "exercises": [
+      "Thruster 95 lbs",
+      "Pull-ups"
+    ],
+    "format": "21-15-9 reps for time"
+  },
+  {
+    "name": "Grace",
+    "type": "Benchmark Girls",
+    "description": "For time: 30 Clean and Jerk 135 lbs.",
+    "exercises": [
+      "Clean and Jerk 135 lbs"
+    ],
+    "format": "30 reps for time"
+  },
+  {
+    "name": "Helen",
+    "type": "Benchmark Girls",
+    "description": "3 rounds for time: 400 meter Run, 21 Kettlebell Swing 1.5 pood (approx. 55 lbs), 12 Pull-ups.",
+    "exercises": [
+      "400 meter Run",
+      "21 Kettlebell Swing 1.5 pood (approx. 55 lbs)",
+      "12 Pull-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Isabel",
+    "type": "Benchmark Girls",
+    "description": "For time: 30 Snatch 135 lbs.",
+    "exercises": [
+      "Snatch 135 lbs"
+    ],
+    "format": "30 reps for time"
+  },
+  {
+    "name": "Jackie",
+    "type": "Benchmark Girls",
+    "description": "For time: 1000 meter Row, 50 Thruster 45 lbs, 30 Pull-ups.",
+    "exercises": [
+      "1000 meter Row",
+      "50 Thruster 45 lbs",
+      "30 Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Karen",
+    "type": "Benchmark Girls",
+    "description": "For time: 150 Wallball 20 lbs to 10 ft.",
+    "exercises": [
+      "150 Wallball 20 lbs to 10 ft"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Linda",
+    "type": "Benchmark Girls",
+    "description": "10/9/8/7/6/5/4/3/2/1 rep rounds for time: Deadlift 1.5x Body Weight, Bench Press Body Weight, Clean 0.75x Body Weight.",
+    "exercises": [
+      "Deadlift 1.5x Body Weight",
+      "Bench Press Body Weight",
+      "Clean 0.75x Body Weight"
+    ],
+    "format": "10/9/8/7/6/5/4/3/2/1 rep rounds for time"
+  },
+  {
+    "name": "Mary",
+    "type": "Benchmark Girls",
+    "description": "As many rounds as possible in 20 minutes: 5 Handstand Push-ups, 10 1-Legged Squats (Pistols), 15 Pull-ups.",
+    "exercises": [
+      "5 Handstand Push-ups",
+      "10 1-Legged Squats (Pistols)",
+      "15 Pull-ups"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Nancy",
+    "type": "Benchmark Girls",
+    "description": "5 rounds for time: 400 meter Run, 15 Overhead Squat 95 lbs.",
+    "exercises": [
+      "400 meter Run",
+      "15 Overhead Squat 95 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Annie",
+    "type": "New Girls",
+    "description": "50-40-30-20-10 rep rounds for time: Double Unders, Sit-ups.",
+    "exercises": [
+      "Double Unders",
+      "Sit-ups"
+    ],
+    "format": "50-40-30-20-10 rep rounds for time"
+  },
+  {
+    "name": "Eva",
+    "type": "New Girls",
+    "description": "5 rounds for time: 800 meter Run, 30 Kettlebell Swing 2 pood (approx. 72 lbs), 30 Pull-ups.",
+    "exercises": [
+      "800 meter Run",
+      "30 Kettlebell Swing 2 pood (approx. 72 lbs)",
+      "30 Pull-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Kelly",
+    "type": "New Girls",
+    "description": "5 rounds for time: 400 meter Run, 30 Box Jump 24 inch box, 30 Wallball 20 lbs to 10 ft.",
+    "exercises": [
+      "400 meter Run",
+      "30 Box Jump 24 inch box",
+      "30 Wallball 20 lbs to 10 ft"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Lynne",
+    "type": "New Girls",
+    "description": "5 rounds for max reps: Body Weight Bench Press, Pull-ups. No time component.",
+    "exercises": [
+      "Body Weight Bench Press",
+      "Pull-ups"
+    ],
+    "format": "5 rounds for max reps"
+  },
+  {
+    "name": "Nicole",
+    "type": "New Girls",
+    "description": "As many rounds as possible in 20 minutes: 400 meter Run, Max rep Pull-ups. Note number of pull-ups completed for each round.",
+    "exercises": [
+      "400 meter Run",
+      "Max rep Pull-ups"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "JT",
+    "type": "Hero",
+    "description": "21-15-9 reps for time: Handstand Push-ups, Ring Dips, Push-ups.",
+    "exercises": [
+      "Handstand Push-ups",
+      "Ring Dips",
+      "Push-ups"
+    ],
+    "format": "21-15-9 reps for time"
+  },
+  {
+    "name": "Michael",
+    "type": "Hero",
+    "description": "3 rounds for time: 800 meter Run, 50 Back Extensions, 50 Sit-ups.",
+    "exercises": [
+      "800 meter Run",
+      "50 Back Extensions",
+      "50 Sit-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Murph",
+    "type": "Hero",
+    "description": "For time: 1 mile Run, 100 Pull-ups, 200 Push-ups, 300 Squats, 1 mile Run.",
+    "exercises": [
+      "1 mile Run",
+      "100 Pull-ups",
+      "200 Push-ups",
+      "300 Squats",
+      "1 mile Run"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Daniel",
+    "type": "Hero",
+    "description": "For time: 50 Pull-ups, 400 meter Run, 21 Thrusters 95 lbs, 400 meter Run, 50 Pull-ups.",
+    "exercises": [
+      "50 Pull-ups",
+      "400 meter Run",
+      "21 Thrusters 95 lbs",
+      "400 meter Run",
+      "50 Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Josh",
+    "type": "Hero",
+    "description": "For time: 21 Overhead Squats 95 lbs, 42 Pull-ups, 15 Overhead Squats 95 lbs, 30 Pull-ups, 9 Overhead Squats 95 lbs, 18 Pull-ups.",
+    "exercises": [
+      "21 Overhead Squats 95 lbs",
+      "42 Pull-ups",
+      "15 Overhead Squats 95 lbs",
+      "30 Pull-ups",
+      "9 Overhead Squats 95 lbs",
+      "18 Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Jason",
+    "type": "Hero",
+    "description": "For time: 100 Squats, 5 Muscle-ups, 75 Squats, 10 Muscle-ups, 50 Squats, 15 Muscle-ups, 25 Squats, 20 Muscle-ups.",
+    "exercises": [
+      "100 Squats",
+      "5 Muscle-ups",
+      "75 Squats",
+      "10 Muscle-ups",
+      "50 Squats",
+      "15 Muscle-ups",
+      "25 Squats",
+      "20 Muscle-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Badger",
+    "type": "Hero",
+    "description": "3 rounds for time: 30 Squat Cleans 95 lbs, 30 Pull-ups, 800 meter Run.",
+    "exercises": [
+      "30 Squat Cleans 95 lbs",
+      "30 Pull-ups",
+      "800 meter Run"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Joshie",
+    "type": "Hero",
+    "description": "3 rounds for time: 21 Dumbbell Snatch 40 lbs right arm, 21 L Pull-ups, 21 Dumbbell Snatch 40 lbs left arm, 21 L Pull-ups. The snatches are full squat snatches.",
+    "exercises": [
+      "21 Dumbbell Snatch 40 lbs right arm",
+      "21 L Pull-ups",
+      "21 Dumbbell Snatch 40 lbs left arm",
+      "21 L Pull-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Nate",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 2 Muscle-ups, 4 Handstand Push-ups, 8 Kettlebell Swings 2 pood (approx. 72 lbs).",
+    "exercises": [
+      "2 Muscle-ups",
+      "4 Handstand Push-ups",
+      "8 Kettlebell Swings 2 pood (approx. 72 lbs)"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Randy",
+    "type": "Hero",
+    "description": "For time: 75 Power Snatch 75 lbs.",
+    "exercises": [
+      "75 Power Snatch 75 lbs"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Tommy V",
+    "type": "Hero",
+    "description": "For time: 21 Thrusters 115 lbs, 15 ft Rope Climb 12 ascents, 15 Thrusters 115 lbs, 15 ft Rope Climb 9 ascents, 9 Thrusters 115 lbs, 15 ft Rope Climb 6 ascents.",
+    "exercises": [
+      "21 Thrusters 115 lbs",
+      "15 ft Rope Climb 12 ascents",
+      "15 Thrusters 115 lbs",
+      "15 ft Rope Climb 9 ascents",
+      "9 Thrusters 115 lbs",
+      "15 ft Rope Climb 6 ascents"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Griff",
+    "type": "Hero",
+    "description": "For time: 800 meter Run, 400 meter Run backwards, 800 meter Run, 400 meter Run backwards.",
+    "exercises": [
+      "800 meter Run",
+      "400 meter Run backwards",
+      "800 meter Run",
+      "400 meter Run backwards"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Ryan",
+    "type": "Hero",
+    "description": "5 rounds for time: 7 Muscle-ups, 21 Burpees. Each burpee terminates with a jump one foot above max standing reach.",
+    "exercises": [
+      "7 Muscle-ups",
+      "21 Burpees"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Erin",
+    "type": "Hero",
+    "description": "5 rounds for time: 15 Dumbbell Split Clean 40 lbs, 21 Pull-ups.",
+    "exercises": [
+      "15 Dumbbell Split Clean 40 lbs",
+      "21 Pull-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Mr Joshua",
+    "type": "Hero",
+    "description": "5 rounds for time: 400 meter Run, 30 Glute-Ham Sit-Ups, 15 Deadlift 250 lbs.",
+    "exercises": [
+      "400 meter Run",
+      "30 Glute-Ham Sit-Ups",
+      "15 Deadlift 250 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "DT",
+    "type": "Hero",
+    "description": "5 rounds for time: 12 Deadlift 155 lbs, 9 Hang Power Clean 155 lbs, 6 Push Jerk 155 lbs.",
+    "exercises": [
+      "12 Deadlift 155 lbs",
+      "9 Hang Power Clean 155 lbs",
+      "6 Push Jerk 155 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Danny",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 30 Box Jump 24 inch, 20 Push Press 115 lbs, 30 Pull-ups.",
+    "exercises": [
+      "30 Box Jump 24 inch",
+      "20 Push Press 115 lbs",
+      "30 Pull-ups"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Hansen",
+    "type": "Hero",
+    "description": "5 rounds for time: 30 Kettlebell Swing 2 pood (approx. 70 lbs), 30 Burpees, 30 Glute-Ham Sit-ups.",
+    "exercises": [
+      "30 Kettlebell Swing 2 pood (approx. 70 lbs)",
+      "30 Burpees",
+      "30 Glute-Ham Sit-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Tyler",
+    "type": "Hero",
+    "description": "5 rounds for time: 7 Muscle-ups, 21 Sumo-Deadlift High-Pull 95 lbs.",
+    "exercises": [
+      "7 Muscle-ups",
+      "21 Sumo-Deadlift High-Pull 95 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Stephen",
+    "type": "Hero",
+    "description": "30-25-20-15-10-5 reps of: Glute-Ham Sit-ups, Back Extensions, Knees to Elbow, Stiff Legged Deadlift 95 lbs.",
+    "exercises": [
+      "Glute-Ham Sit-ups",
+      "Back Extensions",
+      "Knees to Elbow",
+      "Stiff Legged Deadlift 95 lbs"
+    ],
+    "format": "30-25-20-15-10-5 reps"
+  },
+  {
+    "name": "Garrett",
+    "type": "Hero",
+    "description": "3 rounds for time: 75 Squats, 25 Ring Handstand Push-ups, 25 L Pull-ups.",
+    "exercises": [
+      "75 Squats",
+      "25 Ring Handstand Push-ups",
+      "25 L Pull-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "War Frank",
+    "type": "Hero",
+    "description": "3 rounds for time: 25 Muscle-ups, 100 Squats, 35 Glute-Ham Sit-ups.",
+    "exercises": [
+      "25 Muscle-ups",
+      "100 Squats",
+      "35 Glute-Ham Sit-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "McGhee",
+    "type": "Hero",
+    "description": "As many rounds as possible in 30 minutes: 5 Deadlift 275 lbs, 13 Push-ups, 9 Box Jumps 24 inch box.",
+    "exercises": [
+      "5 Deadlift 275 lbs",
+      "13 Push-ups",
+      "9 Box Jumps 24 inch box"
+    ],
+    "format": "AMRAP in 30 minutes"
+  },
+  {
+    "name": "Paul",
+    "type": "Hero",
+    "description": "5 rounds for time: 50 Double Unders, 35 Knees to Elbows, Overhead Walk 20 yards 185 lbs.",
+    "exercises": [
+      "50 Double Unders",
+      "35 Knees to Elbows",
+      "Overhead Walk 20 yards 185 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Jerry",
+    "type": "Hero",
+    "description": "For time: 1 mile Run, 2000 meter Row, 1 mile Run.",
+    "exercises": [
+      "1 mile Run",
+      "2000 meter Row",
+      "1 mile Run"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Nutts",
+    "type": "Hero",
+    "description": "For time: 10 Handstand Push-ups, 15 Deadlift 250 lbs, 25 Box Jumps 30 inch box, 50 Pull-ups, 100 Wallball 20 lbs to 10 ft, 200 Double Unders, 400 meter Run with a 45 lb plate.",
+    "exercises": [
+      "10 Handstand Push-ups",
+      "15 Deadlift 250 lbs",
+      "25 Box Jumps 30 inch box",
+      "50 Pull-ups",
+      "100 Wallball 20 lbs to 10 ft",
+      "200 Double Unders",
+      "400 meter Run with a 45 lb plate"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Arnie",
+    "type": "Hero",
+    "description": "For time with a single 2 pood kettlebell (approx. 72 lbs): 21 Turkish Get-ups Right arm, 50 Kettlebell Swings, 21 Overhead Squats Left arm, 50 Kettlebell Swings, 21 Overhead Squats Right arm, 50 Kettlebell Swings, 21 Turkish Get-ups Left arm.",
+    "exercises": [
+      "21 Turkish Get-ups Right arm",
+      "50 Kettlebell Swings",
+      "21 Overhead Squats Left arm",
+      "50 Kettlebell Swings",
+      "21 Overhead Squats Right arm",
+      "50 Kettlebell Swings",
+      "21 Turkish Get-ups Left arm"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "The Seven",
+    "type": "Hero",
+    "description": "7 rounds for time: 7 Handstand Push-ups, 7 Thruster 135 lbs, 7 Knees to Elbows, 7 Deadlift 245 lbs, 7 Burpees, 7 Kettlebell Swings 2 pood (approx. 72 lbs), 7 Pull-ups.",
+    "exercises": [
+      "7 Handstand Push-ups",
+      "7 Thruster 135 lbs",
+      "7 Knees to Elbows",
+      "7 Deadlift 245 lbs",
+      "7 Burpees",
+      "7 Kettlebell Swings 2 pood (approx. 72 lbs)",
+      "7 Pull-ups"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "RJ",
+    "type": "Hero",
+    "description": "5 rounds for time: 800 meter Run, 15 ft Rope Climb 5 ascents, 50 Push-ups.",
+    "exercises": [
+      "800 meter Run",
+      "15 ft Rope Climb 5 ascents",
+      "50 Push-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Luce",
+    "type": "Hero",
+    "description": "Wearing a 20 lbs vest, 3 rounds for time: Run 1K, 10 Muscle-ups, 100 Squats.",
+    "exercises": [
+      "Run 1K",
+      "10 Muscle-ups",
+      "100 Squats"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Johnson",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 9 Deadlift 245 lbs, 8 Muscle-ups, 9 Squat Clean 155 lbs.",
+    "exercises": [
+      "9 Deadlift 245 lbs",
+      "8 Muscle-ups",
+      "9 Squat Clean 155 lbs"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Roy",
+    "type": "Hero",
+    "description": "5 rounds for time: 15 Deadlift 225 lbs, 20 Box Jumps 24 inch box, 25 Pull-ups.",
+    "exercises": [
+      "15 Deadlift 225 lbs",
+      "20 Box Jumps 24 inch box",
+      "25 Pull-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Adam brown",
+    "type": "Hero",
+    "description": "2 rounds for time: 24 Deadlift 295 lbs, 24 Box Jumps 24 inch box, 24 Wallball 20 lbs, 24 Bench Press 195 lbs, 24 Box Jumps 24 inch box, 24 Wallball 20 lbs, 24 Clean 145 lbs.",
+    "exercises": [
+      "24 Deadlift 295 lbs",
+      "24 Box Jumps 24 inch box",
+      "24 Wallball 20 lbs",
+      "24 Bench Press 195 lbs",
+      "24 Box Jumps 24 inch box",
+      "24 Wallball 20 lbs",
+      "24 Clean 145 lbs"
+    ],
+    "format": "2 rounds for time"
+  },
+  {
+    "name": "Coe",
+    "type": "Hero",
+    "description": "10 rounds for time: 10 Thruster 65 lbs, 10 Ring Push-ups.",
+    "exercises": [
+      "10 Thruster 65 lbs",
+      "10 Ring Push-ups"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Severin",
+    "type": "Hero",
+    "description": "For time: 50 Strict Pull-ups, 100 Push-ups (release hands from floor at the bottom), Run 5K. If you've got a twenty pound vest or body armor, wear it.",
+    "exercises": [
+      "50 Strict Pull-ups",
+      "100 Push-ups",
+      "Run 5K"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Helton",
+    "type": "Hero",
+    "description": "3 rounds for time: 800 meter Run, 30 Squat Clean 50 lb dumbbells, 30 Burpees.",
+    "exercises": [
+      "800 meter Run",
+      "30 Squat Clean 50 lb dumbbells",
+      "30 Burpees"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Jack",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 10 Push Press 115 lbs, 10 Kettlebell Swings 1.5 pood (approx. 55 lbs), 10 Box Jumps 24 inch box.",
+    "exercises": [
+      "10 Push Press 115 lbs",
+      "10 Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "10 Box Jumps 24 inch box"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Forrest",
+    "type": "Hero",
+    "description": "3 rounds for time: 20 L-Pull-ups, 30 Toes to Bar, 40 Burpees, 800 meter Run.",
+    "exercises": [
+      "20 L-Pull-ups",
+      "30 Toes to Bar",
+      "40 Burpees",
+      "800 meter Run"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Bulger",
+    "type": "Hero",
+    "description": "10 rounds for time: 150 meter Run, 7 Chest to Bar Pull-ups, 7 Front Squat 135 lbs, 7 Handstand Push-ups.",
+    "exercises": [
+      "150 meter Run",
+      "7 Chest to Bar Pull-ups",
+      "7 Front Squat 135 lbs",
+      "7 Handstand Push-ups"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Brenton",
+    "type": "Hero",
+    "description": "5 rounds for time: Bear Crawl 100 feet, Standing Broad-jump 100 feet (do three Burpees after every five broad-jumps). If you've got a twenty pound vest or body armor, wear it.",
+    "exercises": [
+      "Bear Crawl 100 feet",
+      "Standing Broad-jump 100 feet",
+      "Burpees"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Blake",
+    "type": "Hero",
+    "description": "4 rounds for time: 100 foot Walking Lunge with 45 lb plate held overhead, 30 Box Jump 24 inch box, 20 Wallball shots 20 lbs to 10 ft, 10 Handstand Push-ups.",
+    "exercises": [
+      "100 foot Walking Lunge with 45 lb plate",
+      "30 Box Jump 24 inch box",
+      "20 Wallball shots 20 lbs to 10 ft",
+      "10 Handstand Push-ups"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Collin",
+    "type": "Hero",
+    "description": "6 rounds for time: Carry 50 pound sandbag 400 meters, 12 Push Press 115 lbs, 12 Box Jumps 24 inch box, 12 Sumo Deadlift High-pull 95 lbs.",
+    "exercises": [
+      "Carry 50 pound sandbag 400 meters",
+      "12 Push Press 115 lbs",
+      "12 Box Jumps 24 inch box",
+      "12 Sumo Deadlift High-pull 95 lbs"
+    ],
+    "format": "6 rounds for time"
+  },
+  {
+    "name": "Thompson",
+    "type": "Hero",
+    "description": "10 rounds for time: 15 ft Rope Climb 1 ascent (begin seated on the floor), 29 Back Squat 95 lbs, 10 meter barbell Farmer Carry 135 lbs.",
+    "exercises": [
+      "15 ft Rope Climb 1 ascent",
+      "29 Back Squat 95 lbs",
+      "10 meter barbell Farmer Carry 135 lbs"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Whitten",
+    "type": "Hero",
+    "description": "5 rounds for time: 22 Kettlebell Swings 2 pood (approx. 72 lbs), 22 Box Jump 24 inch box, 400 meter Run, 22 Burpees, 22 Wallball shots 20 lbs.",
+    "exercises": [
+      "22 Kettlebell Swings 2 pood (approx. 72 lbs)",
+      "22 Box Jump 24 inch box",
+      "400 meter Run",
+      "22 Burpees",
+      "22 Wallball shots 20 lbs"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Bull",
+    "type": "Hero",
+    "description": "2 rounds for time: 200 Double Unders, 50 Overhead Squat 135 lbs, 50 Pull-ups, 1 mile Run.",
+    "exercises": [
+      "200 Double Unders",
+      "50 Overhead Squat 135 lbs",
+      "50 Pull-ups",
+      "1 mile Run"
+    ],
+    "format": "2 rounds for time"
+  },
+  {
+    "name": "John Rankel",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 6 Deadlift 225 lbs, 7 Burpee Pull-ups, 10 Kettlebell Swings 2 pood (approx. 72 lbs), 200 meter Run.",
+    "exercises": [
+      "6 Deadlift 225 lbs",
+      "7 Burpee Pull-ups",
+      "10 Kettlebell Swings 2 pood (approx. 72 lbs)",
+      "200 meter Run"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Holbrook",
+    "type": "Hero",
+    "description": "10 rounds for time: 5 Thrusters 115 lbs, 10 Pull-ups, 100 meter Sprint, rest 1 minute each round.",
+    "exercises": [
+      "5 Thrusters 115 lbs",
+      "10 Pull-ups",
+      "100 meter Sprint"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Ledesma",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 5 Parallette Handstand Push-ups, 10 Toes through Rings, 15 Medicine Ball Cleans 20 lbs.",
+    "exercises": [
+      "5 Parallette Handstand Push-ups",
+      "10 Toes through Rings",
+      "15 Medicine Ball Cleans 20 lbs"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Wittman",
+    "type": "Hero",
+    "description": "7 rounds for time: 15 Kettlebell Swings 1.5 pood (approx. 55 lbs), 15 Power Clean (M=95 lbs, F=65 lbs), 15 Box Jumps (M=24 inch, F=18 inch).",
+    "exercises": [
+      "15 Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "15 Power Clean (M=95 lbs, F=65 lbs)",
+      "15 Box Jumps (M=24 inch, F=18 inch)"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "McCluskey",
+    "type": "Hero",
+    "description": "3 rounds for time: 9 Muscle-ups, 15 Burpee Pull-ups, 21 Pull-ups, 800 meter Run.",
+    "exercises": [
+      "9 Muscle-ups",
+      "15 Burpee Pull-ups",
+      "21 Pull-ups",
+      "800 meter Run"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Weaver",
+    "type": "Hero",
+    "description": "4 rounds for time: 10 L Pull-ups, 15 Push-ups, 15 Chest to Bar Pull-ups, 15 Push-ups, 20 Pull-ups, 15 Push-ups.",
+    "exercises": [
+      "10 L Pull-ups",
+      "15 Push-ups",
+      "15 Chest to Bar Pull-ups",
+      "15 Push-ups",
+      "20 Pull-ups",
+      "15 Push-ups"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Abbate",
+    "type": "Hero",
+    "description": "For time: 1 mile Run, 21 Clean and Jerk 155 lbs, 800 meter Run, 21 Clean and Jerk 155 lbs, 1 mile Run.",
+    "exercises": [
+      "1 mile Run",
+      "21 Clean and Jerk 155 lbs",
+      "800 meter Run",
+      "21 Clean and Jerk 155 lbs",
+      "1 mile Run"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Hammer",
+    "type": "Hero",
+    "description": "5 rounds, each round for time: 5 Power Clean (M=135 lbs, F=95 lbs), 10 Front Squat (M=135 lbs, F=95 lbs), 5 Jerk (M=135 lbs, F=95 lbs), 20 Pull-ups, rest 90 seconds between each round.",
+    "exercises": [
+      "5 Power Clean (M=135 lbs, F=95 lbs)",
+      "10 Front Squat (M=135 lbs, F=95 lbs)",
+      "5 Jerk (M=135 lbs, F=95 lbs)",
+      "20 Pull-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Moore",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 15 ft Rope Climb 1 ascent, 400 meter Run, Max rep Handstand Push-ups.",
+    "exercises": [
+      "15 ft Rope Climb 1 ascent",
+      "400 meter Run",
+      "Max rep Handstand Push-ups"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Wilmot",
+    "type": "Hero",
+    "description": "6 rounds for time: 50 Squats, 25 Ring Dips.",
+    "exercises": [
+      "50 Squats",
+      "25 Ring Dips"
+    ],
+    "format": "6 rounds for time"
+  },
+  {
+    "name": "Moon",
+    "type": "Hero",
+    "description": "7 rounds for time: 10 Right arm Hang Split Snatch 40 lb Dumbbell, 15 ft Rope Climb 1 ascent, 10 Left arm Hang Split Snatch 40 lb Dumbbell, 15 ft Rope Climb 1 ascent.",
+    "exercises": [
+      "10 Right arm Hang Split Snatch 40 lb Dumbbell",
+      "15 ft Rope Climb 1 ascent",
+      "10 Left arm Hang Split Snatch 40 lb Dumbbell",
+      "15 ft Rope Climb 1 ascent"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "Small",
+    "type": "Hero",
+    "description": "3 rounds for time: 1000 meter Row, 50 Burpees, 50 Box Jumps 24 inch box, 800 meter Run.",
+    "exercises": [
+      "1000 meter Row",
+      "50 Burpees",
+      "50 Box Jumps 24 inch box",
+      "800 meter Run"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Morrison",
+    "type": "Hero",
+    "description": "50-40-30-20-10 reps per round for time: Wallballs, Box Jump 24 inch, Kettlebell Swings 1.5 pood (approx. 55 lbs).",
+    "exercises": [
+      "Wallballs",
+      "Box Jump 24 inch",
+      "Kettlebell Swings 1.5 pood (approx. 55 lbs)"
+    ],
+    "format": "50-40-30-20-10 reps per round for time"
+  },
+  {
+    "name": "Manion",
+    "type": "Hero",
+    "description": "7 rounds for time: 400 meter Run, 29 Back Squat (M=135 lbs, F=95 lbs).",
+    "exercises": [
+      "400 meter Run",
+      "29 Back Squat (M=135 lbs, F=95 lbs)"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "Gator",
+    "type": "Hero",
+    "description": "8 rounds for time: 5 Front Squat 185 lbs, 26 Ring Push-ups.",
+    "exercises": [
+      "5 Front Squat 185 lbs",
+      "26 Ring Push-ups"
+    ],
+    "format": "8 rounds for time"
+  },
+  {
+    "name": "Bradley",
+    "type": "Hero",
+    "description": "10 rounds for time: 100 meter Sprint, 10 Pull-ups, 100 meter Sprint, 10 Burpees, rest 30 seconds.",
+    "exercises": [
+      "100 meter Sprint",
+      "10 Pull-ups",
+      "100 meter Sprint",
+      "10 Burpees"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Meadows",
+    "type": "Hero",
+    "description": "For time: 20 Muscle-ups, 25 Lowers from an inverted hang on the rings, 30 Ring Handstand Push-ups, 35 Ring Rows, 40 Ring Push-ups.",
+    "exercises": [
+      "20 Muscle-ups",
+      "25 Lowers from an inverted hang on the rings",
+      "30 Ring Handstand Push-ups",
+      "35 Ring Rows",
+      "40 Ring Push-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Santiago",
+    "type": "Hero",
+    "description": "7 rounds for time: 18 Hang Squat Clean 35 lb Dumbbells, 18 Pull-ups, 10 Power Clean (M=135 lbs, F=95 lbs), 10 Handstand Push-ups.",
+    "exercises": [
+      "18 Hang Squat Clean 35 lb Dumbbells",
+      "18 Pull-ups",
+      "10 Power Clean (M=135 lbs, F=95 lbs)",
+      "10 Handstand Push-ups"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "Carse",
+    "type": "Hero",
+    "description": "Begin each round with a 50 meter Bear Crawl, 21-18-15-12-9-6-3 reps per round for time: Squat Clean (M=95 lbs, F=65 lbs), Double Unders, Deadlift 185 lbs, Box Jump 24 inch.",
+    "exercises": [
+      "50 meter Bear Crawl",
+      "Squat Clean (M=95 lbs, F=65 lbs)",
+      "Double Unders",
+      "Deadlift 185 lbs",
+      "Box Jump 24 inch"
+    ],
+    "format": "21-18-15-12-9-6-3 reps per round for time"
+  },
+  {
+    "name": "Bradshaw",
+    "type": "Hero",
+    "description": "10 rounds for time: 3 Handstand Push-ups, 6 Deadlift 225 lbs, 12 Pull-ups, 24 Double Unders.",
+    "exercises": [
+      "3 Handstand Push-ups",
+      "6 Deadlift 225 lbs",
+      "12 Pull-ups",
+      "24 Double Unders"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "White",
+    "type": "Hero",
+    "description": "5 rounds for time: 15 ft Rope Climb 3 ascents, 10 Toes to Bar, 21 Walking Lunge steps with 45 lb plate held overhead, Run 400 meters.",
+    "exercises": [
+      "15 ft Rope Climb 3 ascents",
+      "10 Toes to Bar",
+      "21 Walking Lunge steps with 45 lb plate",
+      "Run 400 meters"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Santora",
+    "type": "Hero",
+    "description": "3 rounds for time: 1 minute of Squat Cleans 155 lbs, 1 minute of 20 ft Shuttle Sprints (20 ft forward + 20 ft backwards = 1 rep), 1 minute of Deadlifts 245 lbs, 1 minute of Burpees, 1 minute of Jerks 155 lbs, rest 1 minute.",
+    "exercises": [
+      "Squat Cleans 155 lbs",
+      "20 ft Shuttle Sprints",
+      "Deadlifts 245 lbs",
+      "Burpees",
+      "Jerks 155 lbs"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Wood",
+    "type": "Hero",
+    "description": "5 rounds for time: 400 meter Run, 10 Burpee Box Jumps 24 inch box, 10 Sumo-Deadlift High-pull (M=95 lbs, F=65 lbs), 10 Thruster (M=95 lbs, F=65 lbs), rest 1 minute.",
+    "exercises": [
+      "400 meter Run",
+      "10 Burpee Box Jumps 24 inch box",
+      "10 Sumo-Deadlift High-pull (M=95 lbs, F=65 lbs)",
+      "10 Thruster (M=95 lbs, F=65 lbs)"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Hidalgo",
+    "type": "Hero",
+    "description": "For time: 2 mile Run, rest 2 minutes, 20 Squat Clean (M=135 lbs, F=95 lbs), 20 Box Jump 24 inch, 20 Walking Lunge steps with 45 lb plate held overhead, 20 Box Jump 24 inch, 20 Squat Clean (M=135 lbs, F=95 lbs), rest 2 minutes, 2 mile Run. If you've got a 20 lb vest or body armor, wear it.",
+    "exercises": [
+      "2 mile Run",
+      "20 Squat Clean (M=135 lbs, F=95 lbs)",
+      "20 Box Jump 24 inch",
+      "20 Walking Lunge steps with 45 lb plate"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Ricky",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 10 Pull-ups, 5 Deadlift 75 lb Dumbbells, 8 Push Press (M=135 lbs, F=95 lbs).",
+    "exercises": [
+      "10 Pull-ups",
+      "5 Deadlift 75 lb Dumbbells",
+      "8 Push Press (M=135 lbs, F=95 lbs)"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Dae Han",
+    "type": "Hero",
+    "description": "3 rounds for time: 800 meter Run with a 45 pound barbell, 15 ft Rope Climb 3 ascents, 12 Thruster (M=135 lbs, F=95 lbs), 12 Box Jumps 24 inch.",
+    "exercises": [
+      "800 meter Run with a 45 pound barbell",
+      "15 ft Rope Climb 3 ascents",
+      "12 Thruster (M=135 lbs, F=95 lbs)",
+      "12 Box Jumps 24 inch"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Rahoi",
+    "type": "Hero",
+    "description": "As many rounds as possible in 12 minutes: 6 Thrusters (M=95 lbs, F=65 lbs), 6 Bar-facing Burpees.",
+    "exercises": [
+      "6 Thrusters (M=95 lbs, F=65 lbs)",
+      "6 Bar-facing Burpees"
+    ],
+    "format": "AMRAP in 12 minutes"
+  },
+  {
+    "name": "Zimmerman",
+    "type": "Hero",
+    "description": "As many rounds as possible in 25 minutes: 11 Chest to Bar Pull-ups, 2 Deadlifts 315 lbs, 10 Handstand Push-ups.",
+    "exercises": [
+      "11 Chest to Bar Pull-ups",
+      "2 Deadlifts 315 lbs",
+      "10 Handstand Push-ups"
+    ],
+    "format": "AMRAP in 25 minutes"
+  },
+  {
+    "name": "Klepto",
+    "type": "Hero",
+    "description": "4 rounds for time: 27 Box Jumps 24 inch, 20 Burpees, 11 Squat Cleans 145 lbs.",
+    "exercises": [
+      "27 Box Jumps 24 inch",
+      "20 Burpees",
+      "11 Squat Cleans 145 lbs"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Pheezy",
+    "type": "Hero",
+    "description": "3 rounds for time: 5 Front Squat 165 lbs, 18 Pull-ups, 5 Deadlift 225 lbs, 18 Toes to Bar, 5 Push Jerk 165 lbs, 18 Hand Release Push-ups.",
+    "exercises": [
+      "5 Front Squat 165 lbs",
+      "18 Pull-ups",
+      "5 Deadlift 225 lbs",
+      "18 Toes to Bar",
+      "5 Push Jerk 165 lbs",
+      "18 Hand Release Push-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "J.J",
+    "type": "Hero",
+    "description": "For time: 1 Squat Clean 185 lbs, 6 Parallette Handstand Push-ups, 6 Squat Clean 185 lbs, 7 Parallette Handstand Push-ups, 7 Squat Clean 185 lbs, 8 Parallette Handstand Push-ups, 9 Squat Clean 185 lbs, 10 Parallette Handstand Push-ups, 10 Squat Clean 185 lbs, 1 Parallette Handstand Push-ups.",
+    "exercises": [
+      "Squat Clean 185 lbs",
+      "Parallette Handstand Push-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Jag 28",
+    "type": "Hero",
+    "description": "For time: 800 meter Run, 28 Kettlebell Swings 2 pood (approx. 72 lbs), 28 Strict Pull-ups, 28 Kettlebell Clean and Jerk 2 pood each, 28 Strict Pull-ups, 800 meter Run.",
+    "exercises": [
+      "800 meter Run",
+      "28 Kettlebell Swings 2 pood (approx. 72 lbs)",
+      "28 Strict Pull-ups",
+      "28 Kettlebell Clean and Jerk 2 pood",
+      "28 Strict Pull-ups",
+      "800 meter Run"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Brian",
+    "type": "Hero",
+    "description": "3 rounds for time: 15 ft Rope Climb 5 ascents, 25 Back Squat 185 lbs.",
+    "exercises": [
+      "15 ft Rope Climb 5 ascents",
+      "25 Back Squat 185 lbs"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Nick",
+    "type": "Hero",
+    "description": "12 rounds for time: 10 Hang Squat Clean 45 pound Dumbbells, 6 Handstand Push-ups on Dumbbells.",
+    "exercises": [
+      "10 Hang Squat Clean 45 pound Dumbbells",
+      "6 Handstand Push-ups on Dumbbells"
+    ],
+    "format": "12 rounds for time"
+  },
+  {
+    "name": "Strange",
+    "type": "Hero",
+    "description": "8 rounds for time: 600 meter Run, 11 Weighted Pull-up 1.5 pood (approx. 55 lbs), 11 Steps Walking Lunge carrying 1.5 pood Kettlebell, 11 Thruster 1.5 pood Kettlebell.",
+    "exercises": [
+      "600 meter Run",
+      "11 Weighted Pull-up 1.5 pood (approx. 55 lbs)",
+      "11 Steps Walking Lunge carrying 1.5 pood Kettlebell",
+      "11 Thruster 1.5 pood Kettlebell"
+    ],
+    "format": "8 rounds for time"
+  },
+  {
+    "name": "Tumilson",
+    "type": "Hero",
+    "description": "8 rounds for time: 200 meter Run, 11 Burpee Deadlifts 60 lb Dumbbells.",
+    "exercises": [
+      "200 meter Run",
+      "11 Burpee Deadlifts 60 lb Dumbbells"
+    ],
+    "format": "8 rounds for time"
+  },
+  {
+    "name": "Ship",
+    "type": "Hero",
+    "description": "9 rounds for time: 7 Squat Clean 185 lbs, 8 Burpee Box Jumps 36 inch.",
+    "exercises": [
+      "7 Squat Clean 185 lbs",
+      "8 Burpee Box Jumps 36 inch"
+    ],
+    "format": "9 rounds for time"
+  },
+  {
+    "name": "Jared",
+    "type": "Hero",
+    "description": "4 rounds for time: 800 meter Run, 40 Pull-ups, 70 Push-ups.",
+    "exercises": [
+      "800 meter Run",
+      "40 Pull-ups",
+      "70 Push-ups"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Tully",
+    "type": "Hero",
+    "description": "4 rounds for time: 200 meter Swim, 23 Squat Cleans 40 lbs Dumbbells.",
+    "exercises": [
+      "200 meter Swim",
+      "23 Squat Cleans 40 lbs Dumbbells"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Holleyman",
+    "type": "Hero",
+    "description": "30 rounds for time: 5 Wallballs, 3 Handstand Push-ups, 1 Power Clean 225 lbs.",
+    "exercises": [
+      "5 Wallballs",
+      "3 Handstand Push-ups",
+      "1 Power Clean 225 lbs"
+    ],
+    "format": "30 rounds for time"
+  },
+  {
+    "name": "Adrian",
+    "type": "Hero",
+    "description": "7 rounds for time: 3 Forward Rolls, 5 Wall Climbs, 7 Toes to Bar, 9 Box Jumps 30 inch.",
+    "exercises": [
+      "3 Forward Rolls",
+      "5 Wall Climbs",
+      "7 Toes to Bar",
+      "9 Box Jumps 30 inch"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "Glen",
+    "type": "Hero",
+    "description": "For time: 30 Clean and Jerk (M=135 lbs, F=95 lbs), 1 mile Run, 15 ft Rope Climb 10 ascents, 1 mile Run, 100 Burpees.",
+    "exercises": [
+      "30 Clean and Jerk (M=135 lbs, F=95 lbs)",
+      "1 mile Run",
+      "15 ft Rope Climb 10 ascents",
+      "1 mile Run",
+      "100 Burpees"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Tom",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 7 Muscle-ups, 11 Thruster 155 lbs, 14 Toes to Bar.",
+    "exercises": [
+      "7 Muscle-ups",
+      "11 Thruster 155 lbs",
+      "14 Toes to Bar"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Ralph",
+    "type": "Hero",
+    "description": "4 rounds for time: 8 Deadlift 250 lbs, 16 Burpees, 15 ft Rope Climb 3 ascents, 600 meter Run.",
+    "exercises": [
+      "8 Deadlift 250 lbs",
+      "16 Burpees",
+      "15 ft Rope Climb 3 ascents",
+      "600 meter Run"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Clovis",
+    "type": "Hero",
+    "description": "For time: 10 mile Run, 150 Burpee Pull-ups. Partition the Run and Burpee Pull-ups as needed.",
+    "exercises": [
+      "10 mile Run",
+      "150 Burpee Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Weston",
+    "type": "Hero",
+    "description": "5 rounds for time: 1000 meter Row, 200 meter Farmer Carry 45 lb Dumbbells, 50 meter Right arm Waiter Walk 45 lbs Dumbbell, 50 meter Left arm Waiter Walk 45 lbs Dumbbell.",
+    "exercises": [
+      "1000 meter Row",
+      "200 meter Farmer Carry 45 lb Dumbbells",
+      "50 meter Right arm Waiter Walk 45 lbs Dumbbell",
+      "50 meter Left arm Waiter Walk 45 lbs Dumbbell"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Loredo",
+    "type": "Hero",
+    "description": "6 rounds for time: 24 Squats, 24 Push-ups, 24 Steps Walking Lunge, 400 meter Run.",
+    "exercises": [
+      "24 Squats",
+      "24 Push-ups",
+      "24 Steps Walking Lunge",
+      "400 meter Run"
+    ],
+    "format": "6 rounds for time"
+  },
+  {
+    "name": "Sean",
+    "type": "Hero",
+    "description": "10 rounds for time: 11 Chest to Bar Pull-ups, 22 Front Squat (M=75 lbs, F=50/55 lbs).",
+    "exercises": [
+      "11 Chest to Bar Pull-ups",
+      "22 Front Squat (M=75 lbs, F=50/55 lbs)"
+    ],
+    "format": "10 rounds for time"
+  },
+  {
+    "name": "Hortman",
+    "type": "Hero",
+    "description": "As many rounds as possible in 45 minutes: 800 meter Run, 80 Squats, 8 Muscle-ups.",
+    "exercises": [
+      "800 meter Run",
+      "80 Squats",
+      "8 Muscle-ups"
+    ],
+    "format": "AMRAP in 45 minutes"
+  },
+  {
+    "name": "Hamilton",
+    "type": "Hero",
+    "description": "3 rounds for time: 1000 meter Row, 50 Push-ups, 1000 meter Run, 50 Pull-ups.",
+    "exercises": [
+      "1000 meter Row",
+      "50 Push-ups",
+      "1000 meter Run",
+      "50 Pull-ups"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Zeus",
+    "type": "Hero",
+    "description": "3 rounds for time: 30 Wallballs, 30 Sumo Deadlift High-pull (M=75 lbs, F=50/55 lbs), 30 Box Jump 20 inch box, 30 Push Press (M=75 lbs, F=50/55 lbs), 30 Row (calories), 30 Push-ups, 10 Back Squat Body Weight.",
+    "exercises": [
+      "30 Wallballs",
+      "30 Sumo Deadlift High-pull (M=75 lbs, F=50/55 lbs)",
+      "30 Box Jump 20 inch box",
+      "30 Push Press (M=75 lbs, F=50/55 lbs)",
+      "30 Row (calories)",
+      "30 Push-ups",
+      "10 Back Squat Body Weight"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Barraza",
+    "type": "Hero",
+    "description": "As many rounds as possible in 18 minutes: 200 meter Run, 9 Deadlift 275 lbs, 6 Burpee Bar Muscle-ups.",
+    "exercises": [
+      "200 meter Run",
+      "9 Deadlift 275 lbs",
+      "6 Burpee Bar Muscle-ups"
+    ],
+    "format": "AMRAP in 18 minutes"
+  },
+  {
+    "name": "Cameron",
+    "type": "Hero",
+    "description": "For time: 50 Steps Walking Lunge, 25 Chest to Bar Pull-ups, 50 Box Jumps 24 inch, 25 Triple Unders, 50 Back Extensions, 25 Ring Dips, 50 Knees to Elbows, 25 Wallballs '2-fer-1s', 50 Sit-ups, 15 ft Rope Climb 5 ascents.",
+    "exercises": [
+      "50 Steps Walking Lunge",
+      "25 Chest to Bar Pull-ups",
+      "50 Box Jumps 24 inch",
+      "25 Triple Unders",
+      "50 Back Extensions",
+      "25 Ring Dips",
+      "50 Knees to Elbows",
+      "25 Wallballs '2-fer-1s'",
+      "50 Sit-ups",
+      "15 ft Rope Climb 5 ascents"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Jorge",
+    "type": "Hero",
+    "description": "For time: 30 GHD Sit-ups, 15 Squat Clean 155 lbs, 24 GHD Sit-ups, 12 Squat Clean 155 lbs, 18 GHD Sit-ups, 9 Squat Clean 155 lbs, 12 GHD Sit-ups, 6 Squat Clean 155 lbs, 6 GHD Sit-ups, 3 Squat Clean 155 lbs.",
+    "exercises": [
+      "GHD Sit-ups",
+      "Squat Clean 155 lbs"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Brehm",
+    "type": "Hero",
+    "description": "For time: 15 ft Rope Climb 10 ascents, 20 Back Squat 225 lbs, 30 Handstand Push-ups, Row 40 calories.",
+    "exercises": [
+      "15 ft Rope Climb 10 ascents",
+      "20 Back Squat 225 lbs",
+      "30 Handstand Push-ups",
+      "Row 40 calories"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Omar",
+    "type": "Hero",
+    "description": "For time: 10 Thrusters (M=95 lbs, F=65 lbs), 15 Bar-facing Burpees, 20 Thrusters (M=95 lbs, F=65 lbs), 25 Bar-facing Burpees, 30 Thrusters (M=95 lbs, F=65 lbs), 35 Bar-facing Burpees.",
+    "exercises": [
+      "Thrusters (M=95 lbs, F=65 lbs)",
+      "Bar-facing Burpees"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Gallant",
+    "type": "Hero",
+    "description": "For time: 1 mile Run with a 20 pound medicine ball, 60 Burpee Pull-ups, 800 meter Run with a 20 pound medicine ball, 30 Burpee Pull-ups, 400 meter Run with a 20 pound medicine ball, 15 Burpee Pull-ups.",
+    "exercises": [
+      "Run with a 20 pound medicine ball",
+      "Burpee Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Smykowski",
+    "type": "Hero",
+    "description": "For time: 6K Run, 60 Burpee Pull-ups. If you've got body armor or a thirty pound vest, wear it.",
+    "exercises": [
+      "6K Run",
+      "60 Burpee Pull-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Falkel",
+    "type": "Hero",
+    "description": "As many rounds as possible in 25 minutes: 8 Handstand Push-ups, 8 Box Jump 30 inch box, 15 ft Rope Climb 1 ascent.",
+    "exercises": [
+      "8 Handstand Push-ups",
+      "8 Box Jump 30 inch box",
+      "15 ft Rope Climb 1 ascent"
+    ],
+    "format": "AMRAP in 25 minutes"
+  },
+  {
+    "name": "Donny",
+    "type": "Hero",
+    "description": "21-15-9-9-15-21 reps for time: Deadlift 225 lbs, Burpees.",
+    "exercises": [
+      "Deadlift 225 lbs",
+      "Burpees"
+    ],
+    "format": "21-15-9-9-15-21 reps for time"
+  },
+  {
+    "name": "Dobogai",
+    "type": "Hero",
+    "description": "7 rounds for time: 8 Muscle-ups, 22 yard Farmer Carry 50 pound dumbbells.",
+    "exercises": [
+      "8 Muscle-ups",
+      "22 yard Farmer Carry 50 pound dumbbells"
+    ],
+    "format": "7 rounds for time"
+  },
+  {
+    "name": "Roney",
+    "type": "Hero",
+    "description": "4 rounds for time: 200 meter Run, 11 Thruster (M=135 lbs, F=95 lbs), 200 meter Run, 11 Push Press (M=135 lbs, F=95 lbs), 200 meter Run, 11 Bench Press (M=135 lbs, F=95 lbs).",
+    "exercises": [
+      "200 meter Run",
+      "11 Thruster (M=135 lbs, F=95 lbs)",
+      "11 Push Press (M=135 lbs, F=95 lbs)",
+      "11 Bench Press (M=135 lbs, F=95 lbs)"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Don",
+    "type": "Hero",
+    "description": "For time: 66 Deadlifts (M=110 lbs, F=75 lbs), 66 Box Jump (M=24 inch, F=18/20 inch), 66 Kettlebell Swings (M=1.5 pood, F=1.0 pood), 66 Knees to Elbows, 66 Sit-ups, 66 Pull-ups, 66 Thrusters (M=55 lbs, F=35/40 lbs), 66 Wallballs, 66 Burpees, 66 Double Unders.",
+    "exercises": [
+      "66 Deadlifts (M=110 lbs, F=75 lbs)",
+      "66 Box Jump (M=24 inch, F=18/20 inch)",
+      "66 Kettlebell Swings (M=1.5 pood, F=1.0 pood)",
+      "66 Knees to Elbows",
+      "66 Sit-ups",
+      "66 Pull-ups",
+      "66 Thrusters (M=55 lbs, F=35/40 lbs)",
+      "66 Wallballs",
+      "66 Burpees",
+      "66 Double Unders"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Dragon",
+    "type": "Hero",
+    "description": "For time and load: 5K Run, 4 minutes to find 4 rep max Deadlift, 5K Run, 4 minutes to find 4 rep max Push Jerk.",
+    "exercises": [
+      "5K Run",
+      "4 rep max Deadlift",
+      "5K Run",
+      "4 rep max Push Jerk"
+    ],
+    "format": "For time and load"
+  },
+  {
+    "name": "Walsh",
+    "type": "Hero",
+    "description": "4 rounds for time: 22 Burpee Pull-ups, 22 Back Squat (M=185 lbs, F=125/130 lbs), 200 meter Run with a 45 lb plate overhead.",
+    "exercises": [
+      "22 Burpee Pull-ups",
+      "22 Back Squat (M=185 lbs, F=125/130 lbs)",
+      "200 meter Run with a 45 lb plate overhead"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Lee",
+    "type": "Hero",
+    "description": "5 rounds for time: 400 meter Run, 1 Deadlift 345 lbs, 3 Squat Clean 185 lbs, 5 Push Jerk 185 lbs, 3 Muscle-ups, 15 ft Rope Climb 1 ascent.",
+    "exercises": [
+      "400 meter Run",
+      "1 Deadlift 345 lbs",
+      "3 Squat Clean 185 lbs",
+      "5 Push Jerk 185 lbs",
+      "3 Muscle-ups",
+      "15 ft Rope Climb 1 ascent"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Willy",
+    "type": "Hero",
+    "description": "3 rounds for time: 800 meter Run, 5 Front Squat 225 lbs, 200 meter Run, 11 Chest to Bar Pull-ups, 400 meter Run, 12 Kettlebell Swings 2 pood.",
+    "exercises": [
+      "800 meter Run",
+      "5 Front Squat 225 lbs",
+      "200 meter Run",
+      "11 Chest to Bar Pull-ups",
+      "400 meter Run",
+      "12 Kettlebell Swings 2 pood"
+    ],
+    "format": "3 rounds for time"
+  },
+  {
+    "name": "Coffey",
+    "type": "Hero",
+    "description": "For time: 800 meter Run, 50 Back Squat (M=135 lbs, F=95 lbs), 50 Bench Press (M=135 lbs, F=95 lbs), 800 meter Run, 35 Back Squat (M=135 lbs, F=95 lbs), 35 Bench Press (M=135 lbs, F=95 lbs), 800 meter Run, 20 Back Squat (M=135 lbs, F=95 lbs), 20 Bench Press (M=135 lbs, F=95 lbs), 800 meter Run, 1 Muscle-up.",
+    "exercises": [
+      "800 meter Run",
+      "Back Squat (M=135 lbs, F=95 lbs)",
+      "Bench Press (M=135 lbs, F=95 lbs)",
+      "1 Muscle-up"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "DG",
+    "type": "Hero",
+    "description": "As many rounds as possible in 10 minutes: 8 Toes to Bar, 8 Thrusters with dumbbells (M=35 lbs, F=25 lbs), 12 Walking Lunges with dumbbells (M=35 lbs, F=25 lbs).",
+    "exercises": [
+      "8 Toes to Bar",
+      "8 Thrusters with dumbbells (M=35 lbs, F=25 lbs)",
+      "12 Walking Lunges with dumbbells (M=35 lbs, F=25 lbs)"
+    ],
+    "format": "AMRAP in 10 minutes"
+  },
+  {
+    "name": "TK",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 8 Strict Pull-ups, 8 Box Jumps 36 inch, 12 Kettlebell Swings (M=2 pood/approx. 72 lbs, F=50 lbs).",
+    "exercises": [
+      "8 Strict Pull-ups",
+      "8 Box Jumps 36 inch",
+      "12 Kettlebell Swings (M=2 pood/approx. 72 lbs, F=50 lbs)"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Taylor",
+    "type": "Hero",
+    "description": "4 rounds for time: 400 meter Run, 5 Burpee Muscle-ups. If you've got a 20-lb. vest or body armor, wear it.",
+    "exercises": [
+      "400 meter Run",
+      "5 Burpee Muscle-ups"
+    ],
+    "format": "4 rounds for time"
+  },
+  {
+    "name": "Hansen",
+    "type": "Hero",
+    "description": "30-20-10 reps for time: Body-weight Back Squats, Body-weight Bench Presses, Strict Pull-ups.",
+    "exercises": [
+      "Body-weight Back Squats",
+      "Body-weight Bench Presses",
+      "Strict Pull-ups"
+    ],
+    "format": "30-20-10 reps for time"
+  },
+  {
+    "name": "Nukes",
+    "type": "Hero",
+    "description": "8 minutes to complete: 1 mile Run, max reps Deadlifts 315 lbs; then 10 minutes to complete: 1 mile Run, max reps Power Cleans 225 lbs; then 12 minutes to complete: 1 mile Run, max reps Overhead Squats 135 lbs. No rest between rounds. Post run times and reps for each exercise.",
+    "exercises": [
+      "1 mile Run",
+      "Deadlifts 315 lbs",
+      "Power Cleans 225 lbs",
+      "Overhead Squats 135 lbs"
+    ],
+    "format": "For time and reps"
+  },
+  {
+    "name": "Schmalls",
+    "type": "Hero",
+    "description": "For time: 800 meter Run, then 2 rounds of: 50 Burpees, 40 Pull-ups, 30 1-Legged Squats (Pistols), 20 Kettlebell Swings 1.5 pood (approx. 55 lbs), 10 Handstand Push-ups, then 800 meter Run.",
+    "exercises": [
+      "800 meter Run",
+      "50 Burpees",
+      "40 Pull-ups",
+      "30 1-Legged Squats (Pistols)",
+      "20 Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "10 Handstand Push-ups"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "Foo",
+    "type": "Hero",
+    "description": "As many rounds as possible in 20 minutes: 7 Chest-to-Bar Pull-ups, 10 Overhead Squats 95 lbs, 13 Box Jumps 24 inch.",
+    "exercises": [
+      "7 Chest-to-Bar Pull-ups",
+      "10 Overhead Squats 95 lbs",
+      "13 Box Jumps 24 inch"
+    ],
+    "format": "AMRAP in 20 minutes"
+  },
+  {
+    "name": "Nadia",
+    "type": "New Girls",
+    "description": "For time: 30-20-10 reps of: Double Unders, Overhead Squats 65 lbs.",
+    "exercises": [
+      "Double Unders",
+      "Overhead Squats 65 lbs"
+    ],
+    "format": "30-20-10 reps for time"
+  },
+  {
+    "name": "Hope",
+    "type": "New Girls",
+    "description": "3 rounds, 1 minute per station, for max reps: Burpees, Power Snatch 75 lbs, Box Jumps 24 inch, Thrusters 75 lbs, Chest-to-Bar Pull-ups. Rest 1 minute between rounds. Score is total reps.",
+    "exercises": [
+      "Burpees",
+      "Power Snatch 75 lbs",
+      "Box Jumps 24 inch",
+      "Thrusters 75 lbs",
+      "Chest-to-Bar Pull-ups"
+    ],
+    "format": "3 rounds for max reps"
+  },
+  {
+    "name": "Christy",
+    "type": "New Girls",
+    "description": "For time: 30-20-10 reps of: Kettlebell Swings 1.5 pood (approx. 55 lbs), Wallballs 20 lbs to 10 ft, Burpees.",
+    "exercises": [
+      "Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "Wallballs 20 lbs to 10 ft",
+      "Burpees"
+    ],
+    "format": "30-20-10 reps for time"
+  },
+  {
+    "name": "Frelen",
+    "type": "New Girls",
+    "description": "5 rounds for time: 400 meter Run, 15 Thrusters 95 lbs, 15 Pull-ups.",
+    "exercises": [
+      "400 meter Run",
+      "15 Thrusters 95 lbs",
+      "15 Pull-ups"
+    ],
+    "format": "5 rounds for time"
+  },
+  {
+    "name": "Chelsea (Modified)",
+    "type": "Benchmark Girls",
+    "description": "Each minute on the minute for 20 minutes: 5 Pull-ups, 10 Push-ups, 15 Air Squats. If you fall behind, continue as AMRAP for remaining time.",
+    "exercises": [
+      "5 Pull-ups",
+      "10 Push-ups",
+      "15 Air Squats"
+    ],
+    "format": "EMOM for 20 minutes or AMRAP"
+  },
+  {
+    "name": "Daily Chipper",
+    "type": "Nameless",
+    "description": "For time: 50 Double Unders, 40 Air Squats, 30 Push-ups, 20 Pull-ups, 10 Burpees.",
+    "exercises": [
+      "50 Double Unders",
+      "40 Air Squats",
+      "30 Push-ups",
+      "20 Pull-ups",
+      "10 Burpees"
+    ],
+    "format": "For time"
+  },
+  {
+    "name": "AMRAP 15",
+    "type": "Nameless",
+    "description": "As many rounds as possible in 15 minutes: 10 Deadlifts 135 lbs, 15 Box Jumps 24 inch, 20 Wallballs 20 lbs to 10 ft.",
+    "exercises": [
+      "10 Deadlifts 135 lbs",
+      "15 Box Jumps 24 inch",
+      "20 Wallballs 20 lbs to 10 ft"
+    ],
+    "format": "AMRAP in 15 minutes"
+  },
+  {
+    "name": "EMOM 12",
+    "type": "Nameless",
+    "description": "Every minute on the minute for 12 minutes: Odd minutes: 10 Kettlebell Swings 1.5 pood (approx. 55 lbs); Even minutes: 8 Burpees.",
+    "exercises": [
+      "10 Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "8 Burpees"
+    ],
+    "format": "EMOM for 12 minutes"
+  },
+  {
+    "name": "Couplet WOD",
+    "type": "Nameless",
+    "description": "21-15-9 reps for time: Thrusters 95 lbs, Chest-to-Bar Pull-ups.",
+    "exercises": [
+      "Thrusters 95 lbs",
+      "Chest-to-Bar Pull-ups"
+    ],
+    "format": "21-15-9 reps for time"
+  },
+  {
+    "name": "Long Chipper",
+    "type": "Nameless",
+    "description": "For time: 800 meter Run, 50 Wallballs 20 lbs to 10 ft, 40 Kettlebell Swings 1.5 pood (approx. 55 lbs), 30 Pull-ups, 20 Handstand Push-ups, 10 Muscle-ups, 800 meter Run.",
+    "exercises": [
+      "800 meter Run",
+      "50 Wallballs 20 lbs to 10 ft",
+      "40 Kettlebell Swings 1.5 pood (approx. 55 lbs)",
+      "30 Pull-ups",
+      "20 Handstand Push-ups",
+      "10 Muscle-ups",
+      "800 meter Run"
+    ],
+    "format": "For time"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "bodyParts": [
+    {"id": "upper_body_push", "name": "Upper Body Push", "muscles": ["chest", "shoulders", "triceps"]},
+    {"id": "upper_body_pull", "name": "Upper Body Pull", "muscles": ["back", "biceps"]},
+    {"id": "lower_body", "name": "Lower Body", "muscles": ["quads", "hamstrings", "glutes", "calves"]},
+    {"id": "core", "name": "Core", "muscles": ["abs", "obliques", "lower back"]},
+    {"id": "full_body", "name": "Full Body", "muscles": ["all"]}
+  ]
+}
