@@ -13,32 +13,40 @@ export default function Home() {
   const [bodyParts, setBodyParts] = useState([]);
   const [intensity, setIntensity] = useState("rx");
   const [workoutKey, setWorkoutKey] = useState(0);
-  const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("wodFavorites") || "[]"));
-  const [generatedCount, setGeneratedCount] = useState(() => Number(localStorage.getItem("wodGeneratedCount") || 0));
+  const [favorites, setFavorites] = useState([]);
+  const [generatedCount, setGeneratedCount] = useState(0);
 
   // Load preferences on mount (optional, can be removed if not needed)
   React.useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
-    setBodyParts(saved.bodyParts || []);
-    setIntensity(saved.intensity || "rx");
+    if (typeof window !== "undefined") {
+      const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
+      setBodyParts(saved.bodyParts || []);
+      setIntensity(saved.intensity || "rx");
+      setFavorites(JSON.parse(localStorage.getItem("wodFavorites") || "[]"));
+      setGeneratedCount(Number(localStorage.getItem("wodGeneratedCount") || 0));
+    }
   }, []);
 
   const handleGenerate = () => {
-    localStorage.setItem("wodPrefs", JSON.stringify({ bodyParts, intensity }));
-    setWorkoutKey((k) => k + 1);
-    setGeneratedCount((c) => {
-      const newCount = c + 1;
-      localStorage.setItem("wodGeneratedCount", newCount);
-      return newCount;
-    });
+    if (typeof window !== "undefined") {
+      localStorage.setItem("wodPrefs", JSON.stringify({ bodyParts, intensity }));
+      setWorkoutKey((k) => k + 1);
+      setGeneratedCount((c) => {
+        const newCount = c + 1;
+        localStorage.setItem("wodGeneratedCount", newCount);
+        return newCount;
+      });
+    }
   };
 
   const handleFavorite = (workout) => {
-    setFavorites((prev) => {
-      const updated = [...prev, workout];
-      localStorage.setItem("wodFavorites", JSON.stringify(updated));
-      return updated;
-    });
+    if (typeof window !== "undefined") {
+      setFavorites((prev) => {
+        const updated = [...prev, workout];
+        localStorage.setItem("wodFavorites", JSON.stringify(updated));
+        return updated;
+      });
+    }
   };
 
   return (
