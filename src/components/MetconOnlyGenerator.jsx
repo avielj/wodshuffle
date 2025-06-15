@@ -60,9 +60,12 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
         prevDisplay.push(img.style.display);
         img.style.display = 'none';
       });
+      // Add export-plain class for white bg/black text
+      el.classList.add('export-plain');
       // Wait a tick to ensure DOM is rendered
       await new Promise(res => setTimeout(res, 100));
-      const canvas = await html2canvas(el, { backgroundColor: null, logging: true });
+      const canvas = await html2canvas(el, { backgroundColor: '#fff', logging: true });
+      el.classList.remove('export-plain');
       // Restore images
       imgs.forEach((img, i) => { img.style.display = prevDisplay[i]; });
       canvas.toBlob(async (blob) => {
@@ -90,6 +93,7 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
         setShareLoading(false);
       }, "image/png");
     } catch (err) {
+      el.classList.remove('export-plain');
       setShareLoading(false);
       console.error("html2canvas error:", err);
       alert("Failed to generate image for sharing. See console for details.");

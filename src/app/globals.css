@@ -132,3 +132,25 @@ button, input, select {
   background: rgba(100,100,100,0.15);
   border-radius: 8px;
 }
+
+/* Export plain style for html2canvas image export */
+.export-plain, .export-plain * {
+  background: #fff !important;
+  color: #111 !important;
+  box-shadow: none !important;
+  border-color: #222 !important;
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-text-fill-color: #111 !important;
+  -webkit-background-clip: initial !important;
+  -webkit-box-shadow: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+}
+.export-plain a, .export-plain a:visited {
+  color: #0a0aee !important;
+  text-decoration: underline !important;
+}
+.export-plain .fade-in {
+  animation: none !important;
+}
