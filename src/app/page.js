@@ -33,6 +33,7 @@ export default function Home() {
   const [profile, setProfile] = useState({ name: "", avatar: "", email: "" });
   const [showMetconOnly, setShowMetconOnly] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [globalWodsGenerated, setGlobalWodsGenerated] = useState(0);
   // Tab state for navigation
   const [activeTab, setActiveTab] = useState('generator');
 
@@ -54,6 +55,13 @@ export default function Home() {
     }
   }, []);
 
+  // Fetch global WODs generated count on mount
+  useEffect(() => {
+    fetch('/api/global-stats/wods-generated')
+      .then(res => res.json())
+      .then(data => setGlobalWodsGenerated(data.wodsGenerated || 0));
+  }, []);
+
   // Logout handler
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -63,7 +71,7 @@ export default function Home() {
     }
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (typeof window !== "undefined") {
       localStorage.setItem("wodPrefs", JSON.stringify({ bodyParts, intensity }));
       setWorkoutKey((k) => k + 1);
@@ -73,6 +81,14 @@ export default function Home() {
         return newCount;
       });
       setCollapsed(true);
+      // Increment global counter in DB
+      try {
+        const res = await fetch('/api/global-stats/wods-generated', { method: 'POST' });
+        const data = await res.json();
+        setGlobalWodsGenerated(data.wodsGenerated || 0);
+      } catch (e) {
+        // Optionally handle error
+      }
     }
   };
   const handleCollapseReset = () => setCollapsed(false);
@@ -185,6 +201,10 @@ export default function Home() {
         <div className="flex flex-col items-center">
           <span className="text-pink-400 font-bold text-2xl">{favorites.length}</span>
           <span className="text-xs text-white/70">Favorites</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-blue-400 font-bold text-2xl">{globalWodsGenerated}</span>
+          <span className="text-xs text-white/70">Global WODs Generated</span>
         </div>
       </div>
 

@@ -41,3 +41,8 @@ model User {
   passwordResetToken String?
   createdAt DateTime @default(now())
 }
+
+model GlobalStats {
+  id            Int    @id @default(1)
+  wodsGenerated Int    @default(0)
+}
