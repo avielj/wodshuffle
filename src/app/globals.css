@@ -154,3 +154,8 @@ button, input, select {
 .export-plain .fade-in {
   animation: none !important;
 }
+
+/* Hide elements for export only */
+.exporting .hide-for-export {
+  display: none !important;
+}

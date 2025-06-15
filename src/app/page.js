@@ -29,6 +29,8 @@ export default function Home() {
   const [profile, setProfile] = useState({ name: "", avatar: "" });
   const [showMetconOnly, setShowMetconOnly] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  // Tab state for navigation
+  const [activeTab, setActiveTab] = useState('generator');
 
   // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
@@ -124,7 +126,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
-      {/* Navigation */}
+      {/* Navigation Tabs */}
       <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0">
         <div className="flex items-center gap-2 mb-2 sm:mb-0">
           <img src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"} alt="Avatar" className="h-8 w-8 rounded border" />
@@ -132,40 +134,25 @@ export default function Home() {
         </div>
         <div className="flex flex-wrap gap-2 items-center justify-center w-full sm:w-auto">
           <button
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            onClick={toggleTheme}
-            className="ml-4 px-3 py-1 rounded bg-white/10 hover:bg-blue-600 text-white text-sm font-semibold transition-colors"
-          >
-            {theme === 'dark' ? '🌞 Light' : '🌙 Dark'}
-          </button>
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='generator' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('generator')}
+          >WOD Generator</button>
           <button
-            className="ml-2 px-3 py-1 rounded bg-pink-600 hover:bg-pink-700 text-white text-sm font-semibold transition-colors"
-            onClick={() => setShowFavorites((v) => !v)}
-            aria-pressed={showFavorites}
-          >
-            {showFavorites ? 'Hide Favorites' : 'View Favorites'}
-          </button>
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='favorites' ? 'bg-pink-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('favorites')}
+          >Favorites</button>
           <button
-            className="ml-2 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
-            onClick={() => setShowHistory((v) => !v)}
-            aria-pressed={showHistory}
-          >
-            {showHistory ? 'Hide History' : 'View History'}
-          </button>
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='history' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('history')}
+          >History</button>
           <button
-            className="ml-2 px-3 py-1 rounded bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold transition-colors"
-            onClick={() => setShowProfile((v) => !v)}
-            aria-pressed={showProfile}
-          >
-            {showProfile ? 'Hide Profile' : 'Profile'}
-          </button>
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('profile')}
+          >Profile</button>
           <button
-            className="ml-2 px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors"
-            onClick={() => setShowMetconOnly((v) => !v)}
-            aria-pressed={showMetconOnly}
-          >
-            {showMetconOnly ? 'WOD Generator' : 'MetCon Only'}
-          </button>
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='metcon' ? 'bg-green-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('metcon')}
+          >MetCon Only</button>
         </div>
       </nav>
 
@@ -181,81 +168,23 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content by Tab */}
       <main className="max-w-2xl mx-auto p-1 sm:p-2 mt-2 fade-in">
         <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
-          <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
-          <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
-          <div className={`transition-all duration-500 overflow-hidden ${collapsed ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[1000px] opacity-100'}`}> 
-            {!showMetconOnly && <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />}
-            <section className="mb-4">
-              {!showMetconOnly && (
-                <>
-                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
-                  <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
-                  <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
-                    <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
-                    <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
-                  </div>
-                </>
-              )}
-            </section>
-            <section className="mb-4">
-              <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
-              <div className="flex gap-2 mt-2 flex-wrap justify-center">
-                <div
-                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
-                  onClick={() => setIntensity('scaled')}
-                >
-                  <div className="flex items-center gap-1 font-bold text-green-400">⚡<span>Scaled</span></div>
-                  <div className="text-[10px] text-white/60">Beginner</div>
-                </div>
-                <div
-                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
-                  onClick={() => setIntensity('rx')}
-                >
-                  <div className="flex items-center gap-1 font-bold text-blue-400">🔥<span>RX</span></div>
-                  <div className="text-[10px] text-white/60">Standard</div>
-                </div>
-                <div
-                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
-                  onClick={() => setIntensity('athlete')}
-                >
-                  <div className="flex items-center gap-1 font-bold text-pink-400">🚀<span>Athlete</span></div>
-                  <div className="text-[10px] text-white/60">Elite</div>
-                </div>
-              </div>
-            </section>
-          </div>
-          <button
-            onClick={handleGenerate}
-            className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150 min-h-[44px]"
-            disabled={bodyParts.length === 0}
-          >
-            Generate WOD
-          </button>
-          {collapsed && (
-            <button
-              onClick={handleCollapseReset}
-              className="w-full bg-gray-700 text-white py-2 px-2 rounded-md hover:bg-gray-800 text-base font-semibold mb-4 transition-colors duration-150"
-            >
-              Edit Selection
-            </button>
-          )}
-          {showProfile ? (
+          {activeTab === 'profile' ? (
             <UserProfile profile={profile} onSave={handleSaveProfile} />
-          ) : showFavorites ? (
+          ) : activeTab === 'favorites' ? (
             <FavoritesList
               favorites={favorites}
               onRemove={handleRemoveFavorite}
               onRegenerate={handleRegenerateFavorite}
             />
-          ) : showHistory ? (
+          ) : activeTab === 'history' ? (
             <HistoryList
               history={history}
               onClear={handleClearHistory}
             />
-          ) : showMetconOnly ? (
+          ) : activeTab === 'metcon' ? (
             <MetconOnlyGenerator
               intensity={intensity}
               onFavorite={handleFavorite}
@@ -263,6 +192,60 @@ export default function Home() {
             />
           ) : (
             <>
+              <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
+              <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
+              <div className={`transition-all duration-500 overflow-hidden ${collapsed ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[1000px] opacity-100'}`}> 
+                <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
+                <section className="mb-4">
+                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
+                  <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
+                  <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
+                    <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
+                    <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
+                  </div>
+                </section>
+                <section className="mb-4">
+                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
+                  <div className="flex gap-2 mt-2 flex-wrap justify-center">
+                    <div
+                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
+                      onClick={() => setIntensity('scaled')}
+                    >
+                      <div className="flex items-center gap-1 font-bold text-green-400">⚡<span>Scaled</span></div>
+                      <div className="text-[10px] text-white/60">Beginner</div>
+                    </div>
+                    <div
+                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
+                      onClick={() => setIntensity('rx')}
+                    >
+                      <div className="flex items-center gap-1 font-bold text-blue-400">🔥<span>RX</span></div>
+                      <div className="text-[10px] text-white/60">Standard</div>
+                    </div>
+                    <div
+                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
+                      onClick={() => setIntensity('athlete')}
+                    >
+                      <div className="flex items-center gap-1 font-bold text-pink-400">🚀<span>Athlete</span></div>
+                      <div className="text-[10px] text-white/60">Elite</div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <button
+                onClick={handleGenerate}
+                className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150 min-h-[44px]"
+                disabled={bodyParts.length === 0}
+              >
+                Generate WOD
+              </button>
+              {collapsed && (
+                <button
+                  onClick={handleCollapseReset}
+                  className="w-full bg-gray-700 text-white py-2 px-2 rounded-md hover:bg-gray-800 text-base font-semibold mb-4 transition-colors duration-150"
+                >
+                  Edit Selection
+                </button>
+              )}
               {bodyParts.length > 0 && collapsed && (
                 <WorkoutGenerator
                   muscleGroups={bodyParts}
