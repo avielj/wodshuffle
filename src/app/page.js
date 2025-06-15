@@ -39,19 +39,25 @@ export default function Home() {
 
   // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
+    // Load preferences and theme from localStorage
     if (typeof window !== "undefined") {
       const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
       setBodyParts(saved.bodyParts || []);
       setIntensity(saved.intensity || "rx");
       const profileData = JSON.parse(localStorage.getItem("wodProfile") || "{}" );
       setProfile(profileData);
-      const userKey = getUserKey(profileData);
-      setFavorites(JSON.parse(localStorage.getItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites") || "[]"));
-      setGeneratedCount(Number(localStorage.getItem("wodGeneratedCount") || 0));
       const savedTheme = localStorage.getItem("wodTheme") || 'dark';
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
-      setHistory(JSON.parse(localStorage.getItem(userKey ? `wodHistory_${userKey}` : "wodHistory") || "[]"));
+      // Fetch favorites and history from API if logged in
+      if (profileData.id) {
+        fetch(`/api/user/favorites?userId=${profileData.id}`)
+          .then(res => res.json())
+          .then(data => setFavorites(data || []));
+        fetch(`/api/user/history?userId=${profileData.id}`)
+          .then(res => res.json())
+          .then(data => setHistory(data || []));
+      }
     }
   }, []);
 
@@ -93,26 +99,30 @@ export default function Home() {
   };
   const handleCollapseReset = () => setCollapsed(false);
 
-  const handleFavorite = (workout) => {
-    if (typeof window !== "undefined") {
-      setFavorites((prev) => {
-        const updated = [...prev, workout];
-        const userKey = getUserKey(profile);
-        localStorage.setItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites", JSON.stringify(updated));
-        return updated;
+  const handleFavorite = async (workout) => {
+    if (profile?.id && workout?.wod?.id) {
+      await fetch('/api/user/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: profile.id, wodId: workout.wod.id })
       });
+      // Refresh favorites
+      const res = await fetch(`/api/user/favorites?userId=${profile.id}`);
+      setFavorites(await res.json());
     }
   };
 
-  const handleRemoveFavorite = (idx) => {
-    setFavorites((prev) => {
-      const updated = prev.filter((_, i) => i !== idx);
-      if (typeof window !== "undefined") {
-        const userKey = getUserKey(profile);
-        localStorage.setItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites", JSON.stringify(updated));
-      }
-      return updated;
-    });
+  const handleRemoveFavorite = async (idx) => {
+    if (profile?.id && favorites[idx]?.wodId) {
+      await fetch('/api/user/favorites', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: profile.id, wodId: favorites[idx].wodId })
+      });
+      // Refresh favorites
+      const res = await fetch(`/api/user/favorites?userId=${profile.id}`);
+      setFavorites(await res.json());
+    }
   };
 
   const handleRegenerateFavorite = (wod) => {
@@ -130,23 +140,30 @@ export default function Home() {
   };
 
   // Save to history when a new workout is generated
-  const handleAddToHistory = (workout) => {
-    if (typeof window !== "undefined") {
-      const entry = { ...workout, generatedAt: Date.now() };
-      setHistory((prev) => {
-        const updated = [entry, ...prev].slice(0, 50); // keep last 50
-        const userKey = getUserKey(profile);
-        localStorage.setItem(userKey ? `wodHistory_${userKey}` : "wodHistory", JSON.stringify(updated));
-        return updated;
+  const handleAddToHistory = async (workout) => {
+    if (profile?.id && workout?.wod?.id) {
+      await fetch('/api/user/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: profile.id, wodId: workout.wod.id })
       });
+      // Refresh history
+      const res = await fetch(`/api/user/history?userId=${profile.id}`);
+      setHistory(await res.json());
     }
   };
 
-  const handleClearHistory = () => {
-    setHistory([]);
-    if (typeof window !== "undefined") {
-      const userKey = getUserKey(profile);
-      localStorage.removeItem(userKey ? `wodHistory_${userKey}` : "wodHistory");
+  const handleClearHistory = async () => {
+    if (profile?.id) {
+      // Remove all history for this user
+      for (const entry of history) {
+        await fetch('/api/user/history', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: profile.id, wodId: entry.wodId })
+        });
+      }
+      setHistory([]);
     }
   };
 
