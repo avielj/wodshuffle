@@ -8,6 +8,7 @@ import HistoryList from "../components/HistoryList";
 import UserProfile from "../components/UserProfile";
 import MetconOnlyGenerator from "../components/MetconOnlyGenerator";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 const NAV_LINKS = [
   { name: "WOD Generator", href: "#" },
@@ -18,6 +19,7 @@ const NAV_LINKS = [
 const ADMIN_EMAIL = "avielj@gmail.com";
 
 const getUserKey = (profile) => profile?.email || '';
+const WODTimer = dynamic(() => import("../components/WODTimer.jsx"), { ssr: false });
 
 export default function Home() {
   const [bodyParts, setBodyParts] = useState([]);
@@ -219,7 +221,7 @@ export default function Home() {
           >Profile</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='timer' ? 'bg-blue-800 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => window.location.href = '/timer'}
+            onClick={() => setActiveTab('timer')}
           >Timer</button>
           {profile?.email === ADMIN_EMAIL && (
             <a href="/admin" className="ml-2 px-3 py-1 rounded bg-yellow-500 text-black text-sm font-semibold transition-colors">Admin</a>
@@ -267,6 +269,8 @@ export default function Home() {
               onFavorite={handleFavorite}
               onGenerate={handleAddToHistory}
             />
+          ) : activeTab === 'timer' ? (
+            <WODTimer />
           ) : (
             <>
               <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
