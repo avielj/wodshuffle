@@ -1,3 +1,9 @@
+/* Temporary fix for html2canvas oklab error: fallback for unsupported color functions */
+*[style*="oklab"] {
+  color: #222 !important;
+  background: #fff !important;
+}
+
 @import "tailwindcss";
 
 :root {
