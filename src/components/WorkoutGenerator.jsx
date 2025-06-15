@@ -53,10 +53,48 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
       el.classList.add('export-plain', 'exporting');
       // Wait a tick to ensure DOM is rendered
       await new Promise(res => setTimeout(res, 100));
+      console.log('Starting html2canvas...');
       const canvas = await html2canvas(el, { backgroundColor: '#fff' });
       el.classList.remove('export-plain', 'exporting');
+      if (!canvas) {
+        alert('Failed to generate image. Canvas is null.');
+        setShareLoading(false);
+        return;
+      }
+      console.log('Canvas generated.');
       canvas.toBlob(async (blob) => {
-        // ...existing code for sharing or downloading...
+        if (!blob) {
+          alert('Failed to generate image blob.');
+          setShareLoading(false);
+          return;
+        }
+        console.log('Blob generated.');
+        if (
+          navigator.canShare &&
+          navigator.canShare({ files: [new File([blob], "wod.png", { type: blob.type })] })
+        ) {
+          try {
+            console.log('Attempting to share...');
+            await navigator.share({
+              files: [new File([blob], "wod.png", { type: blob.type })],
+              title: "WOD Shuffler Workout",
+              text: `Generated with WOD Shuffler`,
+            });
+            console.log('Share successful.');
+          } catch (err) {
+            alert("Sharing was cancelled or failed.");
+            console.error('Share error:', err);
+          }
+        } else {
+          // fallback: download
+          console.log('Falling back to download.');
+          const link = document.createElement("a");
+          link.download = "wod.png";
+          link.href = canvas.toDataURL();
+          link.click();
+          alert("Sharing as image is not supported on this device. Image downloaded instead.");
+        }
+        setShareLoading(false);
       }, "image/png");
     } catch (err) {
       el.classList.remove('export-plain', 'exporting');
