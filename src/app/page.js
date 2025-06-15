@@ -14,6 +14,10 @@ const NAV_LINKS = [
   { name: "Quick Stats", href: "#" },
 ];
 
+const ADMIN_EMAIL = "avielj@gmail.com";
+
+const getUserKey = (profile) => profile?.email || '';
+
 export default function Home() {
   const [bodyParts, setBodyParts] = useState([]);
   const [intensity, setIntensity] = useState("rx");
@@ -26,7 +30,7 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
-  const [profile, setProfile] = useState({ name: "", avatar: "" });
+  const [profile, setProfile] = useState({ name: "", avatar: "", email: "" });
   const [showMetconOnly, setShowMetconOnly] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   // Tab state for navigation
@@ -38,17 +42,26 @@ export default function Home() {
       const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
       setBodyParts(saved.bodyParts || []);
       setIntensity(saved.intensity || "rx");
-      setFavorites(JSON.parse(localStorage.getItem("wodFavorites") || "[]"));
+      const profileData = JSON.parse(localStorage.getItem("wodProfile") || "{}" );
+      setProfile(profileData);
+      const userKey = getUserKey(profileData);
+      setFavorites(JSON.parse(localStorage.getItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites") || "[]"));
       setGeneratedCount(Number(localStorage.getItem("wodGeneratedCount") || 0));
       const savedTheme = localStorage.getItem("wodTheme") || 'dark';
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
-
-      setHistory(JSON.parse(localStorage.getItem("wodHistory") || "[]"));
-      const profileData = JSON.parse(localStorage.getItem("wodProfile") || "{}");
-      setProfile(profileData);
+      setHistory(JSON.parse(localStorage.getItem(userKey ? `wodHistory_${userKey}` : "wodHistory") || "[]"));
     }
   }, []);
+
+  // Logout handler
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("wodProfile");
+      // Optionally clear user-specific favorites/history
+      window.location.reload();
+    }
+  };
 
   const handleGenerate = () => {
     if (typeof window !== "undefined") {
@@ -68,7 +81,8 @@ export default function Home() {
     if (typeof window !== "undefined") {
       setFavorites((prev) => {
         const updated = [...prev, workout];
-        localStorage.setItem("wodFavorites", JSON.stringify(updated));
+        const userKey = getUserKey(profile);
+        localStorage.setItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites", JSON.stringify(updated));
         return updated;
       });
     }
@@ -78,7 +92,8 @@ export default function Home() {
     setFavorites((prev) => {
       const updated = prev.filter((_, i) => i !== idx);
       if (typeof window !== "undefined") {
-        localStorage.setItem("wodFavorites", JSON.stringify(updated));
+        const userKey = getUserKey(profile);
+        localStorage.setItem(userKey ? `wodFavorites_${userKey}` : "wodFavorites", JSON.stringify(updated));
       }
       return updated;
     });
@@ -104,7 +119,8 @@ export default function Home() {
       const entry = { ...workout, generatedAt: Date.now() };
       setHistory((prev) => {
         const updated = [entry, ...prev].slice(0, 50); // keep last 50
-        localStorage.setItem("wodHistory", JSON.stringify(updated));
+        const userKey = getUserKey(profile);
+        localStorage.setItem(userKey ? `wodHistory_${userKey}` : "wodHistory", JSON.stringify(updated));
         return updated;
       });
     }
@@ -113,7 +129,8 @@ export default function Home() {
   const handleClearHistory = () => {
     setHistory([]);
     if (typeof window !== "undefined") {
-      localStorage.removeItem("wodHistory");
+      const userKey = getUserKey(profile);
+      localStorage.removeItem(userKey ? `wodHistory_${userKey}` : "wodHistory");
     }
   };
 
@@ -138,6 +155,10 @@ export default function Home() {
             onClick={() => setActiveTab('generator')}
           >WOD Generator</button>
           <button
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='metcon' ? 'bg-green-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => setActiveTab('metcon')}
+          >Metcon Generator</button>
+          <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='favorites' ? 'bg-pink-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
             onClick={() => setActiveTab('favorites')}
           >Favorites</button>
@@ -149,10 +170,9 @@ export default function Home() {
             className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
             onClick={() => setActiveTab('profile')}
           >Profile</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='metcon' ? 'bg-green-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('metcon')}
-          >MetCon Only</button>
+          {profile?.email === ADMIN_EMAIL && (
+            <a href="/admin" className="ml-2 px-3 py-1 rounded bg-yellow-500 text-black text-sm font-semibold transition-colors">Admin</a>
+          )}
         </div>
       </nav>
 
@@ -172,7 +192,12 @@ export default function Home() {
       <main className="max-w-2xl mx-auto p-1 sm:p-2 mt-2 fade-in">
         <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
           {activeTab === 'profile' ? (
-            <UserProfile profile={profile} onSave={handleSaveProfile} />
+            <div>
+              <UserProfile profile={profile} onSave={handleSaveProfile} />
+              {profile?.email && (
+                <button onClick={handleLogout} className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-2 rounded-md font-semibold transition-colors min-h-[44px]">Logout</button>
+              )}
+            </div>
           ) : activeTab === 'favorites' ? (
             <FavoritesList
               favorites={favorites}
