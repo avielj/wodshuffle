@@ -12,6 +12,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   const [timeCap, setTimeCap] = useState(20);
   const [repScheme, setRepScheme] = useState("21-15-9");
   const [shareLoading, setShareLoading] = useState(false);
+  const [customize, setCustomize] = useState(false);
 
   useEffect(() => {
     setRegenKey((k) => k + 1);
@@ -23,7 +24,8 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
     let isMounted = true;
     setLoading(true);
     setError(null);
-    generateWorkout(muscleGroups, intensity, equipment, { rounds, timeCap, repScheme })
+    const custom = customize ? { rounds, timeCap, repScheme } : {};
+    generateWorkout(muscleGroups, intensity, equipment, custom)
       .then((wod) => {
         if (isMounted) {
           setWorkout(wod);
@@ -38,7 +40,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         }
       });
     return () => { isMounted = false; };
-  }, [muscleGroups, intensity, equipment, regenKey, rounds, timeCap, repScheme]);
+  }, [muscleGroups, intensity, equipment, regenKey, rounds, timeCap, repScheme, customize]);
 
   if (loading) return <div className="mt-8 text-center text-lg text-blue-400">Generating your workout...</div>;
   if (error) return <div className="mt-8 text-center text-red-500">{error}</div>;
@@ -110,26 +112,38 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
           )}
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <div className="flex-1">
-          <label className="block text-sm font-semibold mb-1">Rounds</label>
-          <input type="number" min={1} max={10} value={rounds} onChange={e => setRounds(Number(e.target.value))} className="w-full rounded bg-white/10 text-white px-2 py-1" />
-        </div>
-        <div className="flex-1">
-          <label className="block text-sm font-semibold mb-1">Time Cap (min)</label>
-          <input type="number" min={5} max={60} value={timeCap} onChange={e => setTimeCap(Number(e.target.value))} className="w-full rounded bg-white/10 text-white px-2 py-1" />
-        </div>
-        <div className="flex-1">
-          <label className="block text-sm font-semibold mb-1">Rep Scheme</label>
-          <select value={repScheme} onChange={e => setRepScheme(e.target.value)} className="w-full rounded bg-white/10 text-white px-2 py-1">
-            <option value="21-15-9">21-15-9</option>
-            <option value="5-5-5">5-5-5</option>
-            <option value="10-8-6">10-8-6</option>
-            <option value="AMRAP">AMRAP</option>
-            <option value="Custom">Custom</option>
-          </select>
-        </div>
+      <div className="mb-4 flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="customize-wod"
+          checked={customize}
+          onChange={e => setCustomize(e.target.checked)}
+          className="accent-blue-600 w-5 h-5"
+        />
+        <label htmlFor="customize-wod" className="text-white text-sm font-semibold cursor-pointer">Customize rounds, time cap, rep scheme</label>
       </div>
+      {customize && (
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <div className="flex-1">
+            <label className="block text-sm font-semibold mb-1">Rounds</label>
+            <input type="number" min={1} max={10} value={rounds} onChange={e => setRounds(Number(e.target.value))} className="w-full rounded bg-white/10 text-white px-2 py-1" />
+          </div>
+          <div className="flex-1">
+            <label className="block text-sm font-semibold mb-1">Time Cap (min)</label>
+            <input type="number" min={5} max={60} value={timeCap} onChange={e => setTimeCap(Number(e.target.value))} className="w-full rounded bg-white/10 text-white px-2 py-1" />
+          </div>
+          <div className="flex-1">
+            <label className="block text-sm font-semibold mb-1">Rep Scheme</label>
+            <select value={repScheme} onChange={e => setRepScheme(e.target.value)} className="w-full rounded bg-white/10 text-white px-2 py-1">
+              <option value="21-15-9">21-15-9</option>
+              <option value="5-5-5">5-5-5</option>
+              <option value="10-8-6">10-8-6</option>
+              <option value="AMRAP">AMRAP</option>
+              <option value="Custom">Custom</option>
+            </select>
+          </div>
+        </div>
+      )}
       <div className="mb-6">
         <h3 className="text-2xl font-semibold mb-2">Warmup</h3>
         <ul className="list-disc pl-5">
