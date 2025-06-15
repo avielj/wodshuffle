@@ -201,7 +201,8 @@ export default function WODTimer() {
 
   // Pause/Resume
   const pause = () => {
-    reset(); // Instead of pausing, reset the timer
+    setPaused(true);
+    if (timerRef.current) clearInterval(timerRef.current);
   };
   const resume = () => {
     setPaused(false);
