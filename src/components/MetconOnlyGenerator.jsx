@@ -53,9 +53,18 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
       return;
     }
     try {
+      // Hide all images inside the card for debugging
+      const imgs = el.querySelectorAll('img');
+      const prevDisplay = [];
+      imgs.forEach(img => {
+        prevDisplay.push(img.style.display);
+        img.style.display = 'none';
+      });
       // Wait a tick to ensure DOM is rendered
       await new Promise(res => setTimeout(res, 100));
-      const canvas = await html2canvas(el, { backgroundColor: null });
+      const canvas = await html2canvas(el, { backgroundColor: null, logging: true });
+      // Restore images
+      imgs.forEach((img, i) => { img.style.display = prevDisplay[i]; });
       canvas.toBlob(async (blob) => {
         if (
           navigator.canShare &&

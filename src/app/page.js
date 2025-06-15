@@ -28,6 +28,7 @@ export default function Home() {
   const [showProfile, setShowProfile] = useState(false);
   const [profile, setProfile] = useState({ name: "", avatar: "" });
   const [showMetconOnly, setShowMetconOnly] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
@@ -56,8 +57,10 @@ export default function Home() {
         localStorage.setItem("wodGeneratedCount", newCount);
         return newCount;
       });
+      setCollapsed(true);
     }
   };
+  const handleCollapseReset = () => setCollapsed(false);
 
   const handleFavorite = (workout) => {
     if (typeof window !== "undefined") {
@@ -183,45 +186,47 @@ export default function Home() {
         <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
           <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
           <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
-          {showMetconOnly ? null : <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />}
-          <section className="mb-4">
-            {!showMetconOnly && (
-              <>
-                <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
-                <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
-                <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
-                  <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
-                  <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
+          <div className={`transition-all duration-500 overflow-hidden ${collapsed ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[1000px] opacity-100'}`}> 
+            {!showMetconOnly && <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />}
+            <section className="mb-4">
+              {!showMetconOnly && (
+                <>
+                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
+                  <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
+                  <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
+                    <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
+                    <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
+                  </div>
+                </>
+              )}
+            </section>
+            <section className="mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
+              <div className="flex gap-2 mt-2 flex-wrap justify-center">
+                <div
+                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
+                  onClick={() => setIntensity('scaled')}
+                >
+                  <div className="flex items-center gap-1 font-bold text-green-400">⚡<span>Scaled</span></div>
+                  <div className="text-[10px] text-white/60">Beginner</div>
                 </div>
-              </>
-            )}
-          </section>
-          <section className="mb-4">
-            <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
-            <div className="flex gap-2 mt-2 flex-wrap justify-center">
-              <div
-                className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
-                onClick={() => setIntensity('scaled')}
-              >
-                <div className="flex items-center gap-1 font-bold text-green-400">⚡<span>Scaled</span></div>
-                <div className="text-[10px] text-white/60">Beginner</div>
+                <div
+                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
+                  onClick={() => setIntensity('rx')}
+                >
+                  <div className="flex items-center gap-1 font-bold text-blue-400">🔥<span>RX</span></div>
+                  <div className="text-[10px] text-white/60">Standard</div>
+                </div>
+                <div
+                  className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
+                  onClick={() => setIntensity('athlete')}
+                >
+                  <div className="flex items-center gap-1 font-bold text-pink-400">🚀<span>Athlete</span></div>
+                  <div className="text-[10px] text-white/60">Elite</div>
+                </div>
               </div>
-              <div
-                className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
-                onClick={() => setIntensity('rx')}
-              >
-                <div className="flex items-center gap-1 font-bold text-blue-400">🔥<span>RX</span></div>
-                <div className="text-[10px] text-white/60">Standard</div>
-              </div>
-              <div
-                className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
-                onClick={() => setIntensity('athlete')}
-              >
-                <div className="flex items-center gap-1 font-bold text-pink-400">🚀<span>Athlete</span></div>
-                <div className="text-[10px] text-white/60">Elite</div>
-              </div>
-            </div>
-          </section>
+            </section>
+          </div>
           <button
             onClick={handleGenerate}
             className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150 min-h-[44px]"
@@ -229,6 +234,14 @@ export default function Home() {
           >
             Generate WOD
           </button>
+          {collapsed && (
+            <button
+              onClick={handleCollapseReset}
+              className="w-full bg-gray-700 text-white py-2 px-2 rounded-md hover:bg-gray-800 text-base font-semibold mb-4 transition-colors duration-150"
+            >
+              Edit Selection
+            </button>
+          )}
           {showProfile ? (
             <UserProfile profile={profile} onSave={handleSaveProfile} />
           ) : showFavorites ? (
@@ -250,7 +263,7 @@ export default function Home() {
             />
           ) : (
             <>
-              {bodyParts.length > 0 && (
+              {bodyParts.length > 0 && collapsed && (
                 <WorkoutGenerator
                   muscleGroups={bodyParts}
                   intensity={intensity}
