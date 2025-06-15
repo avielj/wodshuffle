@@ -15,6 +15,50 @@
   --glass-light: rgba(30,41,59,0.1);
 }
 
+[data-theme="light"] body,
+[data-theme="light"] .glassy,
+[data-theme="light"] .fade-in,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6,
+[data-theme="light"] p,
+[data-theme="light"] label,
+[data-theme="light"] span,
+[data-theme="light"] div,
+[data-theme="light"] ul,
+[data-theme="light"] li {
+  color: var(--foreground) !important;
+}
+
+[data-theme="light"] .text-white { color: var(--foreground) !important; }
+[data-theme="light"] .text-white\/70 { color: #444 !important; }
+[data-theme="light"] .text-white\/80 { color: #222 !important; }
+[data-theme="light"] .text-blue-400 { color: #2563eb !important; }
+[data-theme="light"] .text-pink-400 { color: #db2777 !important; }
+[data-theme="light"] .text-blue-300 { color: #60a5fa !important; }
+[data-theme="light"] .text-gray-300 { color: #64748b !important; }
+[data-theme="light"] .text-gray-400 { color: #94a3b8 !important; }
+[data-theme="light"] .text-red-400 { color: #dc2626 !important; }
+[data-theme="light"] .text-green-400 { color: #059669 !important; }
+[data-theme="light"] .bg-white\/5 { background: #f1f5f9 !important; }
+[data-theme="light"] .bg-white\/10 { background: #e5e7eb !important; }
+[data-theme="light"] .bg-blue-600 { background: #2563eb !important; }
+[data-theme="light"] .bg-blue-700 { background: #1d4ed8 !important; }
+[data-theme="light"] .bg-pink-600 { background: #db2777 !important; }
+[data-theme="light"] .bg-pink-700 { background: #be185d !important; }
+[data-theme="light"] .bg-gray-600 { background: #64748b !important; }
+[data-theme="light"] .bg-gray-700 { background: #334155 !important; }
+[data-theme="light"] .bg-green-600 { background: #059669 !important; }
+[data-theme="light"] .bg-green-700 { background: #047857 !important; }
+[data-theme="light"] .border-white\/10 { border-color: #e5e7eb !important; }
+[data-theme="light"] .border-white\/20 { border-color: #cbd5e1 !important; }
+[data-theme="light"] .ring-blue-400 { box-shadow: 0 0 0 2px #2563eb !important; }
+[data-theme="light"] .ring-green-400 { box-shadow: 0 0 0 2px #059669 !important; }
+[data-theme="light"] .ring-pink-400 { box-shadow: 0 0 0 2px #db2777 !important; }
+
 body {
   background: var(--background);
   color: var(--foreground);

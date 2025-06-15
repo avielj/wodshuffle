@@ -183,10 +183,10 @@ export default function Home() {
         <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
           <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
           <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
-          <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
+          {showMetconOnly ? null : <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />}
           <section className="mb-4">
             <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
-            <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
+            {showMetconOnly ? null : <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />}
             <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
               <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
               <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
@@ -241,7 +241,6 @@ export default function Home() {
           ) : showMetconOnly ? (
             <MetconOnlyGenerator
               intensity={intensity}
-              equipment={equipment}
               onFavorite={handleFavorite}
               onGenerate={handleAddToHistory}
             />
