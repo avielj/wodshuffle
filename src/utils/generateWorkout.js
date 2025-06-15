@@ -62,6 +62,27 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
     seen.add(ex.name);
     return matchesEquipment(ex, equipment);
   });
+  // Fallback: if no matches, pick random from all selected muscle groups
+  if (strengthPool.length === 0 && muscleGroups.length > 0) {
+    let all = [];
+    muscleGroups.forEach((part) => {
+      const libKey = bodyPartToLibrary[part];
+      if (libKey && exercises.exercises.library[libKey]) {
+        all = all.concat(exercises.exercises.library[libKey]);
+      }
+    });
+    // Remove duplicates
+    const seen2 = new Set();
+    strengthPool = all.filter((ex) => {
+      if (seen2.has(ex.name)) return false;
+      seen2.add(ex.name);
+      return true;
+    });
+  }
+  // Fallback: if still empty, pick random from all available
+  if (strengthPool.length === 0) {
+    strengthPool = Object.values(exercises.exercises.library).flat();
+  }
   // Randomly select 2-3
   const strengthCount = getRandomInt(2, 3);
   const strength = [];
