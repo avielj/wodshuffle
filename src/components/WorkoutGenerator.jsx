@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import generateWorkout from "../utils/generateWorkout";
 
-export default function WorkoutGenerator({ muscleGroups, intensity, onFavorite }) {
+export default function WorkoutGenerator({ muscleGroups, intensity, equipment = [], onFavorite }) {
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, onFavorite }
     let isMounted = true;
     setLoading(true);
     setError(null);
-    generateWorkout(muscleGroups, intensity)
+    generateWorkout(muscleGroups, intensity, equipment)
       .then((wod) => {
         if (isMounted) {
           setWorkout(wod);
@@ -31,7 +31,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, onFavorite }
         }
       });
     return () => { isMounted = false; };
-  }, [muscleGroups, intensity, regenKey]);
+  }, [muscleGroups, intensity, equipment, regenKey]);
 
   if (loading) return <div className="mt-8 text-center text-lg text-blue-400">Generating your workout...</div>;
   if (error) return <div className="mt-8 text-center text-red-500">{error}</div>;
