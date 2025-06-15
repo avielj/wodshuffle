@@ -20,7 +20,9 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
     let isMounted = true;
     setLoading(true);
     setError(null);
-    const custom = { metconOnly: true };
+    const custom = customize
+      ? { metconOnly: true, rounds, timeCap, repScheme }
+      : { metconOnly: true };
     generateWorkout([], intensity, [], custom)
       .then((wod) => {
         if (isMounted) {
@@ -36,7 +38,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
         }
       });
     return () => { isMounted = false; };
-  }, [intensity, regenKey]);
+  }, [intensity, regenKey, customize, rounds, timeCap, repScheme]);
 
   // Share as image handler
   const handleShareImage = async () => {

@@ -23,7 +23,12 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
     let isMounted = true;
     setLoading(true);
     setError(null);
-    generateWorkout(muscleGroups, intensity, equipment)
+    generateWorkout(
+      muscleGroups,
+      intensity,
+      equipment,
+      customize ? { rounds, timeCap, repScheme } : {}
+    )
       .then((wod) => {
         if (isMounted) {
           setWorkout(wod);
@@ -38,7 +43,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         }
       });
     return () => { isMounted = false; };
-  }, [muscleGroups, intensity, equipment, regenKey]);
+  }, [muscleGroups, intensity, equipment, regenKey, customize, rounds, timeCap, repScheme]);
 
   // Share as image handler
   const handleShareImage = async () => {
@@ -68,38 +73,39 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
           setShareLoading(false);
           return;
         }
-        console.log('Blob generated.');
+        const file = new File([blob], "wod.png", { type: blob.type });
+        let shared = false;
         if (
           navigator.canShare &&
-          navigator.canShare({ files: [new File([blob], "wod.png", { type: blob.type })] })
+          navigator.canShare({ files: [file] })
         ) {
           try {
             console.log('Attempting to share...');
             await navigator.share({
-              files: [new File([blob], "wod.png", { type: blob.type })],
+              files: [file],
               title: "WOD Shuffler Workout",
               text: `Generated with WOD Shuffler`,
             });
+            shared = true;
             console.log('Share successful.');
           } catch (err) {
-            alert("Sharing was cancelled or failed.");
-            console.error('Share error:', err);
+            // Sharing was cancelled or failed, will fall back to download
           }
-        } else {
+        }
+        if (!shared) {
           // fallback: download
           console.log('Falling back to download.');
           const link = document.createElement("a");
           link.download = "wod.png";
           link.href = canvas.toDataURL();
           link.click();
-          alert("Sharing as image is not supported on this device. Image downloaded instead.");
+          alert("Sharing as image is not supported or was cancelled. Image downloaded instead.");
         }
         setShareLoading(false);
       }, "image/png");
     } catch (err) {
       el.classList.remove('export-plain', 'exporting');
       setShareLoading(false);
-      console.error("html2canvas error:", err);
       alert("Failed to generate image for sharing. See console for details.");
     }
   };
@@ -162,6 +168,16 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
               <option value="AMRAP">AMRAP</option>
               <option value="Custom">Custom</option>
             </select>
+          </div>
+          <div className="flex items-end">
+            <button
+              type="button"
+              onClick={handleRegenerate}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold shadow min-w-[44px] min-h-[44px] flex items-center gap-2"
+              title="Regenerate workout with these settings"
+            >
+              <span role="img" aria-label="refresh">🔄</span> Regenerate
+            </button>
           </div>
         </div>
       )}
