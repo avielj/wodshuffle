@@ -30,6 +30,3 @@ Visit [http://localhost:3000](http://localhost:3000) to use the app.
 
 ## Deployment
 Deploy instantly to Vercel by connecting this repo and following the Vercel setup instructions.
-
----
-Built with ❤️ by Base44.
