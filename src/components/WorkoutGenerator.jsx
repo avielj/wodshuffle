@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import generateWorkout from "../utils/generateWorkout";
-import ExportButton from "./ExportButton";
+import html2canvas from "html2canvas";
 
 export default function WorkoutGenerator({ muscleGroups, intensity, equipment = [], onFavorite, onGenerate }) {
   const [workout, setWorkout] = useState(null);
@@ -11,6 +11,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   const [rounds, setRounds] = useState(3);
   const [timeCap, setTimeCap] = useState(20);
   const [repScheme, setRepScheme] = useState("21-15-9");
+  const [shareLoading, setShareLoading] = useState(false);
 
   useEffect(() => {
     setRegenKey((k) => k + 1);
@@ -43,49 +44,68 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   if (error) return <div className="mt-8 text-center text-red-500">{error}</div>;
   if (!workout) return null;
 
-  // Share/copy/export handlers
-  const handleCopy = () => {
-    if (!workout) return;
-    const text = `WOD: ${workout.wod.name}\nType: ${workout.wod.type}\n${workout.wod.description}\nExercises:\n${workout.wod.exercises.map((e, i) => `${i+1}. ${e}`).join("\n")}`;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      alert("Workout copied to clipboard!");
+  // Share as image handler
+  const handleShareImage = async () => {
+    setShareLoading(true);
+    const el = document.getElementById("wod-card");
+    if (!el) {
+      setShareLoading(false);
+      alert("Could not find workout card to share.");
+      return;
+    }
+    try {
+      const canvas = await html2canvas(el, { backgroundColor: null });
+      canvas.toBlob(async (blob) => {
+        if (
+          navigator.canShare &&
+          navigator.canShare({ files: [new File([blob], "wod.png", { type: blob.type })] })
+        ) {
+          try {
+            await navigator.share({
+              files: [new File([blob], "wod.png", { type: blob.type })],
+              title: "WOD Shuffler Workout",
+              text: `Generated with WOD Shuffler: https://app.base44.com`,
+            });
+          } catch (err) {
+            alert("Sharing was cancelled or failed.");
+          }
+        } else {
+          // fallback: download
+          const link = document.createElement("a");
+          link.download = "wod.png";
+          link.href = canvas.toDataURL();
+          link.click();
+          alert("Sharing as image is not supported on this device. Image downloaded instead.");
+        }
+        setShareLoading(false);
+      }, "image/png");
+    } catch (err) {
+      setShareLoading(false);
+      alert("Failed to generate image for sharing.");
     }
   };
 
-  const handleShare = async () => {
-    if (!workout || !navigator.share) return handleCopy();
-    const text = `WOD: ${workout.wod.name}\nType: ${workout.wod.type}\n${workout.wod.description}\nExercises:\n${workout.wod.exercises.map((e, i) => `${i+1}. ${e}`).join("\n")}`;
-    try {
-      await navigator.share({ title: `WOD: ${workout.wod.name}`, text });
-    } catch {}
-  };
-
   return (
-    <div className="w-full max-w-xl mx-auto bg-white/5 rounded-xl border border-white/10 p-2 sm:p-4 mb-4 glassy fade-in">
+    <div id="wod-card" className="w-full max-w-xl mx-auto bg-white/5 rounded-xl border border-white/10 p-2 sm:p-4 mb-4 glassy fade-in relative">
+      <div className="absolute bottom-2 right-4 text-xs text-white/40 select-none">wodshuffler.app</div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-3xl font-bold">Your CrossFit Workout</h2>
         <div className="flex gap-2">
           <button
-            onClick={handleCopy}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-semibold shadow"
-            title="Copy to clipboard"
-          >📋 Copy</button>
-          {navigator.share && (
-            <button
-              onClick={handleShare}
-              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm font-semibold shadow"
-              title="Share workout"
-            >🔗 Share</button>
-          )}
-          <ExportButton targetId="wod-card" />
+            onClick={handleShareImage}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-semibold shadow min-w-[44px] min-h-[44px] flex items-center gap-2 disabled:opacity-60"
+            title="Share as image"
+            disabled={shareLoading}
+          >
+            {shareLoading ? 'Sharing...' : <><span role="img" aria-label="share">🔗</span> Share</>}
+          </button>
           {onFavorite && (
             <button
               onClick={() => onFavorite(workout)}
-              className="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center gap-1"
+              className="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center justify-center min-w-[44px] min-h-[44px]"
               title="Add to Favorites"
             >
-              <span role="img" aria-label="favorite">❤️</span> Favorite
+              <span role="img" aria-label="favorite">❤️</span>
             </button>
           )}
         </div>

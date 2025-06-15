@@ -47,26 +47,41 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
   const handleShareImage = async () => {
     setShareLoading(true);
     const el = document.getElementById("metcon-card");
-    if (!el) return setShareLoading(false);
-    const canvas = await html2canvas(el, { backgroundColor: null });
-    canvas.toBlob(async (blob) => {
-      if (navigator.canShare && navigator.canShare({ files: [new File([blob], "metcon.png", { type: blob.type })] })) {
-        try {
-          await navigator.share({
-            files: [new File([blob], "metcon.png", { type: blob.type })],
-            title: "WOD Shuffler MetCon",
-            text: `Generated with WOD Shuffler: https://app.base44.com` // Add your site address here
-          });
-        } catch {}
-      } else {
-        // fallback: download
-        const link = document.createElement("a");
-        link.download = "metcon.png";
-        link.href = canvas.toDataURL();
-        link.click();
-      }
+    if (!el) {
       setShareLoading(false);
-    }, "image/png");
+      alert("Could not find MetCon card to share.");
+      return;
+    }
+    try {
+      const canvas = await html2canvas(el, { backgroundColor: null });
+      canvas.toBlob(async (blob) => {
+        if (
+          navigator.canShare &&
+          navigator.canShare({ files: [new File([blob], "metcon.png", { type: blob.type })] })
+        ) {
+          try {
+            await navigator.share({
+              files: [new File([blob], "metcon.png", { type: blob.type })],
+              title: "WOD Shuffler MetCon",
+              text: `Generated with WOD Shuffler: https://app.base44.com`,
+            });
+          } catch (err) {
+            alert("Sharing was cancelled or failed.");
+          }
+        } else {
+          // fallback: download
+          const link = document.createElement("a");
+          link.download = "metcon.png";
+          link.href = canvas.toDataURL();
+          link.click();
+          alert("Sharing as image is not supported on this device. Image downloaded instead.");
+        }
+        setShareLoading(false);
+      }, "image/png");
+    } catch (err) {
+      setShareLoading(false);
+      alert("Failed to generate image for sharing.");
+    }
   };
 
   return (

@@ -185,12 +185,16 @@ export default function Home() {
           <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
           {showMetconOnly ? null : <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />}
           <section className="mb-4">
-            <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
-            {showMetconOnly ? null : <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />}
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
-              <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
-              <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
-            </div>
+            {!showMetconOnly && (
+              <>
+                <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
+                <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
+                  <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
+                  <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
+                </div>
+              </>
+            )}
           </section>
           <section className="mb-4">
             <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
