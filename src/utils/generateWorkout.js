@@ -91,6 +91,20 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
   let wodIdx = getRandomInt(0, filteredWods.length - 1);
   let wod = filteredWods[wodIdx];
 
+  // If metconOnly, return just the WOD (MetCon) portion
+  if (custom.metconOnly) {
+    return {
+      warmup: [],
+      strength: [],
+      wod: {
+        name: wod.name,
+        type: wod.format,
+        description: wod.description,
+        exercises: wod.exercises,
+      },
+    };
+  }
+
   // If swapMetcon is true, pick a new random WOD (MetCon) only
   if (custom.swapMetcon) {
     let newIdx = wodIdx;

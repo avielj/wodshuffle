@@ -20,6 +20,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   transition: background var(--transition), color var(--transition);
+  font-size: 16px;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+    padding: 0 0.5rem;
+  }
+  .glassy {
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18);
+    padding: 1rem 0.5rem;
+  }
+  h1, h2, h3 {
+    font-size: 1.2rem;
+  }
+  button, input, select {
+    font-size: 1rem;
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 .glassy {
@@ -29,6 +52,7 @@ body {
   box-shadow: 0 4px 32px 0 rgba(0,0,0,0.15);
   border: 1px solid rgba(255,255,255,0.08);
   transition: background var(--transition), box-shadow var(--transition);
+  padding: 1.5rem 1.25rem;
 }
 
 .fade-in {
@@ -41,9 +65,20 @@ body {
 
 button, input, select {
   transition: background var(--transition), color var(--transition), border var(--transition);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 :focus {
   outline: 2px solid #60a5fa;
   outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100,100,100,0.15);
+  border-radius: 8px;
 }

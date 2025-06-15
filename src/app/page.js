@@ -6,6 +6,7 @@ import EquipmentSelector from "../components/EquipmentSelector";
 import FavoritesList from "../components/FavoritesList";
 import HistoryList from "../components/HistoryList";
 import UserProfile from "../components/UserProfile";
+import MetconOnlyGenerator from "../components/MetconOnlyGenerator";
 
 const NAV_LINKS = [
   { name: "WOD Generator", href: "#" },
@@ -26,6 +27,7 @@ export default function Home() {
   const [history, setHistory] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
   const [profile, setProfile] = useState({ name: "", avatar: "" });
+  const [showMetconOnly, setShowMetconOnly] = useState(false);
 
   // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
@@ -120,12 +122,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
       {/* Navigation */}
-      <nav className="bg-black/80 backdrop-blur-md shadow flex items-center justify-between px-6 py-3 border-b border-white/10">
-        <div className="flex items-center gap-2">
+      <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0">
+        <div className="flex items-center gap-2 mb-2 sm:mb-0">
           <img src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"} alt="Avatar" className="h-8 w-8 rounded border" />
-          <span className="font-bold text-xl tracking-tight text-blue-400">WOD Shuffler</span>
+          <span className="font-bold text-lg sm:text-xl tracking-tight text-blue-400">WOD Shuffler</span>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center justify-center w-full sm:w-auto">
           <button
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             onClick={toggleTheme}
@@ -154,11 +156,18 @@ export default function Home() {
           >
             {showProfile ? 'Hide Profile' : 'Profile'}
           </button>
+          <button
+            className="ml-2 px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors"
+            onClick={() => setShowMetconOnly((v) => !v)}
+            aria-pressed={showMetconOnly}
+          >
+            {showMetconOnly ? 'WOD Generator' : 'MetCon Only'}
+          </button>
         </div>
       </nav>
 
       {/* Quick Stats */}
-      <div className="max-w-2xl mx-auto flex justify-between items-center px-4 py-4 mt-4 mb-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+      <div className="max-w-2xl mx-auto flex flex-col sm:flex-row justify-between items-center px-2 sm:px-4 py-3 mt-3 mb-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md gap-2 sm:gap-0">
         <div className="flex flex-col items-center">
           <span className="text-blue-400 font-bold text-2xl">{generatedCount}</span>
           <span className="text-xs text-white/70">Generated WODs</span>
@@ -170,21 +179,21 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto p-2 mt-2 fade-in">
-        <div className="rounded-2xl glassy shadow-lg p-4 border border-white/10 fade-in">
-          <h1 className="text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
-          <p className="text-center text-white/70 mb-4">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
+      <main className="max-w-2xl mx-auto p-1 sm:p-2 mt-2 fade-in">
+        <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
+          <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
+          <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
           <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
           <section className="mb-4">
-            <h2 className="text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
             <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
-            <div className="flex justify-between items-center mt-1 text-xs">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
               <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
               <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
             </div>
           </section>
           <section className="mb-4">
-            <h2 className="text-lg font-semibold mb-1 text-white">Intensity Level</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
             <div className="flex gap-2 mt-2 flex-wrap justify-center">
               <div
                 className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
@@ -211,7 +220,7 @@ export default function Home() {
           </section>
           <button
             onClick={handleGenerate}
-            className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150"
+            className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150 min-h-[44px]"
             disabled={bodyParts.length === 0}
           >
             Generate WOD
@@ -228,6 +237,13 @@ export default function Home() {
             <HistoryList
               history={history}
               onClear={handleClearHistory}
+            />
+          ) : showMetconOnly ? (
+            <MetconOnlyGenerator
+              intensity={intensity}
+              equipment={equipment}
+              onFavorite={handleFavorite}
+              onGenerate={handleAddToHistory}
             />
           ) : (
             <>

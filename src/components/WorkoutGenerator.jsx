@@ -11,7 +11,6 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   const [rounds, setRounds] = useState(3);
   const [timeCap, setTimeCap] = useState(20);
   const [repScheme, setRepScheme] = useState("21-15-9");
-  const [swapIdx, setSwapIdx] = useState(null);
 
   useEffect(() => {
     setRegenKey((k) => k + 1);
@@ -23,7 +22,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
     let isMounted = true;
     setLoading(true);
     setError(null);
-    generateWorkout(muscleGroups, intensity, equipment, { rounds, timeCap, repScheme, swapIdx })
+    generateWorkout(muscleGroups, intensity, equipment, { rounds, timeCap, repScheme })
       .then((wod) => {
         if (isMounted) {
           setWorkout(wod);
@@ -38,7 +37,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         }
       });
     return () => { isMounted = false; };
-  }, [muscleGroups, intensity, equipment, regenKey, rounds, timeCap, repScheme, swapIdx]);
+  }, [muscleGroups, intensity, equipment, regenKey, rounds, timeCap, repScheme]);
 
   if (loading) return <div className="mt-8 text-center text-lg text-blue-400">Generating your workout...</div>;
   if (error) return <div className="mt-8 text-center text-red-500">{error}</div>;
@@ -62,9 +61,8 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
     } catch {}
   };
 
-  // Customization controls UI
   return (
-    <div id="wod-card" className="mt-8 w-full max-w-2xl glassy text-white p-6 rounded-lg shadow-lg fade-in border border-white/10">
+    <div className="w-full max-w-xl mx-auto bg-white/5 rounded-xl border border-white/10 p-2 sm:p-4 mb-4 glassy fade-in">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-3xl font-bold">Your CrossFit Workout</h2>
         <div className="flex gap-2">
@@ -150,7 +148,9 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         </ul>
       </div>
       <div>
-        <h3 className="text-2xl font-semibold mb-2">MetCon: {workout.wod.name}</h3>
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="text-2xl font-semibold">MetCon: {workout.wod.name}</h3>
+        </div>
         <div className="mb-2 text-blue-300 font-semibold text-lg">
           {workout.wod.type}
         </div>
@@ -159,13 +159,6 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
           {workout.wod.exercises.map((ex, idx) => (
             <li key={idx} className="mb-2 flex items-center gap-2 fade-in">
               {ex}
-              <button
-                className="ml-2 px-2 py-1 text-xs rounded bg-white/10 hover:bg-blue-600 transition-colors"
-                title="Swap exercise"
-                onClick={() => setSwapIdx(idx)}
-              >
-                🔄 Swap
-              </button>
             </li>
           ))}
         </ul>
