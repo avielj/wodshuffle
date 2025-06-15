@@ -53,6 +53,8 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
       return;
     }
     try {
+      // Wait a tick to ensure DOM is rendered
+      await new Promise(res => setTimeout(res, 100));
       const canvas = await html2canvas(el, { backgroundColor: null });
       canvas.toBlob(async (blob) => {
         if (
@@ -80,7 +82,8 @@ export default function MetconOnlyGenerator({ intensity, onFavorite, onGenerate 
       }, "image/png");
     } catch (err) {
       setShareLoading(false);
-      alert("Failed to generate image for sharing.");
+      console.error("html2canvas error:", err);
+      alert("Failed to generate image for sharing. See console for details.");
     }
   };
 
