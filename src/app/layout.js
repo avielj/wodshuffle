@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,11 @@ export default function RootLayout({ children }) {
         <meta property="twitter:description" content="Craft custom CrossFit workouts with ease! Select your target muscle groups and intensity level, and WOD Shuffler generates a personalized workout with warmup, strength, and metcon sections, including benchmark workout suggestions." />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* <nav className="w-full flex justify-center py-4 bg-black/30 mb-4">
+          <div className="flex gap-2 sm:gap-4 text-lg font-semibold">
+            <Link href="/timer" className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center justify-center min-w-[44px] min-h-[44px] transition">Timer</Link>
+          </div>
+        </nav> */}
         {children}
       </body>
     </html>

@@ -7,6 +7,7 @@ import FavoritesList from "../components/FavoritesList";
 import HistoryList from "../components/HistoryList";
 import UserProfile from "../components/UserProfile";
 import MetconOnlyGenerator from "../components/MetconOnlyGenerator";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { name: "WOD Generator", href: "#" },
@@ -34,8 +35,11 @@ export default function Home() {
   const [showMetconOnly, setShowMetconOnly] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [globalWodsGenerated, setGlobalWodsGenerated] = useState(0);
+  const [mounted, setMounted] = React.useState(false);
   // Tab state for navigation
   const [activeTab, setActiveTab] = useState('generator');
+
+  React.useEffect(() => { setMounted(true); }, []);
 
   // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
@@ -174,12 +178,22 @@ export default function Home() {
     }
   };
 
+  if (!mounted) return null;
+
   return (
     <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
       {/* Navigation Tabs */}
       <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0">
         <div className="flex items-center gap-2 mb-2 sm:mb-0">
-          <img src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"} alt="Avatar" className="h-8 w-8 rounded border" />
+          <Image
+            src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"}
+            alt="Avatar"
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded border"
+            unoptimized={profile.avatar?.startsWith("http")}
+            priority
+          />
           <span className="font-bold text-lg sm:text-xl tracking-tight text-blue-400">WOD Shuffler</span>
         </div>
         <div className="flex flex-wrap gap-2 items-center justify-center w-full sm:w-auto">
@@ -203,6 +217,10 @@ export default function Home() {
             className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
             onClick={() => setActiveTab('profile')}
           >Profile</button>
+          <button
+            className={`ml-2 px-3 py-1 rounded ${activeTab==='timer' ? 'bg-blue-800 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
+            onClick={() => window.location.href = '/timer'}
+          >Timer</button>
           {profile?.email === ADMIN_EMAIL && (
             <a href="/admin" className="ml-2 px-3 py-1 rounded bg-yellow-500 text-black text-sm font-semibold transition-colors">Admin</a>
           )}
