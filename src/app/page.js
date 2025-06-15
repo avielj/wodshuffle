@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BodyPartSelector from "../components/BodyPartSelector";
 import WorkoutGenerator from "../components/WorkoutGenerator";
 import EquipmentSelector from "../components/EquipmentSelector";
+import FavoritesList from "../components/FavoritesList";
+import HistoryList from "../components/HistoryList";
+import UserProfile from "../components/UserProfile";
 
 const NAV_LINKS = [
   { name: "WOD Generator", href: "#" },
@@ -17,8 +20,14 @@ export default function Home() {
   const [favorites, setFavorites] = useState([]);
   const [generatedCount, setGeneratedCount] = useState(0);
   const [equipment, setEquipment] = useState([]);
+  const [theme, setTheme] = useState('dark');
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [showProfile, setShowProfile] = useState(false);
+  const [profile, setProfile] = useState({ name: "", avatar: "" });
 
-  // Load preferences on mount (optional, can be removed if not needed)
+  // Load preferences and history on mount (optional, can be removed if not needed)
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
@@ -26,6 +35,13 @@ export default function Home() {
       setIntensity(saved.intensity || "rx");
       setFavorites(JSON.parse(localStorage.getItem("wodFavorites") || "[]"));
       setGeneratedCount(Number(localStorage.getItem("wodGeneratedCount") || 0));
+      const savedTheme = localStorage.getItem("wodTheme") || 'dark';
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+
+      setHistory(JSON.parse(localStorage.getItem("wodHistory") || "[]"));
+      const profileData = JSON.parse(localStorage.getItem("wodProfile") || "{}");
+      setProfile(profileData);
     }
   }, []);
 
@@ -51,13 +67,93 @@ export default function Home() {
     }
   };
 
+  const handleRemoveFavorite = (idx) => {
+    setFavorites((prev) => {
+      const updated = prev.filter((_, i) => i !== idx);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("wodFavorites", JSON.stringify(updated));
+      }
+      return updated;
+    });
+  };
+
+  const handleRegenerateFavorite = (wod) => {
+    // Just set the workoutKey to force re-generation with the same params
+    setWorkoutKey((k) => k + 1);
+  };
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("wodTheme", next);
+      document.documentElement.setAttribute('data-theme', next);
+    }
+  };
+
+  // Save to history when a new workout is generated
+  const handleAddToHistory = (workout) => {
+    if (typeof window !== "undefined") {
+      const entry = { ...workout, generatedAt: Date.now() };
+      setHistory((prev) => {
+        const updated = [entry, ...prev].slice(0, 50); // keep last 50
+        localStorage.setItem("wodHistory", JSON.stringify(updated));
+        return updated;
+      });
+    }
+  };
+
+  const handleClearHistory = () => {
+    setHistory([]);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("wodHistory");
+    }
+  };
+
+  const handleSaveProfile = (data) => {
+    setProfile(data);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("wodProfile", JSON.stringify(data));
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
+    <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
       {/* Navigation */}
       <nav className="bg-black/80 backdrop-blur-md shadow flex items-center justify-between px-6 py-3 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/66a45d17d_logo.png" alt="Base44 Logo" className="h-8 w-8 rounded" />
+          <img src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"} alt="Avatar" className="h-8 w-8 rounded border" />
           <span className="font-bold text-xl tracking-tight text-blue-400">WOD Shuffler</span>
+        </div>
+        <div className="flex gap-2 items-center">
+          <button
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={toggleTheme}
+            className="ml-4 px-3 py-1 rounded bg-white/10 hover:bg-blue-600 text-white text-sm font-semibold transition-colors"
+          >
+            {theme === 'dark' ? '🌞 Light' : '🌙 Dark'}
+          </button>
+          <button
+            className="ml-2 px-3 py-1 rounded bg-pink-600 hover:bg-pink-700 text-white text-sm font-semibold transition-colors"
+            onClick={() => setShowFavorites((v) => !v)}
+            aria-pressed={showFavorites}
+          >
+            {showFavorites ? 'Hide Favorites' : 'View Favorites'}
+          </button>
+          <button
+            className="ml-2 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
+            onClick={() => setShowHistory((v) => !v)}
+            aria-pressed={showHistory}
+          >
+            {showHistory ? 'Hide History' : 'View History'}
+          </button>
+          <button
+            className="ml-2 px-3 py-1 rounded bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold transition-colors"
+            onClick={() => setShowProfile((v) => !v)}
+            aria-pressed={showProfile}
+          >
+            {showProfile ? 'Hide Profile' : 'Profile'}
+          </button>
         </div>
       </nav>
 
@@ -74,8 +170,8 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto p-2 mt-2">
-        <div className="rounded-2xl bg-white/5 backdrop-blur-md shadow-lg p-4 border border-white/10">
+      <main className="max-w-2xl mx-auto p-2 mt-2 fade-in">
+        <div className="rounded-2xl glassy shadow-lg p-4 border border-white/10 fade-in">
           <h1 className="text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
           <p className="text-center text-white/70 mb-4">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
           <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
@@ -120,14 +216,32 @@ export default function Home() {
           >
             Generate WOD
           </button>
-          {bodyParts.length > 0 && (
-            <WorkoutGenerator
-              muscleGroups={bodyParts}
-              intensity={intensity}
-              equipment={equipment}
-              key={workoutKey}
-              onFavorite={handleFavorite}
+          {showProfile ? (
+            <UserProfile profile={profile} onSave={handleSaveProfile} />
+          ) : showFavorites ? (
+            <FavoritesList
+              favorites={favorites}
+              onRemove={handleRemoveFavorite}
+              onRegenerate={handleRegenerateFavorite}
             />
+          ) : showHistory ? (
+            <HistoryList
+              history={history}
+              onClear={handleClearHistory}
+            />
+          ) : (
+            <>
+              {bodyParts.length > 0 && (
+                <WorkoutGenerator
+                  muscleGroups={bodyParts}
+                  intensity={intensity}
+                  equipment={equipment}
+                  key={workoutKey}
+                  onFavorite={handleFavorite}
+                  onGenerate={handleAddToHistory}
+                />
+              )}
+            </>
           )}
         </div>
       </main>

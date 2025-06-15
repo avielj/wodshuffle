@@ -14,7 +14,7 @@ const matchesEquipment = (exercise, selectedEquipment) => {
   return exercise.equipment.some(eq => selectedEquipment.includes(eq.toLowerCase()));
 };
 
-const generateWorkout = async (muscleGroups, intensity, equipment = []) => {
+const generateWorkout = async (muscleGroups, intensity, equipment = [], custom = {}) => {
   // Fetch exercises data at runtime
   const res = await fetch('/data/exercises.json');
   const exercises = await res.json();
@@ -88,15 +88,37 @@ const generateWorkout = async (muscleGroups, intensity, equipment = []) => {
     });
     if (filteredWods.length === 0) filteredWods = wods;
   }
-  const wodIdx = getRandomInt(0, filteredWods.length - 1);
-  const wod = filteredWods[wodIdx];
+  let wodIdx = getRandomInt(0, filteredWods.length - 1);
+  let wod = filteredWods[wodIdx];
+
+  // Apply swap logic if requested
+  if (custom.swapIdx !== undefined && custom.swapIdx !== null && Array.isArray(wod.exercises)) {
+    // Try to swap the exercise at swapIdx with another random exercise from the same pool
+    const allExercises = Object.values(exercises.exercises.library).flat();
+    const currentEx = wod.exercises[custom.swapIdx];
+    // Find a replacement not already in the WOD
+    const available = allExercises.filter(e => !wod.exercises.some(wex => wex.toLowerCase().includes(e.name.toLowerCase())));
+    if (available.length > 0) {
+      const swapEx = available[getRandomInt(0, available.length - 1)];
+      wod = {
+        ...wod,
+        exercises: wod.exercises.map((ex, i) => i === custom.swapIdx ? swapEx.name : ex)
+      };
+    }
+  }
+
+  // Apply rounds, time cap, rep scheme customizations
+  let wodType = wod.format;
+  if (custom.rounds) wodType = `${custom.rounds} rounds for time`;
+  if (custom.timeCap) wodType += ` (Time cap: ${custom.timeCap} min)`;
+  if (custom.repScheme && custom.repScheme !== 'Custom') wodType += `, Rep scheme: ${custom.repScheme}`;
 
   return {
     warmup,
     strength,
     wod: {
       name: wod.name,
-      type: wod.format,
+      type: wodType,
       description: wod.description,
       exercises: wod.exercises,
     },
