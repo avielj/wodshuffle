@@ -23,12 +23,12 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
   const wodsRes = await fetch('/data/wods.json');
   const wods = await wodsRes.json();
 
-  // --- Warmup: filter by muscle group and equipment ---
+  // --- Warmup: always bodyweight, 2-3 exercises ---
   const warmupList = exercises.exercises.warmup.filter(
-    (ex) => matchesMuscleGroups(ex, muscleGroups) && matchesEquipment(ex, equipment)
+    (ex) => (!ex.equipment || ex.equipment.includes('none') || ex.equipment.includes('bodyweight'))
   );
-  const warmupCount = getRandomInt(2, 3);
-  let warmupPool = warmupList.length > 0 ? [...warmupList] : exercises.exercises.warmup.filter(ex => matchesEquipment(ex, equipment));
+  const warmupCount = Math.max(2, Math.min(3, warmupList.length));
+  let warmupPool = [...warmupList];
   const warmup = [];
   while (warmup.length < warmupCount && warmupPool.length > 0) {
     const idx = getRandomInt(0, warmupPool.length - 1);
@@ -91,20 +91,13 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
   let wodIdx = getRandomInt(0, filteredWods.length - 1);
   let wod = filteredWods[wodIdx];
 
-  // Apply swap logic if requested
-  if (custom.swapIdx !== undefined && custom.swapIdx !== null && Array.isArray(wod.exercises)) {
-    // Try to swap the exercise at swapIdx with another random exercise from the same pool
-    const allExercises = Object.values(exercises.exercises.library).flat();
-    const currentEx = wod.exercises[custom.swapIdx];
-    // Find a replacement not already in the WOD
-    const available = allExercises.filter(e => !wod.exercises.some(wex => wex.toLowerCase().includes(e.name.toLowerCase())));
-    if (available.length > 0) {
-      const swapEx = available[getRandomInt(0, available.length - 1)];
-      wod = {
-        ...wod,
-        exercises: wod.exercises.map((ex, i) => i === custom.swapIdx ? swapEx.name : ex)
-      };
+  // If swapMetcon is true, pick a new random WOD (MetCon) only
+  if (custom.swapMetcon) {
+    let newIdx = wodIdx;
+    while (filteredWods.length > 1 && newIdx === wodIdx) {
+      newIdx = getRandomInt(0, filteredWods.length - 1);
     }
+    wod = filteredWods[newIdx];
   }
 
   // Apply rounds, time cap, rep scheme customizations
