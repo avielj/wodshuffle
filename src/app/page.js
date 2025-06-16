@@ -9,6 +9,7 @@ import UserProfile from "../components/UserProfile";
 import MetconOnlyGenerator from "../components/MetconOnlyGenerator";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const NAV_LINKS = [
   { name: "WOD Generator", href: "#" },
@@ -38,6 +39,7 @@ export default function Home() {
   const [collapsed, setCollapsed] = useState(false);
   const [globalWodsGenerated, setGlobalWodsGenerated] = useState(0);
   const [mounted, setMounted] = React.useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   // Tab state for navigation
   const [activeTab, setActiveTab] = useState('generator');
 
@@ -185,7 +187,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
       {/* Navigation Tabs */}
-      <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0">
+      <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0 relative">
         <div className="flex items-center gap-2 mb-2 sm:mb-0">
           <Image
             src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"}
@@ -198,30 +200,43 @@ export default function Home() {
           />
           <span className="font-bold text-lg sm:text-xl tracking-tight text-blue-400">WOD Shuffler</span>
         </div>
-        <div className="flex flex-wrap gap-2 items-center justify-center w-full sm:w-auto">
+        {/* Hamburger for mobile */}
+        <button
+          className="sm:hidden absolute right-4 top-3 z-20 text-white text-2xl focus:outline-none"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        {/* Nav links */}
+        <div
+          className={`flex flex-col sm:flex-row gap-2 items-center justify-center w-full sm:w-auto transition-all duration-300 z-10
+            ${menuOpen ? 'block bg-black/95 absolute left-0 right-0 top-14 px-4 py-4 rounded-b-xl border-b border-white/10' : 'hidden sm:flex static bg-transparent border-none p-0'}
+          `}
+        >
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='generator' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('generator')}
+            onClick={() => { setActiveTab('generator'); setMenuOpen(false); }}
           >WOD Generator</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='metcon' ? 'bg-green-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('metcon')}
+            onClick={() => { setActiveTab('metcon'); setMenuOpen(false); }}
           >Metcon Generator</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='favorites' ? 'bg-pink-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('favorites')}
+            onClick={() => { setActiveTab('favorites'); setMenuOpen(false); }}
           >Favorites</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='history' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('history')}
+            onClick={() => { setActiveTab('history'); setMenuOpen(false); }}
           >History</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('profile')}
+            onClick={() => { setActiveTab('profile'); setMenuOpen(false); }}
           >Profile</button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='timer' ? 'bg-blue-800 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => setActiveTab('timer')}
+            onClick={() => { setActiveTab('timer'); setMenuOpen(false); }}
           >Timer</button>
           {profile?.email === ADMIN_EMAIL && (
             <a href="/admin" className="ml-2 px-3 py-1 rounded bg-yellow-500 text-black text-sm font-semibold transition-colors">Admin</a>

@@ -189,7 +189,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
                 <li key={idx} className="fade-in">
                   <span className="font-medium">{wu.name}</span>: {wu.reps?.[intensity] || wu.duration?.[intensity] || wu.reps || wu.duration}
                   <br />
-                  <span className="text-sm text-gray-300">Equipment: {Array.isArray(wu.equipment) ? wu.equipment.join(", ") : wu.equipment}</span>
+                  <span className="text-sm text-gray-300 hide-for-export-exporting">Equipment: {Array.isArray(wu.equipment) ? wu.equipment.join(", ") : wu.equipment}</span>
                   {wu.progression && (
                     <div className="text-xs text-green-300 mt-1">Progression: {wu.progression}</div>
                   )}
