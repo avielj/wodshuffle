@@ -13,6 +13,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
   const [timeCap, setTimeCap] = useState(10);
   const [repScheme, setRepScheme] = useState("21-15-9");
 
+  // Only regenerate when clicking Regenerate, not on every change
   useEffect(() => { setRegenKey((k) => k + 1); }, [intensity]);
   const handleRegenerate = () => setRegenKey((k) => k + 1);
 
@@ -152,6 +153,16 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
               <option value="AMRAP">AMRAP</option>
               <option value="Custom">Custom</option>
             </select>
+          </div>
+          <div className="flex items-end">
+            <button
+              type="button"
+              onClick={handleRegenerate}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold shadow min-w-[44px] min-h-[44px] flex items-center gap-2"
+              title="Regenerate MetCon with these settings"
+            >
+              <span role="img" aria-label="refresh">🔄</span> Regenerate
+            </button>
           </div>
         </div>
       )}

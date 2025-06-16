@@ -13,6 +13,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   const [timeCap, setTimeCap] = useState(10);
   const [repScheme, setRepScheme] = useState("21-15-9");
 
+  // Only regenerate when clicking Regenerate, not on every change
   useEffect(() => {
     setRegenKey((k) => k + 1);
   }, [muscleGroups, intensity]);
@@ -189,9 +190,9 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
                 <li key={idx} className="fade-in">
                   <span className="font-medium">{wu.name}</span>: {wu.reps?.[intensity] || wu.duration?.[intensity] || wu.reps || wu.duration}
                   <br />
-                  <span className="text-sm text-gray-300 hide-for-export-exporting">Equipment: {Array.isArray(wu.equipment) ? wu.equipment.join(", ") : wu.equipment}</span>
+                  <span className="text-sm text-gray-300 hide-for-export">Equipment: {Array.isArray(wu.equipment) ? wu.equipment.join(", ") : wu.equipment}</span>
                   {wu.progression && (
-                    <div className="text-xs text-green-300 mt-1">Progression: {wu.progression}</div>
+                    <div className="text-xs text-green-300 mt-1 hide-for-export">Progression: {wu.progression}</div>
                   )}
                   {wu.demo && (
                     <a href={wu.demo} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 underline ml-2 hide-for-export">Demo</a>
@@ -209,7 +210,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
             <li key={idx} className="mb-2 fade-in">
               <span className="font-medium">{ex.name}</span>: {ex.sets} sets x {typeof ex.reps === 'string' ? ex.reps : ex.reps} {ex.weight && `@ ${ex.weight}`} {ex.rest && <span className="text-xs text-gray-400">(Rest: {ex.rest})</span>}
               {ex.progression && (
-                <div className="text-xs text-green-300 mt-1">Progression: {ex.progression}</div>
+                <div className="text-xs text-green-300 mt-1 hide-for-export">Progression: {ex.progression}</div>
               )}
               {ex.demo && (
                 <a href={ex.demo} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 underline ml-2 hide-for-export">Demo</a>

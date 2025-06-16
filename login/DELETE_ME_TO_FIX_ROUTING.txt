@@ -1,0 +1,1 @@
+This folder is obsolete. Please delete the /login and /signup folders from the root of your project to fix Next.js routing. The correct files are now in /src/app/login and /src/app/signup.
