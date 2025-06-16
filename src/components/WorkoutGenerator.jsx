@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import generateWorkout from "../utils/generateWorkout";
 import html2canvas from "html2canvas";
 
@@ -38,22 +38,28 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
   const [timeCap, setTimeCap] = useState(10);
   const [repScheme, setRepScheme] = useState("21-15-9");
 
-  // Only regenerate when clicking Regenerate, not on every change
-  useEffect(() => {
-    setRegenKey((k) => k + 1);
-  }, [muscleGroups, intensity]);
+  // Store custom values at the time of regeneration
+  const customRef = useRef({ rounds, timeCap, repScheme, customize });
 
-  const handleRegenerate = () => setRegenKey((k) => k + 1);
+  const handleRegenerate = () => {
+    customRef.current = { rounds, timeCap, repScheme, customize };
+    setRegenKey((k) => k + 1);
+  };
 
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
     setError(null);
+    const custom = customRef.current.customize ? {
+      rounds: customRef.current.rounds,
+      timeCap: customRef.current.timeCap,
+      repScheme: customRef.current.repScheme
+    } : {};
     generateWorkout(
       muscleGroups,
       intensity,
       equipment,
-      customize ? { rounds, timeCap, repScheme } : {}
+      custom
     )
       .then((wod) => {
         if (isMounted) {
@@ -69,7 +75,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         }
       });
     return () => { isMounted = false; };
-  }, [muscleGroups, intensity, equipment, regenKey, customize, rounds, timeCap, repScheme]);
+  }, [muscleGroups, intensity, equipment, regenKey]);
 
   // Share as image handler
   const handleShareImage = async () => {

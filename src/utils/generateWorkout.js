@@ -137,9 +137,47 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
 
   // Apply rounds, time cap, rep scheme customizations
   let wodType = wod.format;
-  if (custom.rounds) wodType = `${custom.rounds} rounds for time`;
-  if (custom.timeCap) wodType += ` (Time cap: ${custom.timeCap} min)`;
-  if (custom.repScheme && custom.repScheme !== 'Custom') wodType += `, Rep scheme: ${custom.repScheme}`;
+  if (custom.rounds || custom.timeCap || (custom.repScheme && custom.repScheme !== 'Custom')) {
+    // Generate a generic MetCon using the custom values
+    const rounds = custom.rounds || 5;
+    const timeCap = custom.timeCap || 20;
+    const repScheme = custom.repScheme && custom.repScheme !== 'Custom' ? custom.repScheme : '21-15-9';
+    // Pick 2-3 random exercises from the pool
+    let metconPool = Object.values(exercises.exercises.library).flat();
+    if (muscleGroups && muscleGroups.length > 0) {
+      metconPool = metconPool.filter(ex => matchesMuscleGroups(ex, muscleGroups));
+    }
+    if (equipment && equipment.length > 0) {
+      metconPool = metconPool.filter(ex => matchesEquipment(ex, equipment));
+    }
+    if (metconPool.length < 2) metconPool = Object.values(exercises.exercises.library).flat();
+    // Deduplicate
+    const seenMetcon = new Set();
+    metconPool = metconPool.filter(ex => {
+      if (seenMetcon.has(ex.name)) return false;
+      seenMetcon.add(ex.name);
+      return true;
+    });
+    // Pick 2-3
+    const metconExercises = [];
+    let metconPoolCopy = [...metconPool];
+    const metconCount = Math.max(2, Math.min(3, metconPoolCopy.length));
+    while (metconExercises.length < metconCount && metconPoolCopy.length > 0) {
+      const idx = getRandomInt(0, metconPoolCopy.length - 1);
+      metconExercises.push(metconPoolCopy[idx].name);
+      metconPoolCopy.splice(idx, 1);
+    }
+    return {
+      warmup,
+      strength,
+      wod: {
+        name: `Custom MetCon (${rounds} rounds${timeCap ? ", cap " + timeCap + " min" : ""})` ,
+        type: `${rounds} rounds for time${timeCap ? " (Time cap: " + timeCap + " min)" : ""}${repScheme ? ", Rep scheme: " + repScheme : ""}`,
+        description: `Complete ${rounds} rounds of the following exercises as fast as possible. Rep scheme: ${repScheme}. Time cap: ${timeCap} min.`,
+        exercises: metconExercises.map(ex => `${repScheme} ${ex}`),
+      },
+    };
+  }
 
   return {
     warmup,

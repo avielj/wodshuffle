@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import generateWorkout from "../utils/generateWorkout";
 import html2canvas from "html2canvas";
 
@@ -13,16 +13,22 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
   const [timeCap, setTimeCap] = useState(10);
   const [repScheme, setRepScheme] = useState("21-15-9");
 
+  // Store custom values at the time of regeneration
+  const customRef = useRef({ rounds, timeCap, repScheme, customize });
+
   // Only regenerate when clicking Regenerate, not on every change
   useEffect(() => { setRegenKey((k) => k + 1); }, [intensity]);
-  const handleRegenerate = () => setRegenKey((k) => k + 1);
+  const handleRegenerate = () => {
+    customRef.current = { rounds, timeCap, repScheme, customize };
+    setRegenKey((k) => k + 1);
+  };
 
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
     setError(null);
-    const custom = customize
-      ? { metconOnly: true, rounds, timeCap, repScheme }
+    const custom = customRef.current.customize
+      ? { metconOnly: true, rounds: customRef.current.rounds, timeCap: customRef.current.timeCap, repScheme: customRef.current.repScheme }
       : { metconOnly: true };
     generateWorkout([], intensity, [], custom)
       .then((wod) => {
@@ -39,7 +45,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
         }
       });
     return () => { isMounted = false; };
-  }, [intensity, regenKey, customize, rounds, timeCap, repScheme]);
+  }, [intensity, regenKey]);
 
   // Share as image handler
   const handleShareImage = async () => {
