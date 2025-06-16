@@ -248,14 +248,18 @@ export default function Home() {
       {/* Quick Stats */}
       <div className="max-w-2xl mx-auto flex flex-col sm:flex-row justify-between items-center px-2 sm:px-4 py-3 mt-3 mb-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md gap-2 sm:gap-0">
         {/* Removed local Generated WODs stat */}
-        <div className="flex flex-col items-center">
-          <span className="text-pink-400 font-bold text-2xl">{favorites.length}</span>
-          <span className="text-xs text-white/70">Favorites</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-blue-400 font-bold text-2xl">{globalWodsGenerated}</span>
-          <span className="text-xs text-white/70">Global WODs Generated</span>
-        </div>
+        {profile?.id && (
+          <div className="flex flex-col items-center">
+            <span className="text-pink-400 font-bold text-2xl">{favorites.length}</span>
+            <span className="text-xs text-white/70">Favorites</span>
+          </div>
+        )}
+        {(profile?.id || profile?.email === ADMIN_EMAIL) && (
+          <div className="flex flex-col items-center">
+            <span className="text-blue-400 font-bold text-2xl">{globalWodsGenerated}</span>
+            <span className="text-xs text-white/70">Global WODs Generated</span>
+          </div>
+        )}
       </div>
 
       {/* Main Content by Tab */}

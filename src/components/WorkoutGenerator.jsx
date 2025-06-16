@@ -46,6 +46,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
     setRegenKey((k) => k + 1);
   };
 
+  // Only pass muscleGroups if selected, else pass empty array for random
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -55,8 +56,9 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
       timeCap: customRef.current.timeCap,
       repScheme: customRef.current.repScheme
     } : {};
+    const mg = Array.isArray(muscleGroups) && muscleGroups.length > 0 ? muscleGroups : [];
     generateWorkout(
-      muscleGroups,
+      mg,
       intensity,
       equipment,
       custom
