@@ -208,11 +208,12 @@ export default function Home() {
         >
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
-        {/* Nav links */}
+        {/* Nav links - always in flow, use max-h for animation */}
         <div
-          className={`flex flex-col sm:flex-row gap-2 items-center justify-center w-full sm:w-auto transition-all duration-300 z-10
-            ${menuOpen ? 'block bg-black/95 absolute left-0 right-0 top-14 px-4 py-4 rounded-b-xl border-b border-white/10' : 'hidden sm:flex static bg-transparent border-none p-0'}
-          `}
+          className={`w-full sm:w-auto transition-all duration-300 overflow-hidden
+            ${menuOpen ? 'max-h-[500px] py-4' : 'max-h-0 py-0'}
+            sm:max-h-none sm:py-0 flex flex-col sm:flex-row gap-2 items-center justify-center`}
+          style={{ background: menuOpen ? 'rgba(0,0,0,0.95)' : 'transparent', borderBottom: menuOpen ? '1px solid rgba(255,255,255,0.1)' : 'none', borderRadius: menuOpen ? '0 0 1rem 1rem' : '0' }}
         >
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='generator' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}

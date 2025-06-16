@@ -2,6 +2,31 @@ import React, { useEffect, useState } from "react";
 import generateWorkout from "../utils/generateWorkout";
 import html2canvas from "html2canvas";
 
+// Add export-specific styles for spacing
+if (typeof window !== 'undefined') {
+  const styleId = 'wod-export-style';
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.innerHTML = `
+      .export-plain li, .exporting li {
+        margin-bottom: 12px !important;
+        display: block !important;
+      }
+      .export-plain .mb-2, .exporting .mb-2 {
+        margin-bottom: 16px !important;
+      }
+      .export-plain .mb-6, .exporting .mb-6 {
+        margin-bottom: 32px !important;
+      }
+      .export-plain .fade-in, .exporting .fade-in {
+        opacity: 1 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
 export default function WorkoutGenerator({ muscleGroups, intensity, equipment = [], onGenerate, onFavorite }) {
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
