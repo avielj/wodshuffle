@@ -32,7 +32,9 @@ function beep(frequency = 440, duration = 200, volume = 1) {
   }, duration);
 }
 
+// Improved formatTime: always returns 00:00 for invalid input
 const formatTime = (sec) => {
+  if (typeof sec !== 'number' || isNaN(sec) || sec < 0) return "00:00";
   const m = Math.floor(sec / 60).toString().padStart(2, "0");
   const s = (sec % 60).toString().padStart(2, "0");
   return `${m}:${s}`;
@@ -100,6 +102,12 @@ export default function WODTimer() {
       }
     };
     speakCountdown();
+  };
+
+  // Input validation helpers
+  const safeInt = (val, fallback) => {
+    const n = parseInt(val, 10);
+    return isNaN(n) || n <= 0 ? fallback : n;
   };
 
   // Main timer logic
@@ -275,27 +283,27 @@ export default function WODTimer() {
             <input
               type="number"
               min={1}
-              max={60}
+              max={50}
               value={tabataRounds}
-              onChange={e => setTabataRounds(Number(e.target.value))}
+              onChange={e => setTabataRounds(safeInt(e.target.value, 8))}
               className="rounded px-2 py-1 w-20 bg-white/20 text-white"
               placeholder="Rounds"
             />
             <input
               type="number"
-              min={5}
-              max={60}
+              min={1}
+              max={300}
               value={tabataWork}
-              onChange={e => setTabataWork(Number(e.target.value))}
+              onChange={e => setTabataWork(safeInt(e.target.value, 20))}
               className="rounded px-2 py-1 w-20 bg-white/20 text-white"
               placeholder="Work (s)"
             />
             <input
               type="number"
-              min={5}
-              max={60}
+              min={1}
+              max={300}
               value={tabataRest}
-              onChange={e => setTabataRest(Number(e.target.value))}
+              onChange={e => setTabataRest(safeInt(e.target.value, 10))}
               className="rounded px-2 py-1 w-20 bg-white/20 text-white"
               placeholder="Rest (s)"
             />

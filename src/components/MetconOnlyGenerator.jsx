@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import generateWorkout from "../utils/generateWorkout";
 import html2canvas from "html2canvas";
+import EquipmentSelector from "./EquipmentSelector";
 
 export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite }) {
   const [metcon, setMetcon] = useState(null);
@@ -12,6 +13,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
   const [rounds, setRounds] = useState(3);
   const [timeCap, setTimeCap] = useState(10);
   const [repScheme, setRepScheme] = useState("21-15-9");
+  const [equipment, setEquipment] = useState([]);
 
   // Store custom values at the time of regeneration
   const customRef = useRef({ rounds, timeCap, repScheme, customize });
@@ -30,7 +32,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
     const custom = customRef.current.customize
       ? { metconOnly: true, rounds: customRef.current.rounds, timeCap: customRef.current.timeCap, repScheme: customRef.current.repScheme }
       : { metconOnly: true };
-    generateWorkout([], intensity, [], custom)
+    generateWorkout([], intensity, equipment, custom)
       .then((wod) => {
         if (isMounted) {
           setMetcon(wod?.wod);
@@ -45,7 +47,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
         }
       });
     return () => { isMounted = false; };
-  }, [intensity, regenKey]);
+  }, [intensity, regenKey, equipment]);
 
   // Share as image handler
   const handleShareImage = async () => {
@@ -172,6 +174,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
           </div>
         </div>
       )}
+      <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
       <div className="mb-2 text-blue-300 font-semibold text-lg">{metcon.type}</div>
       <div className="mb-2 text-white/80 italic">{metcon.description}</div>
       <ul className="list-disc pl-5">
