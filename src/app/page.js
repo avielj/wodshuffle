@@ -107,12 +107,37 @@ export default function Home() {
   };
   const handleCollapseReset = () => setCollapsed(false);
 
+  const ensureWodInDb = async (wod) => {
+    if (wod?.id) return wod.id;
+    // Try to find by name (avoid duplicates)
+    const res = await fetch(`/api/admin/workouts`);
+    const allWods = await res.json();
+    const found = allWods.find(w => w.name === wod.name);
+    if (found) return found.id;
+    // Otherwise, create it
+    const createRes = await fetch(`/api/admin/workouts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: wod.name,
+        format: wod.type || wod.format || '',
+        description: wod.description || '',
+        exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
+        equipment: wod.equipment || [],
+      })
+    });
+    const created = await createRes.json();
+    return created.id;
+  };
+
   const handleFavorite = async (workout) => {
-    if (profile?.id && workout?.wod?.id) {
+    if (profile?.id && workout?.wod) {
+      const wodId = await ensureWodInDb(workout.wod);
+      if (!wodId) return;
       await fetch('/api/user/favorites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: profile.id, wodId: workout.wod.id })
+        body: JSON.stringify({ userId: profile.id, wodId })
       });
       // Refresh favorites
       const res = await fetch(`/api/user/favorites?userId=${profile.id}`);
@@ -149,11 +174,13 @@ export default function Home() {
 
   // Save to history when a new workout is generated
   const handleAddToHistory = async (workout) => {
-    if (profile?.id && workout?.wod?.id) {
+    if (profile?.id && workout?.wod) {
+      const wodId = await ensureWodInDb(workout.wod);
+      if (!wodId) return;
       await fetch('/api/user/history', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: profile.id, wodId: workout.wod.id })
+        body: JSON.stringify({ userId: profile.id, wodId })
       });
       // Refresh history
       const res = await fetch(`/api/user/history?userId=${profile.id}`);
