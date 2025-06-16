@@ -189,14 +189,13 @@ export default function Home() {
       {/* Navigation Tabs */}
       <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0 relative">
         <div className="flex items-center gap-2 mb-2 sm:mb-0">
-          <Image
-            src={profile.avatar || "https://api.dicebear.com/7.x/identicon/svg?seed=CrossFitter"}
-            alt="Avatar"
-            width={32}
-            height={32}
-            className="h-8 w-8 rounded border"
-            unoptimized={profile.avatar?.startsWith("http")}
-            priority
+          <img
+            src="/logo.png"
+            alt="WOD Shuffler Logo"
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded bg-white/10 border border-white/20 object-contain"
+            style={{ objectFit: 'contain' }}
           />
           <span className="font-bold text-lg sm:text-xl tracking-tight text-blue-400">WOD Shuffler</span>
         </div>
