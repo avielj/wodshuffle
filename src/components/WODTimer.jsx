@@ -42,7 +42,9 @@ const formatTime = (sec) => {
 export default function WODTimer() {
   const [timerType, setTimerType] = useState(null); // null = show menu
   const [minutes, setMinutes] = useState(10);
-  const [interval, setIntervalLength] = useState(1); // For EMOM
+  const [interval, setIntervalLength] = useState(1); // For EMOM: work (min)
+  const [emomRest, setEmomRest] = useState(0); // For EMOM: rest (min)
+  const [isRest, setIsRest] = useState(false); // For EMOM: track if in rest
   const [tabataWork, setTabataWork] = useState(20);
   const [tabataRest, setTabataRest] = useState(10);
   const [tabataRounds, setTabataRounds] = useState(8);
@@ -64,6 +66,7 @@ export default function WODTimer() {
     setRound(1);
     setStatus("");
     setCountdown(false);
+    setIsRest(false);
     if (timerRef.current) clearInterval(timerRef.current);
     if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
     if (countdownTimeout.current) clearTimeout(countdownTimeout.current);
@@ -77,6 +80,7 @@ export default function WODTimer() {
     setRound(1);
     setStatus("Stopped");
     setCountdown(false);
+    setIsRest(false);
     if (timerRef.current) clearInterval(timerRef.current);
     if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
     if (countdownTimeout.current) clearTimeout(countdownTimeout.current);
@@ -115,13 +119,16 @@ export default function WODTimer() {
     setPaused(false);
     let totalSeconds = 0;
     let intervalSeconds = 0;
+    let restSeconds = 0;
     let rounds = 1;
     if (timerType === "emom") {
       totalSeconds = minutes * 60;
       intervalSeconds = interval * 60;
+      restSeconds = emomRest * 60;
       setTimeLeft(intervalSeconds);
       setRound(1);
-      setStatus(`EMOM: Round 1/${minutes}`);
+      setStatus(`EMOM: Work 1/${minutes}`);
+      setIsRest(false);
     } else if (timerType === "for_time") {
       if (countDownMode) {
         setTimeLeft(minutes * 60);
@@ -142,19 +149,49 @@ export default function WODTimer() {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
-        if (timerType === "for_time") {
-          if (countDownMode) {
-            if (prev <= 1) {
-              beep(880, 500, 1);
-              setStatus("For Time Complete");
-              clearInterval(timerRef.current);
-              setRunning(false);
-              return 0;
+        if (timerType === "emom") {
+          if (prev <= 1) {
+            if (!isRest && emomRest > 0) {
+              // Switch to rest
+              beep(440, 200, 1);
+              setIsRest(true);
+              setStatus(`EMOM: Rest ${round}/${minutes}`);
+              return restSeconds;
+            } else if (isRest) {
+              // Switch to next work round
+              if (round < minutes) {
+                beep(440, 200, 1);
+                setRound((r) => r + 1);
+                setStatus(`EMOM: Work ${round + 1}/${minutes}`);
+                setIsRest(false);
+                return intervalSeconds;
+              } else {
+                beep(880, 500, 1);
+                setStatus("EMOM Complete");
+                clearInterval(timerRef.current);
+                setRunning(false);
+                setIsRest(false);
+                return 0;
+              }
+            } else {
+              // No rest, just next round
+              if (round < minutes) {
+                beep(440, 200, 1);
+                setRound((r) => r + 1);
+                setStatus(`EMOM: Work ${round + 1}/${minutes}`);
+                return intervalSeconds;
+              } else {
+                beep(880, 500, 1);
+                setStatus("EMOM Complete");
+                clearInterval(timerRef.current);
+                setRunning(false);
+                return 0;
+              }
             }
+          } else {
+            // 3,2,1 beep before end
             if (prev <= 4 && prev > 1) beep(880, 100, 0.5);
             return prev - 1;
-          } else {
-            return prev + 1;
           }
         }
         if (prev <= 1) {
@@ -273,7 +310,7 @@ export default function WODTimer() {
                   value={minutes}
                   onChange={e => setMinutes(Number(e.target.value))}
                   className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Minutes"
+                  placeholder="Total Minutes"
                 />
                 <input
                   type="number"
@@ -282,7 +319,16 @@ export default function WODTimer() {
                   value={interval}
                   onChange={e => setIntervalLength(Number(e.target.value))}
                   className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Interval (min)"
+                  placeholder="Work (min)"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  max={10}
+                  value={emomRest}
+                  onChange={e => setEmomRest(Number(e.target.value))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Rest (min)"
                 />
               </>
             )}

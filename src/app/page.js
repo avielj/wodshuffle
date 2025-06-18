@@ -181,9 +181,10 @@ export default function Home() {
     }
   };
 
+  // Only allow saving favorites/history if logged in
   const handleFavorite = async (workout) => {
     if (!profile?.id) {
-      alert('Please sign up or log in to save favorites!');
+      // Guests can use generator, but cannot save favorites
       return;
     }
     console.log('handleFavorite called with:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
@@ -339,7 +340,9 @@ export default function Home() {
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
             onClick={() => { setActiveTab('profile'); setMenuOpen(false); }}
-          >Profile</button>
+          >
+            {profile?.id ? 'Profile' : 'Login'}
+          </button>
           <button
             className={`ml-2 px-3 py-1 rounded ${activeTab==='timer' ? 'bg-blue-800 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
             onClick={() => { setActiveTab('timer'); setMenuOpen(false); }}
@@ -385,7 +388,9 @@ export default function Home() {
                 onRegenerate={handleRegenerateFavorite}
               />
             ) : (
-              <div className="text-center text-pink-400 py-8 font-semibold text-lg">Please sign up or log in to use Favorites!</div>
+              <div className="text-center text-pink-400 py-8 font-semibold text-lg">
+                Please <a href="/login" className="underline text-blue-400 hover:text-blue-600">sign up or log in</a> to use Favorites!
+              </div>
             )
           ) : activeTab === 'history' ? (
             profile?.id ? (
@@ -394,7 +399,9 @@ export default function Home() {
                 onClear={handleClearHistory}
               />
             ) : (
-              <div className="text-center text-blue-400 py-8 font-semibold text-lg">Please sign up or log in to view your History!</div>
+              <div className="text-center text-blue-400 py-8 font-semibold text-lg">
+                Please <a href="/login" className="underline text-pink-400 hover:text-pink-600">sign up or log in</a> to view your History!
+              </div>
             )
           ) : activeTab === 'metcon' ? (
             <MetconOnlyGenerator
