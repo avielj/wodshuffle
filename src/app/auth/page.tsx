@@ -30,6 +30,7 @@ export default function AuthTabs() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+        credentials: 'include', // Ensure cookies are set
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Login failed');
@@ -39,6 +40,7 @@ export default function AuthTabs() {
       // Store user profile
       if (typeof window !== 'undefined') {
         localStorage.setItem('wodProfile', JSON.stringify({ email: loginEmail }));
+        localStorage.setItem('wodIsLoggedIn', '1'); // Ensure main page fetches profile
         // Load user-specific favorites/history
         const favs = JSON.parse(localStorage.getItem(`wodFavorites_${loginEmail}`) || '[]');
         const hist = JSON.parse(localStorage.getItem(`wodHistory_${loginEmail}`) || '[]');
