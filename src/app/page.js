@@ -76,6 +76,15 @@ export default function Home() {
       .then(data => setGlobalWodsGenerated(data.wodsGenerated || 0));
   }, []);
 
+  // Register service worker for PWA support
+  useEffect(() => {
+    if (typeof window !== "undefined" && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('Service worker registered:', reg))
+        .catch(err => console.warn('Service worker registration failed:', err));
+    }
+  }, []);
+
   // Logout handler
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -123,25 +132,39 @@ export default function Home() {
         format: wod.type || wod.format || '',
         description: wod.description || '',
         exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
-        equipment: wod.equipment || [],
+        equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
       })
     });
     const created = await createRes.json();
+    if (!created.id) {
+      console.error('Failed to create WOD in DB:', created, wod);
+      return null;
+    }
     return created.id;
   };
 
   const handleFavorite = async (workout) => {
     if (profile?.id && workout?.wod) {
       const wodId = await ensureWodInDb(workout.wod);
-      if (!wodId) return;
-      await fetch('/api/user/favorites', {
+      if (!wodId) {
+        alert('Could not save WOD to database.');
+        return;
+      }
+      const res = await fetch('/api/user/favorites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: profile.id, wodId })
       });
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Failed to save favorite: ' + (err.error || res.status));
+        return;
+      }
       // Refresh favorites
-      const res = await fetch(`/api/user/favorites?userId=${profile.id}`);
-      setFavorites(await res.json());
+      const favRes = await fetch(`/api/user/favorites?userId=${profile.id}`);
+      setFavorites(await favRes.json());
+    } else {
+      alert('Missing user or workout info.');
     }
   };
 
@@ -176,15 +199,25 @@ export default function Home() {
   const handleAddToHistory = async (workout) => {
     if (profile?.id && workout?.wod) {
       const wodId = await ensureWodInDb(workout.wod);
-      if (!wodId) return;
-      await fetch('/api/user/history', {
+      if (!wodId) {
+        alert('Could not save WOD to database.');
+        return;
+      }
+      const res = await fetch('/api/user/history', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: profile.id, wodId })
       });
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Failed to save history: ' + (err.error || res.status));
+        return;
+      }
       // Refresh history
-      const res = await fetch(`/api/user/history?userId=${profile.id}`);
-      setHistory(await res.json());
+      const histRes = await fetch(`/api/user/history?userId=${profile.id}`);
+      setHistory(await histRes.json());
+    } else {
+      alert('Missing user or workout info.');
     }
   };
 

@@ -46,6 +46,7 @@ export default function RootLayout({ children }) {
         <meta property="twitter:title" content="WOD Shuffler" />
         <meta property="twitter:description" content="Craft custom CrossFit workouts with ease! Select your target muscle groups and intensity level, and WOD Shuffler generates a personalized workout with warmup, strength, and metcon sections, including benchmark workout suggestions." />
         <meta property="twitter:image" content="/logo.png" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* <nav className="w-full flex justify-center py-4 bg-black/30 mb-4">

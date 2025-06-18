@@ -18,13 +18,21 @@ export async function GET(req: NextRequest) {
 
 // POST: Add a history entry (expects { userId, wodId })
 export async function POST(req: NextRequest) {
-  const { userId, wodId } = await req.json();
-  if (!userId || !wodId) return NextResponse.json({ error: "Missing userId or wodId" }, { status: 400 });
-  const entry = await prisma.history.create({
-    data: { userId, wodId },
-    include: { wod: true },
-  });
-  return NextResponse.json(entry);
+  try {
+    const { userId, wodId } = await req.json();
+    if (!userId || !wodId) {
+      console.error('Missing userId or wodId', { userId, wodId });
+      return NextResponse.json({ error: "Missing userId or wodId" }, { status: 400 });
+    }
+    const entry = await prisma.history.create({
+      data: { userId, wodId },
+      include: { wod: true },
+    });
+    return NextResponse.json(entry);
+  } catch (err) {
+    console.error('Error in history POST:', err);
+    return NextResponse.json({ error: err.message || err.toString() }, { status: 500 });
+  }
 }
 
 // DELETE: Remove a history entry (expects { userId, wodId })
