@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 
 const TIMER_TYPES = [
   { value: "emom", label: "EMOM" },
-  { value: "for_time", label: "For Time" },
   { value: "amrap", label: "AMRAP" },
   { value: "tabata", label: "Tabata" },
 ];
@@ -41,7 +40,7 @@ const formatTime = (sec) => {
 };
 
 export default function WODTimer() {
-  const [timerType, setTimerType] = useState("emom");
+  const [timerType, setTimerType] = useState(null); // null = show menu
   const [minutes, setMinutes] = useState(10);
   const [interval, setIntervalLength] = useState(1); // For EMOM
   const [tabataWork, setTabataWork] = useState(20);
@@ -228,142 +227,158 @@ export default function WODTimer() {
   return (
     <div className="max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center">
       <h2 className="text-3xl font-bold mb-4">WOD Timer</h2>
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center">
-        <div className="flex gap-2 flex-wrap justify-center">
-          {TIMER_TYPES.map(t => (
+      {timerType === null ? (
+        <div className="flex flex-col gap-4 mb-6 items-center">
+          <button
+            type="button"
+            className="px-4 py-2 rounded font-bold shadow transition-colors duration-150 text-white text-lg bg-green-500 hover:bg-green-600 w-40 mb-2"
+            onClick={() => { setTimerType('emom'); reset(); }}
+          >
+            EMOM
+          </button>
+          <div className="flex flex-col gap-2 w-40">
             <button
-              key={t.value}
               type="button"
-              className={`px-4 py-2 rounded font-bold shadow transition-colors duration-150 text-white text-lg
-                ${timerType === t.value ? 'bg-blue-600 scale-105' :
-                  t.value === 'emom' ? 'bg-green-500 hover:bg-green-600' :
-                  t.value === 'for_time' ? 'bg-pink-500 hover:bg-pink-600' :
-                  t.value === 'amrap' ? 'bg-yellow-500 hover:bg-yellow-600 text-black' :
-                  t.value === 'tabata' ? 'bg-purple-500 hover:bg-purple-600' :
-                  'bg-gray-400 hover:bg-gray-500'}
-              `}
-              onClick={() => { setTimerType(t.value); reset(); }}
-              style={{ minWidth: 90 }}
+              className="px-4 py-2 rounded font-bold shadow transition-colors duration-150 text-black text-lg bg-yellow-400 hover:bg-yellow-500"
+              onClick={() => { setTimerType('amrap'); reset(); }}
             >
-              {t.label}
+              AMRAP
             </button>
-          ))}
+            <button
+              type="button"
+              className="px-4 py-2 rounded font-bold shadow transition-colors duration-150 text-white text-lg bg-purple-500 hover:bg-purple-600"
+              onClick={() => { setTimerType('tabata'); reset(); }}
+            >
+              Tabata
+            </button>
+          </div>
         </div>
-        <label className="flex items-center gap-2 text-sm text-white/80">
-          <input
-            type="checkbox"
-            checked={countDownMode}
-            onChange={e => setCountDownMode(e.target.checked)}
-            className="accent-blue-600 w-5 h-5"
-          />
-          Count Down
-        </label>
-        {timerType === "emom" && (
-          <>
-            <input
-              type="number"
-              min={1}
-              max={60}
-              value={minutes}
-              onChange={e => setMinutes(Number(e.target.value))}
-              className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-              placeholder="Minutes"
-            />
-            <input
-              type="number"
-              min={1}
-              max={10}
-              value={interval}
-              onChange={e => setIntervalLength(Number(e.target.value))}
-              className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-              placeholder="Interval (min)"
-            />
-          </>
-        )}
-        {(timerType === "amrap" || timerType === "for_time") && (
-          <input
-            type="number"
-            min={1}
-            max={60}
-            value={minutes}
-            onChange={e => setMinutes(Number(e.target.value))}
-            className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-            placeholder="Minutes"
-          />
-        )}
-        {timerType === "tabata" && (
-          <>
-            <input
-              type="number"
-              min={1}
-              max={50}
-              value={tabataRounds}
-              onChange={e => setTabataRounds(safeInt(e.target.value, 8))}
-              className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-              placeholder="Rounds"
-            />
-            <input
-              type="number"
-              min={1}
-              max={300}
-              value={tabataWork}
-              onChange={e => setTabataWork(safeInt(e.target.value, 20))}
-              className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-              placeholder="Work (s)"
-            />
-            <input
-              type="number"
-              min={1}
-              max={300}
-              value={tabataRest}
-              onChange={e => setTabataRest(safeInt(e.target.value, 10))}
-              className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-              placeholder="Rest (s)"
-            />
-          </>
-        )}
-      </div>
-      <div className="mb-6">
-        <div className="text-5xl font-mono mb-2">
-          {timerType === "for_time"
-            ? formatTime(timeLeft)
-            : formatTime(timeLeft)}
+      ) : (
+        <div className="relative">
+          <button
+            className="absolute left-0 top-0 bg-gray-700 hover:bg-gray-800 text-white px-2 py-1 rounded text-xs font-bold z-10"
+            style={{ minWidth: 32, minHeight: 32 }}
+            onClick={() => { setTimerType(null); reset(); }}
+          >
+            ← Back
+          </button>
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center mt-6">
+            {/* Timer settings UI (copied from previous logic, but only for selected timerType) */}
+            {timerType === "emom" && (
+              <>
+                <input
+                  type="number"
+                  min={1}
+                  max={60}
+                  value={minutes}
+                  onChange={e => setMinutes(Number(e.target.value))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Minutes"
+                />
+                <input
+                  type="number"
+                  min={1}
+                  max={10}
+                  value={interval}
+                  onChange={e => setIntervalLength(Number(e.target.value))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Interval (min)"
+                />
+              </>
+            )}
+            {timerType === "amrap" && (
+              <input
+                type="number"
+                min={1}
+                max={60}
+                value={minutes}
+                onChange={e => setMinutes(Number(e.target.value))}
+                className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                placeholder="Minutes"
+              />
+            )}
+            {timerType === "tabata" && (
+              <>
+                <input
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={tabataRounds}
+                  onChange={e => setTabataRounds(safeInt(e.target.value, 8))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Rounds"
+                />
+                <input
+                  type="number"
+                  min={1}
+                  max={300}
+                  value={tabataWork}
+                  onChange={e => setTabataWork(safeInt(e.target.value, 20))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Work (s)"
+                />
+                <input
+                  type="number"
+                  min={1}
+                  max={300}
+                  value={tabataRest}
+                  onChange={e => setTabataRest(safeInt(e.target.value, 10))}
+                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
+                  placeholder="Rest (s)"
+                />
+              </>
+            )}
+            <label className="flex items-center gap-2 text-sm text-white/80">
+              <input
+                type="checkbox"
+                checked={countDownMode}
+                onChange={e => setCountDownMode(e.target.checked)}
+                className="accent-blue-600 w-5 h-5"
+              />
+              Count Down
+            </label>
+          </div>
+          <div className="mb-6">
+            <div className="text-5xl font-mono mb-2">
+              {formatTime(timeLeft)}
+            </div>
+            <div className="text-lg text-blue-200 font-semibold mb-2">{status}</div>
+            {timerType !== "tabata" && <div className="text-sm text-gray-300">Round: {round}</div>}
+          </div>
+          <div className="flex gap-2 flex-wrap justify-center mt-4">
+            {!running && !countdown && (
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
+                onClick={startCountdown}
+              >Start</button>
+            )}
+            {running && !paused && (
+              <button
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded font-bold shadow"
+                onClick={pause}
+              >Pause</button>
+            )}
+            {running && paused && (
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
+                onClick={resume}
+              >Resume</button>
+            )}
+            {(running || paused || countdown) && (
+              <button
+                className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-bold shadow"
+                onClick={reset}
+              >Reset</button>
+            )}
+            {(running || paused || countdown) && (
+              <button
+                className="bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded font-bold shadow"
+                onClick={stop}
+              >Stop</button>
+            )}
+          </div>
         </div>
-        <div className="text-lg text-blue-200 font-semibold mb-2">{status}</div>
-        {timerType !== "for_time" && <div className="text-sm text-gray-300">Round: {round}</div>}
-      </div>
-      <div className="flex gap-2 flex-wrap justify-center mt-4">
-        {!running && !countdown && (
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
-            onClick={startCountdown}
-          >Start</button>
-        )}
-        {running && !paused && (
-          <button
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded font-bold shadow"
-            onClick={pause}
-          >Pause</button>
-        )}
-        {running && paused && (
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
-            onClick={resume}
-          >Resume</button>
-        )}
-        {(running || paused || countdown) && (
-          <button
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-bold shadow"
-            onClick={reset}
-          >Reset</button>
-        )}
-        {(running || paused || countdown) && (
-          <button
-            className="bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded font-bold shadow"
-            onClick={stop}
-          >Stop</button>
-        )}
-      </div>
+      )}
     </div>
   );
 }

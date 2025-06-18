@@ -127,23 +127,30 @@ export default function Home() {
     const found = allWods.find(w => w.name === wod.name);
     if (found) return found.id;
     // Otherwise, create it
-    const createRes = await fetch(`/api/admin/workouts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: wod.name,
-        format: wod.type || wod.format || '',
-        description: wod.description || '',
-        exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
-        equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
-      })
-    });
-    const created = await createRes.json();
-    if (!created.id) {
-      console.error('Failed to create WOD in DB:', created, wod);
+    try {
+      const createRes = await fetch(`/api/admin/workouts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: wod.name,
+          format: wod.type || wod.format || '',
+          description: wod.description || '',
+          exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
+          equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
+        })
+      });
+      const created = await createRes.json();
+      if (!createRes.ok) {
+        console.error('Failed to create WOD in DB:', created, wod);
+        alert('Failed to create WOD: ' + (created.error || createRes.status));
+        return null;
+      }
+      return created.id;
+    } catch (err) {
+      console.error('Error creating WOD:', err);
+      alert('Error creating WOD: ' + (err.message || err.toString()));
       return null;
     }
-    return created.id;
   };
 
   const handleFavorite = async (workout) => {

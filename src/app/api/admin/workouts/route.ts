@@ -11,7 +11,16 @@ export async function GET() {
 
 // POST: Create a new workout
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const wod = await prisma.wod.create({ data });
-  return NextResponse.json(wod);
+  try {
+    const data = await req.json();
+    // Validate required fields
+    if (!data.name || !data.format) {
+      return NextResponse.json({ error: 'Missing required fields: name, format' }, { status: 400 });
+    }
+    const wod = await prisma.wod.create({ data });
+    return NextResponse.json(wod);
+  } catch (err) {
+    console.error('Error creating WOD:', err);
+    return NextResponse.json({ error: err.message || 'Unknown error' }, { status: 500 });
+  }
 }

@@ -164,7 +164,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
           </button>
           {onFavorite && (
             <button
-              onClick={() => onFavorite({ wod })}
+              onClick={() => onFavorite(workout)}
               className="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center justify-center min-w-[44px] min-h-[44px]"
               title="Add to Favorites"
             >
