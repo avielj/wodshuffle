@@ -94,7 +94,7 @@ export default function MetconOnlyGenerator({ intensity, onGenerate, onFavorite 
     <div id="metcon-card" className="mt-8 w-full max-w-2xl glassy text-white p-2 sm:p-6 rounded-lg shadow-lg fade-in border border-white/10 relative">
       <div className="absolute bottom-2 right-4 text-xs text-white/40 select-none">wodshuffler.app</div>
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2 sm:gap-0">
-        <h2 className="text-xl sm:text-3xl font-bold">MetCon Only</h2>
+        <h2 className="text-xl sm:text-3xl font-bold">{metcon.name || 'MetCon'}</h2>
         <div className="flex gap-2 flex-wrap justify-center hide-for-export">
           <button
             onClick={handleShareImage}

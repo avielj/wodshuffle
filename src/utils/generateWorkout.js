@@ -111,6 +111,14 @@ const generateWorkout = async (muscleGroups, intensity, equipment = [], custom =
   }
   let wodIdx = getRandomInt(0, filteredWods.length - 1);
   let wod = filteredWods[wodIdx];
+  // Fallback: if no wod or no name, generate a descriptive name
+  if (!wod || !wod.name) {
+    wod = wod || {};
+    wod.name = `Random WOD (${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()})`;
+    wod.format = wod.format || 'For Time';
+    wod.description = wod.description || 'Randomly generated workout.';
+    wod.exercises = wod.exercises || [];
+  }
 
   // If metconOnly, return just the WOD (MetCon) portion
   if (custom.metconOnly) {

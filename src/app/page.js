@@ -125,7 +125,17 @@ export default function Home() {
     const res = await fetch(`/api/admin/workouts`);
     const allWods = await res.json();
     const found = allWods.find(w => w.name === wod.name);
-    if (found) return found.id;
+    if (found) {
+      // Check if details match; if so, reuse, else create with unique name
+      const detailsMatch =
+        found.format === (wod.type || wod.format || 'For Time') &&
+        found.description === (wod.description || '') &&
+        JSON.stringify(found.exercises) === JSON.stringify(Array.isArray(wod.exercises) ? wod.exercises : []) &&
+        JSON.stringify(found.equipment) === JSON.stringify(Array.isArray(wod.equipment) ? wod.equipment : []);
+      if (detailsMatch) return found.id;
+      // Otherwise, append a unique suffix to name
+      wod.name = `${wod.name} (${Date.now().toString().slice(-6)})`;
+    }
     // Otherwise, create it
     try {
       const createRes = await fetch(`/api/admin/workouts`, {
