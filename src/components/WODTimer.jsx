@@ -330,8 +330,11 @@ export default function WODTimer() {
 
   // UI
   return (
-    <div ref={timerContainerRef} className={`max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center${fullscreen ? ' fixed inset-0 z-50 bg-black flex flex-col justify-center items-center' : ''}`}>
-      <h2 className="text-3xl font-bold mb-4">WOD Timer</h2>
+    <div ref={timerContainerRef} className={`max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center${fullscreen ? ' fixed inset-0 z-50 flex flex-col justify-center items-center' : ''}`} style={fullscreen ? {width: '100vw', height: '100vh', background: '#000'} : {}}>
+      {fullscreen && (
+        <div style={{position: 'absolute', inset: 0, background: '#000', zIndex: 0}}></div>
+      )}
+      <h2 className="text-3xl font-bold mb-4" style={fullscreen ? {zIndex: 1, color: textColor} : {}}>WOD Timer</h2>
       {timerType === null ? (
         <div className="flex flex-col gap-4 mb-6 items-center">
           <button
@@ -486,11 +489,22 @@ export default function WODTimer() {
             {/* Large timer display when running/paused/countdown */}
             {(running || paused || countdown) && (
               <div className="flex flex-col items-center justify-center my-8">
-                <div className="text-7xl sm:text-8xl font-mono font-bold drop-shadow-lg mb-4 select-none" style={{letterSpacing:'0.05em', background: bgColor, color: textColor, borderRadius: '1rem', padding: '1.5rem 2.5rem', minWidth: '320px'}}>
+                <div className="font-mono font-bold drop-shadow-lg mb-4 select-none"
+                  style={{
+                    letterSpacing: '0.05em',
+                    background: bgColor,
+                    color: textColor,
+                    borderRadius: '1rem',
+                    padding: fullscreen ? '3rem 4rem' : '1.5rem 2.5rem',
+                    minWidth: fullscreen ? '420px' : '320px',
+                    fontSize: fullscreen ? '8rem' : '4.5rem',
+                    zIndex: 1
+                  }}
+                >
                   {countdown ? (status.startsWith('Starting') ? status.replace('Starting in ', '') : status) : formatTime(timeLeft)}
                 </div>
-                {timerType !== "tabata" && <div className="text-lg" style={{color: textColor}}>Round: {round}</div>}
-                <div className="text-xl mt-2" style={{color: textColor}}>{status}</div>
+                {timerType !== "tabata" && <div className="text-lg" style={{color: textColor, zIndex: 1}}>Round: {round}</div>}
+                <div className="text-xl mt-2" style={{color: textColor, zIndex: 1}}>{status}</div>
               </div>
             )}
             <div className="flex gap-2 flex-wrap justify-center mt-4">
