@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import Link from "next/link";
+import AddToHomeScreenBanner from "../components/AddToHomeScreenBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Removed AdSense ad unit from layout body to prevent site push-down */}
         {children}
+        <AddToHomeScreenBanner />
       </body>
     </html>
   );
