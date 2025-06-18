@@ -182,6 +182,10 @@ export default function Home() {
   };
 
   const handleFavorite = async (workout) => {
+    if (!profile?.id) {
+      alert('Please sign up or log in to save favorites!');
+      return;
+    }
     console.log('handleFavorite called with:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
     if (profile?.id && workout?.wod) {
       const wodId = await ensureWodInDb(workout.wod);
@@ -374,16 +378,24 @@ export default function Home() {
               )}
             </div>
           ) : activeTab === 'favorites' ? (
-            <FavoritesList
-              favorites={favorites}
-              onRemove={handleRemoveFavorite}
-              onRegenerate={handleRegenerateFavorite}
-            />
+            profile?.id ? (
+              <FavoritesList
+                favorites={favorites}
+                onRemove={handleRemoveFavorite}
+                onRegenerate={handleRegenerateFavorite}
+              />
+            ) : (
+              <div className="text-center text-pink-400 py-8 font-semibold text-lg">Please sign up or log in to use Favorites!</div>
+            )
           ) : activeTab === 'history' ? (
-            <HistoryList
-              history={history}
-              onClear={handleClearHistory}
-            />
+            profile?.id ? (
+              <HistoryList
+                history={history}
+                onClear={handleClearHistory}
+              />
+            ) : (
+              <div className="text-center text-blue-400 py-8 font-semibold text-lg">Please sign up or log in to view your History!</div>
+            )
           ) : activeTab === 'metcon' ? (
             <MetconOnlyGenerator
               intensity={intensity}
