@@ -45,28 +45,31 @@ export default function Home() {
 
   React.useEffect(() => { setMounted(true); }, []);
 
-  // Load preferences and history on mount (optional, can be removed if not needed)
+  // Load user profile from API on mount (replace localStorage logic)
   React.useEffect(() => {
-    // Load preferences and theme from localStorage
-    if (typeof window !== "undefined") {
-      const saved = JSON.parse(localStorage.getItem("wodPrefs") || "{}" );
-      setBodyParts(saved.bodyParts || []);
-      setIntensity(saved.intensity || "rx");
-      const profileData = JSON.parse(localStorage.getItem("wodProfile") || "{}" );
-      setProfile(profileData);
-      const savedTheme = localStorage.getItem("wodTheme") || 'dark';
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      // Fetch favorites and history from API if logged in
-      if (profileData.id) {
-        fetch(`/api/user/favorites?userId=${profileData.id}`)
-          .then(res => res.json())
-          .then(data => setFavorites(data || []));
-        fetch(`/api/user/history?userId=${profileData.id}`)
-          .then(res => res.json())
-          .then(data => setHistory(data || []));
+    async function loadProfileAndData() {
+      try {
+        const res = await fetch('/api/user/profile');
+        if (res.ok) {
+          const user = await res.json();
+          setProfile(user);
+          // Fetch favorites and history from API
+          const favRes = await fetch(`/api/user/favorites?userId=${user.id}`);
+          setFavorites(await favRes.json());
+          const histRes = await fetch(`/api/user/history?userId=${user.id}`);
+          setHistory(await histRes.json());
+        } else {
+          setProfile({});
+          setFavorites([]);
+          setHistory([]);
+        }
+      } catch (e) {
+        setProfile({});
+        setFavorites([]);
+        setHistory([]);
       }
     }
+    loadProfileAndData();
   }, []);
 
   // Fetch global WODs generated count on mount
