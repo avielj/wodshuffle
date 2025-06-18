@@ -229,13 +229,26 @@ export default function WODTimer() {
     <div className="max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center">
       <h2 className="text-3xl font-bold mb-4">WOD Timer</h2>
       <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center">
-        <select
-          className="rounded px-3 py-2 bg-white/20 text-white font-semibold"
-          value={timerType}
-          onChange={e => { setTimerType(e.target.value); reset(); }}
-        >
-          {TIMER_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
+        <div className="flex gap-2 flex-wrap justify-center">
+          {TIMER_TYPES.map(t => (
+            <button
+              key={t.value}
+              type="button"
+              className={`px-4 py-2 rounded font-bold shadow transition-colors duration-150 text-white text-lg
+                ${timerType === t.value ? 'bg-blue-600 scale-105' :
+                  t.value === 'emom' ? 'bg-green-500 hover:bg-green-600' :
+                  t.value === 'for_time' ? 'bg-pink-500 hover:bg-pink-600' :
+                  t.value === 'amrap' ? 'bg-yellow-500 hover:bg-yellow-600 text-black' :
+                  t.value === 'tabata' ? 'bg-purple-500 hover:bg-purple-600' :
+                  'bg-gray-400 hover:bg-gray-500'}
+              `}
+              onClick={() => { setTimerType(t.value); reset(); }}
+              style={{ minWidth: 90 }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
         <label className="flex items-center gap-2 text-sm text-white/80">
           <input
             type="checkbox"

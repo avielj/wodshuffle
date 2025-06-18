@@ -67,7 +67,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
         if (isMounted) {
           setWorkout(wod);
           setLoading(false);
-          if (onGenerate) onGenerate(wod);
+          if (onGenerate) onGenerate({ wod });
         }
       })
       .catch((err) => {
@@ -164,7 +164,7 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
           </button>
           {onFavorite && (
             <button
-              onClick={() => onFavorite(workout)}
+              onClick={() => onFavorite({ wod })}
               className="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center justify-center min-w-[44px] min-h-[44px]"
               title="Add to Favorites"
             >
