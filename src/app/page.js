@@ -389,7 +389,7 @@ export default function Home() {
               />
             ) : (
               <div className="text-center text-pink-400 py-8 font-semibold text-lg">
-                Please <a href="/login" className="underline text-blue-400 hover:text-blue-600">sign up or log in</a> to use Favorites!
+                Please <a href="https://wodshuffle.vercel.app/auth" className="underline text-blue-400 hover:text-blue-600">sign up or log in</a> to use Favorites!
               </div>
             )
           ) : activeTab === 'history' ? (
@@ -400,7 +400,7 @@ export default function Home() {
               />
             ) : (
               <div className="text-center text-blue-400 py-8 font-semibold text-lg">
-                Please <a href="/login" className="underline text-pink-400 hover:text-pink-600">sign up or log in</a> to view your History!
+                Please <a href="https://wodshuffle.vercel.app/auth" className="underline text-pink-400 hover:text-pink-600">sign up or log in</a> to view your History!
               </div>
             )
           ) : activeTab === 'metcon' ? (
