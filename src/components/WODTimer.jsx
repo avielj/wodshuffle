@@ -59,6 +59,7 @@ export default function WODTimer() {
   const countdownTimeout = useRef();
   const [fullscreen, setFullscreen] = useState(false);
   const wakeLockRef = useRef(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const [bgColor, setBgColor] = useState('#000000');
   const [textColor, setTextColor] = useState('#ffffff');
 
@@ -175,39 +176,8 @@ export default function WODTimer() {
     return isNaN(n) || n <= 0 ? fallback : n;
   };
 
-  // Main timer logic
-  const startTimer = () => {
-    setRunning(true);
-    setPaused(false);
-    let totalSeconds = 0;
-    let intervalSeconds = 0;
-    let restSeconds = 0;
-    let rounds = 1;
-    if (timerType === "emom") {
-      totalSeconds = minutes * 60;
-      intervalSeconds = interval * 60;
-      restSeconds = emomRest * 60;
-      setTimeLeft(intervalSeconds);
-      setRound(1);
-      setStatus(`EMOM: Work 1/${minutes}`);
-      setIsRest(false);
-    } else if (timerType === "for_time") {
-      if (countDownMode) {
-        setTimeLeft(minutes * 60);
-        setStatus("For Time: Counting down");
-      } else {
-        setTimeLeft(0);
-        setStatus("For Time: Counting up");
-      }
-    } else if (timerType === "amrap") {
-      totalSeconds = minutes * 60;
-      setTimeLeft(totalSeconds);
-      setStatus(`AMRAP: ${minutes} min`);
-    } else if (timerType === "tabata") {
-      setTimeLeft(tabataWork);
-      setRound(1);
-      setStatus(`Tabata: Work 1/${tabataRounds}`);
-    }
+  // Extracted interval logic
+  const runTimerInterval = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -305,6 +275,42 @@ export default function WODTimer() {
     }, 1000);
   };
 
+  // Main timer logic
+  const startTimer = () => {
+    setRunning(true);
+    setPaused(false);
+    let totalSeconds = 0;
+    let intervalSeconds = 0;
+    let restSeconds = 0;
+    let rounds = 1;
+    if (timerType === "emom") {
+      totalSeconds = minutes * 60;
+      intervalSeconds = interval * 60;
+      restSeconds = emomRest * 60;
+      setTimeLeft(intervalSeconds);
+      setRound(1);
+      setStatus(`EMOM: Work 1/${minutes}`);
+      setIsRest(false);
+    } else if (timerType === "for_time") {
+      if (countDownMode) {
+        setTimeLeft(minutes * 60);
+        setStatus("For Time: Counting down");
+      } else {
+        setTimeLeft(0);
+        setStatus("For Time: Counting up");
+      }
+    } else if (timerType === "amrap") {
+      totalSeconds = minutes * 60;
+      setTimeLeft(totalSeconds);
+      setStatus(`AMRAP: ${minutes} min`);
+    } else if (timerType === "tabata") {
+      setTimeLeft(tabataWork);
+      setRound(1);
+      setStatus(`Tabata: Work 1/${tabataRounds}`);
+    }
+    runTimerInterval();
+  };
+
   // Pause/Resume
   const pause = () => {
     setPaused(true);
@@ -312,7 +318,7 @@ export default function WODTimer() {
   };
   const resume = () => {
     setPaused(false);
-    startTimer();
+    runTimerInterval();
   };
 
   // Cleanup
@@ -449,14 +455,32 @@ export default function WODTimer() {
                   />
                 </div>
               )}
-              {/* Color pickers for timer customization */}
-              <div className="flex gap-4 items-center mt-4">
-                <label className="text-white/80 text-sm">Background:
-                  <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="ml-2 w-8 h-8 p-0 border-0 bg-transparent" />
-                </label>
-                <label className="text-white/80 text-sm">Text:
-                  <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="ml-2 w-8 h-8 p-0 border-0 bg-transparent" />
-                </label>
+              {/* Custom color button and preview */}
+              <div className="flex flex-col items-center mt-4">
+                <button
+                  className="px-4 py-2 rounded bg-blue-700 hover:bg-blue-800 text-white font-bold mb-2"
+                  onClick={() => setShowColorPicker(v => !v)}
+                >
+                  {showColorPicker ? 'Close Color Picker' : 'Custom Colors'}
+                </button>
+                {showColorPicker && (
+                  <div className="flex gap-6 items-center bg-white/10 p-4 rounded-lg mt-2">
+                    <label className="text-white/80 text-sm flex flex-col items-center">
+                      Background
+                      <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-8 h-8 p-0 border-0 bg-transparent mt-1" />
+                    </label>
+                    <label className="text-white/80 text-sm flex flex-col items-center">
+                      Text
+                      <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-8 h-8 p-0 border-0 bg-transparent mt-1" />
+                    </label>
+                    <div className="flex flex-col items-center">
+                      <span className="text-xs text-white/60 mb-1">Preview</span>
+                      <div style={{ background: bgColor, color: textColor, borderRadius: '0.5rem', padding: '0.5rem 1.2rem', minWidth: 60, fontWeight: 700 }}>
+                        12:34
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             {/* Large timer display when running/paused/countdown */}
