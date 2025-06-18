@@ -300,81 +300,85 @@ export default function WODTimer() {
             ← Back
           </button>
           <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center mt-6">
-            {/* Timer settings UI (copied from previous logic, but only for selected timerType) */}
+            {/* Timer settings UI: vertical, labeled */}
             {timerType === "emom" && (
               <>
+                <div className="flex flex-col items-start w-full max-w-xs">
+                  <label className="text-white/90 mb-1">Total Minutes</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={60}
+                    value={minutes}
+                    onChange={e => setMinutes(Number(e.target.value))}
+                    className="rounded px-2 py-1 w-full bg-white/20 text-white mb-2"
+                  />
+                  <label className="text-white/90 mb-1">Work (min)</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={interval}
+                    onChange={e => setIntervalLength(Number(e.target.value))}
+                    className="rounded px-2 py-1 w-full bg-white/20 text-white mb-2"
+                  />
+                  <label className="text-white/90 mb-1">Rest (min)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={10}
+                    value={emomRest}
+                    onChange={e => setEmomRest(Number(e.target.value))}
+                    className="rounded px-2 py-1 w-full bg-white/20 text-white"
+                  />
+                </div>
+              </>
+            )}
+            {timerType === "amrap" && (
+              <div className="flex flex-col items-start w-full max-w-xs">
+                <label className="text-white/90 mb-1">Minutes</label>
                 <input
                   type="number"
                   min={1}
                   max={60}
                   value={minutes}
                   onChange={e => setMinutes(Number(e.target.value))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Total Minutes"
+                  className="rounded px-2 py-1 w-full bg-white/20 text-white"
                 />
-                <input
-                  type="number"
-                  min={1}
-                  max={10}
-                  value={interval}
-                  onChange={e => setIntervalLength(Number(e.target.value))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Work (min)"
-                />
-                <input
-                  type="number"
-                  min={0}
-                  max={10}
-                  value={emomRest}
-                  onChange={e => setEmomRest(Number(e.target.value))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Rest (min)"
-                />
-              </>
-            )}
-            {timerType === "amrap" && (
-              <input
-                type="number"
-                min={1}
-                max={60}
-                value={minutes}
-                onChange={e => setMinutes(Number(e.target.value))}
-                className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                placeholder="Minutes"
-              />
+              </div>
             )}
             {timerType === "tabata" && (
-              <>
+              <div className="flex flex-col items-start w-full max-w-xs">
+                <label className="text-white/90 mb-1">Rounds</label>
                 <input
                   type="number"
                   min={1}
                   max={50}
                   value={tabataRounds}
                   onChange={e => setTabataRounds(safeInt(e.target.value, 8))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Rounds"
+                  className="rounded px-2 py-1 w-full bg-white/20 text-white mb-2"
                 />
+                <label className="text-white/90 mb-1">Work (seconds)</label>
                 <input
                   type="number"
                   min={1}
                   max={300}
                   value={tabataWork}
                   onChange={e => setTabataWork(safeInt(e.target.value, 20))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Work (s)"
+                  className="rounded px-2 py-1 w-full bg-white/20 text-white mb-2"
                 />
+                <label className="text-white/90 mb-1">Rest (seconds)</label>
                 <input
                   type="number"
                   min={1}
                   max={300}
                   value={tabataRest}
                   onChange={e => setTabataRest(safeInt(e.target.value, 10))}
-                  className="rounded px-2 py-1 w-20 bg-white/20 text-white"
-                  placeholder="Rest (s)"
+                  className="rounded px-2 py-1 w-full bg-white/20 text-white"
                 />
-              </>
+              </div>
             )}
-            <label className="flex items-center gap-2 text-sm text-white/80">
+            <label className="flex items-center gap-2 text-sm text-white/80 mt-2">
               <input
                 type="checkbox"
                 checked={countDownMode}
