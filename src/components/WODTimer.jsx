@@ -57,6 +57,68 @@ export default function WODTimer() {
   const [countdown, setCountdown] = useState(false);
   const [countDownMode, setCountDownMode] = useState(true); // New: count down toggle
   const countdownTimeout = useRef();
+  const [fullscreen, setFullscreen] = useState(false);
+  const wakeLockRef = useRef(null);
+  const [bgColor, setBgColor] = useState('#000000');
+  const [textColor, setTextColor] = useState('#ffffff');
+
+  // Wake Lock API: prevent phone from sleeping when timer is running
+  useEffect(() => {
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator && running) {
+        try {
+          wakeLockRef.current = await navigator.wakeLock.request('screen');
+        } catch (e) {}
+      }
+    }
+    if (running) {
+      requestWakeLock();
+    } else if (wakeLockRef.current) {
+      wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
+    return () => {
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+    };
+  }, [running]);
+
+  // Fullscreen API
+  const timerContainerRef = useRef();
+  const handleFullscreen = () => {
+    if (!fullscreen && timerContainerRef.current) {
+      if (timerContainerRef.current.requestFullscreen) {
+        timerContainerRef.current.requestFullscreen();
+      }
+      setFullscreen(true);
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen();
+      setFullscreen(false);
+    }
+  };
+  useEffect(() => {
+    const onFsChange = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
+
+  // Load color preferences from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const bg = localStorage.getItem('wod_timer_bg');
+      const txt = localStorage.getItem('wod_timer_text');
+      if (bg) setBgColor(bg);
+      if (txt) setTextColor(txt);
+    }
+  }, []);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('wod_timer_bg', bgColor);
+      localStorage.setItem('wod_timer_text', textColor);
+    }
+  }, [bgColor, textColor]);
 
   // Reset timer state
   const reset = () => {
@@ -262,7 +324,7 @@ export default function WODTimer() {
 
   // UI
   return (
-    <div className="max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center">
+    <div ref={timerContainerRef} className={`max-w-xl mx-auto bg-white/10 rounded-xl p-4 sm:p-6 shadow-lg mt-4 sm:mt-8 text-center${fullscreen ? ' fixed inset-0 z-50 bg-black flex flex-col justify-center items-center' : ''}`}>
       <h2 className="text-3xl font-bold mb-4">WOD Timer</h2>
       {timerType === null ? (
         <div className="flex flex-col gap-4 mb-6 items-center">
@@ -292,7 +354,7 @@ export default function WODTimer() {
         </div>
       ) : (
         <div>
-          <div className="flex justify-start mb-2">
+          <div className="flex justify-between mb-2">
             <button
               className="bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold"
               style={{ minWidth: 32, minHeight: 32 }}
@@ -300,9 +362,15 @@ export default function WODTimer() {
             >
               ← Back
             </button>
+            <button
+              className="bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold ml-2"
+              onClick={handleFullscreen}
+            >
+              {fullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+            </button>
           </div>
           <div className="relative">
-            <div className="flex flex-col gap-4 mb-6 justify-center items-center mt-6">
+            <div className={`flex flex-col gap-4 mb-6 justify-center items-center mt-6 ${running || paused || countdown ? 'hidden' : ''}`}>
               {/* Timer settings UI: vertical, labeled */}
               {timerType === "emom" && (
                 <>
@@ -381,23 +449,26 @@ export default function WODTimer() {
                   />
                 </div>
               )}
-              <label className="flex items-center gap-2 text-sm text-white/80 mt-2">
-                <input
-                  type="checkbox"
-                  checked={countDownMode}
-                  onChange={e => setCountDownMode(e.target.checked)}
-                  className="accent-blue-600 w-5 h-5"
-                />
-                Count Down
-              </label>
-            </div>
-            <div className="mb-6">
-              <div className="text-5xl font-mono mb-2">
-                {formatTime(timeLeft)}
+              {/* Color pickers for timer customization */}
+              <div className="flex gap-4 items-center mt-4">
+                <label className="text-white/80 text-sm">Background:
+                  <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="ml-2 w-8 h-8 p-0 border-0 bg-transparent" />
+                </label>
+                <label className="text-white/80 text-sm">Text:
+                  <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="ml-2 w-8 h-8 p-0 border-0 bg-transparent" />
+                </label>
               </div>
-              <div className="text-lg text-blue-200 font-semibold mb-2">{status}</div>
-              {timerType !== "tabata" && <div className="text-sm text-gray-300">Round: {round}</div>}
             </div>
+            {/* Large timer display when running/paused/countdown */}
+            {(running || paused || countdown) && (
+              <div className="flex flex-col items-center justify-center my-8">
+                <div className="text-7xl sm:text-8xl font-mono font-bold drop-shadow-lg mb-4 select-none" style={{letterSpacing:'0.05em', background: bgColor, color: textColor, borderRadius: '1rem', padding: '1.5rem 2.5rem', minWidth: '320px'}}>
+                  {countdown ? (status.startsWith('Starting') ? status.replace('Starting in ', '') : status) : formatTime(timeLeft)}
+                </div>
+                {timerType !== "tabata" && <div className="text-lg" style={{color: textColor}}>Round: {round}</div>}
+                <div className="text-xl mt-2" style={{color: textColor}}>{status}</div>
+              </div>
+            )}
             <div className="flex gap-2 flex-wrap justify-center mt-4">
               {/* Ensure equal spacing between all timer control buttons */}
               {!running && !countdown && (
