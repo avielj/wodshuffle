@@ -56,10 +56,8 @@ export default function WorkoutGenerator({ muscleGroups, intensity, equipment = 
       timeCap: customRef.current.timeCap,
       repScheme: customRef.current.repScheme
     } : {};
-    // If no muscle groups selected, use all available
-    let mg = Array.isArray(muscleGroups) && muscleGroups.length > 0 ? muscleGroups : [
-      'upper_body_push', 'upper_body_pull', 'lower_body', 'core', 'full_body'
-    ];
+    // If no muscle groups selected, default to full_body only
+    let mg = Array.isArray(muscleGroups) && muscleGroups.length > 0 ? muscleGroups : ['full_body'];
     generateWorkout(
       mg,
       intensity,
