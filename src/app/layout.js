@@ -47,7 +47,9 @@ export default function RootLayout({ children }) {
         <meta property="twitter:description" content="Craft custom CrossFit workouts with ease! Select your target muscle groups and intensity level, and WOD Shuffler generates a personalized workout with warmup, strength, and metcon sections, including benchmark workout suggestions." />
         <meta property="twitter:image" content="/logo.png" />
         <link rel="manifest" href="/manifest.json" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2127645768957841" crossOrigin="anonymous"></script>
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2127645768957841"
+          crossOrigin="anonymous"></script>
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Removed AdSense ad unit from layout body to prevent site push-down */}
