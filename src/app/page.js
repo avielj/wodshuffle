@@ -144,7 +144,7 @@ export default function Home() {
   };
 
   const handleFavorite = async (workout) => {
-    console.log('handleFavorite called with:', { profile, workout });
+    console.log('handleFavorite called with:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
     if (profile?.id && workout?.wod) {
       const wodId = await ensureWodInDb(workout.wod);
       if (!wodId) {
@@ -166,7 +166,7 @@ export default function Home() {
       setFavorites(await favRes.json());
     } else {
       alert('Missing user or workout info.');
-      console.error('Missing user or workout info:', { profile, workout });
+      console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
     }
   };
 
@@ -199,7 +199,7 @@ export default function Home() {
 
   // Save to history when a new workout is generated
   const handleAddToHistory = async (workout) => {
-    console.log('handleAddToHistory called with:', { profile, workout });
+    console.log('handleAddToHistory called with:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
     if (profile?.id && workout?.wod) {
       const wodId = await ensureWodInDb(workout.wod);
       if (!wodId) {
@@ -221,7 +221,7 @@ export default function Home() {
       setHistory(await histRes.json());
     } else {
       alert('Missing user or workout info.');
-      console.error('Missing user or workout info:', { profile, workout });
+      console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
     }
   };
 
