@@ -350,76 +350,67 @@ export default function Home() {
           <button onClick={toggleTheme} className="mr-4 p-2 rounded bg-gray-200 dark:bg-gray-700">
             {theme === 'dark' ? 'Light' : 'Dark'} Mode
           </button>
-          <div className="relative">
-            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded bg-gray-200 dark:bg-gray-700">
-              {menuOpen ? <FaTimes /> : <FaBars />}
-            </button>
-            {menuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg">
-                {NAV_LINKS.map((link) => (
-                  <a key={link.name} href={link.href} className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    {link.name}
-                  </a>
-                ))}
-                <div className="border-t border-gray-300 dark:border-gray-600 my-2" />
-                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+          <button onClick={handleLogout} className="p-2 rounded bg-red-500 text-white">
+            Logout
+          </button>
         </div>
       </header>
-      <main className="flex flex-col lg:flex-row">
-        <section className="lg:w-1/4 mb-4 lg:mb-0">
-          <h2 className="text-xl font-semibold mb-2">Body Parts</h2>
-          <BodyPartSelector selectedParts={bodyParts} onChange={setBodyParts} />
-          <h2 className="text-xl font-semibold mb-2 mt-4">Equipment</h2>
-          <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
-          <h2 className="text-xl font-semibold mb-2 mt-4">Intensity</h2>
-          <div className="flex gap-2">
-            <button onClick={() => setIntensity("rx")} className={`flex-1 px-4 py-2 rounded ${intensity === "rx" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
-              RX
-            </button>
-            <button onClick={() => setIntensity("scaled")} className={`flex-1 px-4 py-2 rounded ${intensity === "scaled" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
-              Scaled
-            </button>
+      <main>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="col-span-1">
+            <BodyPartSelector
+              selectedParts={bodyParts}
+              onSelect={setBodyParts}
+              collapsed={collapsed}
+              onCollapseReset={handleCollapseReset}
+            />
           </div>
-        </section>
-        <section className="lg:w-3/4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Workout Generator</h2>
-            <button onClick={handleGenerate} className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">
-              Generate WOD
-            </button>
+          <div className="col-span-1">
+            <EquipmentSelector
+              selectedEquipment={equipment}
+              onSelect={setEquipment}
+              collapsed={collapsed}
+              onCollapseReset={handleCollapseReset}
+            />
           </div>
-          <WorkoutGenerator key={workoutKey} bodyParts={bodyParts} intensity={intensity} equipment={equipment} />
-          <div className="mt-4">
-            <button onClick={() => setShowFavorites(!showFavorites)} className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
-              {showFavorites ? 'Hide' : 'Show'} Favorites
-            </button>
-            <button onClick={() => setShowHistory(!showHistory)} className="ml-2 px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
-              {showHistory ? 'Hide' : 'Show'} History
-            </button>
-          </div>
-          {showFavorites && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Favorites</h3>
-              <FavoritesList favorites={favorites} onRemove={handleRemoveFavorite} onRegenerate={handleRegenerateFavorite} />
+          <div className="col-span-1">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold">Workout Generator</h2>
+              <button
+                onClick={() => setShowFavorites(!showFavorites)}
+                className="text-sm px-3 py-1 rounded bg-blue-500 text-white"
+              >
+                {showFavorites ? 'Hide' : 'Show'} Favorites
+              </button>
             </div>
-          )}
-          {showHistory && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">History</h3>
-              <HistoryList history={history} />
-            </div>
-          )}
-        </section>
+            {showFavorites && (
+              <FavoritesList
+                favorites={favorites}
+                onRemove={handleRemoveFavorite}
+                onRegenerate={handleRegenerateFavorite}
+              />
+            )}
+            <WorkoutGenerator
+              key={workoutKey}
+              bodyParts={bodyParts}
+              intensity={intensity}
+              equipment={equipment}
+              onAddToFavorites={handleFavorite}
+              onAddToHistory={handleAddToHistory}
+              collapsed={collapsed}
+              onCollapseReset={handleCollapseReset}
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <HistoryList
+            history={history}
+            onRemove={handleClearHistory}
+          />
+        </div>
       </main>
-      <footer className="mt-4 text-center text-gray-500">
-        <p>
-          &copy; {new Date().getFullYear()} WOD Generator. All rights reserved.
-        </p>
+      <footer className="mt-4 text-center text-sm text-gray-500">
+        &copy; {new Date().getFullYear()} WOD Generator. All rights reserved.
       </footer>
     </div>
   );

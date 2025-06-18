@@ -22,9 +22,9 @@ export default function BodyPartSelector({ selectedBodyParts = [], onChange }) {
 	};
 
 	return (
-		<div>
-			<label className="block font-semibold mb-2">Select up to 3 muscle groups to focus on</label>
-			<div className="grid grid-cols-2 gap-2 sm:grid-cols-3 justify-center place-items-center">
+		<div className="w-full flex flex-col items-center">
+			<label className="block font-semibold mb-2 text-center">Select up to 3 muscle groups to focus on</label>
+			<div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mx-auto place-items-center">
 				{BODY_PARTS.map((bp) => (
 					<div
 						key={bp.id}
