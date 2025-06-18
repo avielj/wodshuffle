@@ -58,15 +58,31 @@ export default function Home() {
           setFavorites(await favRes.json());
           const histRes = await fetch(`/api/user/history?userId=${user.id}`);
           setHistory(await histRes.json());
+        } else if (res.status === 401) {
+          // Guest: do not log error, just clear user state
+          setProfile({});
+          setFavorites([]);
+          setHistory([]);
         } else {
+          // Other error (not guest): optionally log or handle
           setProfile({});
           setFavorites([]);
           setHistory([]);
         }
       } catch (e) {
-        setProfile({});
-        setFavorites([]);
-        setHistory([]);
+        // Only log unexpected errors (not 401s)
+        // If error is a 401, treat as guest
+        if (e?.response?.status === 401) {
+          setProfile({});
+          setFavorites([]);
+          setHistory([]);
+        } else {
+          // Optionally log unexpected errors
+          // console.error('Error loading user profile:', e);
+          setProfile({});
+          setFavorites([]);
+          setHistory([]);
+        }
       }
     }
     loadProfileAndData();
