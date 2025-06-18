@@ -347,49 +347,39 @@ export default function Home() {
       <header className="flex justify-between items-center mb-4">
         <div className="text-2xl font-bold">WOD Generator</div>
         <div className="flex items-center">
-          <button onClick={toggleTheme} className="mr-4 p-2 rounded bg-gray-200 dark:bg-gray-700">
+          <button onClick={toggleTheme} className="mr-4 p-2 rounded-md bg-gray-200 dark:bg-gray-800">
             {theme === 'dark' ? 'Light' : 'Dark'} Mode
           </button>
-          <button onClick={handleLogout} className="p-2 rounded bg-red-500 text-white">
-            Logout
-          </button>
+          <div className="relative">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-md bg-gray-200 dark:bg-gray-800">
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg z-50">
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200">Profile</a>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200">My Workouts</a>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200">Quick Stats</a>
+                <div className="border-t border-gray-200 dark:border-gray-700"></div>
+                <a href="#" onClick={handleLogout} className="block px-4 py-2 text-sm text-red-600 dark:text-red-400">Logout</a>
+              </div>
+            )}
+          </div>
         </div>
       </header>
-      <main>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="col-span-1">
-            <BodyPartSelector
-              selectedParts={bodyParts}
-              onSelect={setBodyParts}
-              collapsed={collapsed}
-              onCollapseReset={handleCollapseReset}
-            />
-          </div>
-          <div className="col-span-1">
-            <EquipmentSelector
-              selectedEquipment={equipment}
-              onSelect={setEquipment}
-              collapsed={collapsed}
-              onCollapseReset={handleCollapseReset}
-            />
-          </div>
-          <div className="col-span-1">
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-xl font-semibold">Workout Generator</h2>
-              <button
-                onClick={() => setShowFavorites(!showFavorites)}
-                className="text-sm px-3 py-1 rounded bg-blue-500 text-white"
-              >
-                {showFavorites ? 'Hide' : 'Show'} Favorites
+      <main className="flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Generate a Workout</h2>
+            <BodyPartSelector selectedParts={bodyParts} onSelect={setBodyParts} />
+            <EquipmentSelector selectedEquipment={equipment} onSelect={setEquipment} />
+            <div className="flex gap-2">
+              <button onClick={handleGenerate} className="flex-1 bg-blue-600 text-white p-2 rounded-md shadow-md">
+                Generate WOD
+              </button>
+              <button onClick={handleCollapseReset} className="flex-1 bg-gray-300 dark:bg-gray-700 p-2 rounded-md shadow-md">
+                Reset
               </button>
             </div>
-            {showFavorites && (
-              <FavoritesList
-                favorites={favorites}
-                onRemove={handleRemoveFavorite}
-                onRegenerate={handleRegenerateFavorite}
-              />
-            )}
             <WorkoutGenerator
               key={workoutKey}
               bodyParts={bodyParts}
@@ -399,18 +389,36 @@ export default function Home() {
               onAddToHistory={handleAddToHistory}
               collapsed={collapsed}
               onCollapseReset={handleCollapseReset}
+              showMetconOnly={showMetconOnly}
+            />
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">My Favorites</h2>
+            <FavoritesList
+              favorites={favorites}
+              onRemove={handleRemoveFavorite}
+              onRegenerate={handleRegenerateFavorite}
+              profile={profile}
             />
           </div>
         </div>
         <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-4">Workout History</h2>
           <HistoryList
             history={history}
             onRemove={handleClearHistory}
+            profile={profile}
           />
         </div>
       </main>
-      <footer className="mt-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} WOD Generator. All rights reserved.
+      <footer className="mt-4 text-center text-gray-500">
+        <div>
+          &copy; {new Date().getFullYear()} WOD Generator. All rights reserved.
+        </div>
+        <div>
+          <a href="#" className="text-blue-600 hover:underline">Terms of Service</a> |{" "}
+          <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+        </div>
       </footer>
     </div>
   );
