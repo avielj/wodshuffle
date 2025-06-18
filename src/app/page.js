@@ -48,8 +48,15 @@ export default function Home() {
   // Load user profile from API on mount (replace localStorage logic)
   React.useEffect(() => {
     async function loadProfileAndData() {
+      // Only fetch profile if localStorage says user is logged in
+      if (typeof window !== 'undefined' && !localStorage.getItem('wodIsLoggedIn')) {
+        setProfile({});
+        setFavorites([]);
+        setHistory([]);
+        return;
+      }
       try {
-        const res = await fetch('/api/user/profile');
+        const res = await fetch('/api/user/profile', { credentials: 'include' });
         if (res.ok) {
           const user = await res.json();
           setProfile(user);
@@ -64,29 +71,26 @@ export default function Home() {
           setFavorites([]);
           setHistory([]);
         } else {
-          // Other error (not guest): optionally log or handle
           setProfile({});
           setFavorites([]);
           setHistory([]);
         }
       } catch (e) {
-        // Only log unexpected errors (not 401s)
-        // If error is a 401, treat as guest
-        if (e?.response?.status === 401) {
-          setProfile({});
-          setFavorites([]);
-          setHistory([]);
-        } else {
-          // Optionally log unexpected errors
-          // console.error('Error loading user profile:', e);
-          setProfile({});
-          setFavorites([]);
-          setHistory([]);
-        }
+        setProfile({});
+        setFavorites([]);
+        setHistory([]);
       }
     }
     loadProfileAndData();
   }, []);
+
+  // On successful login, set localStorage flag
+  const handleLoginSuccess = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('wodIsLoggedIn', '1');
+      window.location.reload();
+    }
+  };
 
   // Fetch global WODs generated count on mount
   useEffect(() => {
@@ -110,6 +114,7 @@ export default function Home() {
       // Call API to clear HTTP-only cookie
       fetch('/api/logout', { method: 'POST' }).then(() => {
         localStorage.removeItem("wodProfile");
+        localStorage.removeItem('wodIsLoggedIn');
         window.location.reload();
       });
     }
@@ -224,8 +229,12 @@ export default function Home() {
       const favRes = await fetch(`/api/user/favorites?userId=${profile.id}`);
       setFavorites(await favRes.json());
     } else {
-      alert('Missing user or workout info.');
-      console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
+      // Only show/log error for logged-in users (should not happen)
+      if (profile?.id) {
+        alert('Missing user or workout info.');
+        console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
+      }
+      // For guests, do nothing (no alert, no log)
     }
   };
 
@@ -279,8 +288,12 @@ export default function Home() {
       const histRes = await fetch(`/api/user/history?userId=${profile.id}`);
       setHistory(await histRes.json());
     } else {
-      alert('Missing user or workout info.');
-      console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
+      // Only show/log error for logged-in users (should not happen)
+      if (profile?.id) {
+        alert('Missing user or workout info.');
+        console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
+      }
+      // For guests, do nothing (no alert, no log)
     }
   };
 
