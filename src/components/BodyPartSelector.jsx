@@ -8,7 +8,7 @@ const BODY_PARTS = [
 	{ id: "full_body", name: "Full Body", emoji: "🔥", muscles: ["All Muscle Groups"] },
 ];
 
-export default function BodyPartSelector({ selectedBodyParts, onChange }) {
+export default function BodyPartSelector({ selectedBodyParts = [], onChange }) {
 	const handleChange = (id) => {
 		let updated;
 		if (selectedBodyParts.includes(id)) {

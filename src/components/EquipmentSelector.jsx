@@ -20,7 +20,7 @@ const EQUIPMENT_OPTIONS = [
   { id: "dip bars", label: "Dip Bars" },
 ];
 
-export default function EquipmentSelector({ selectedEquipment, onChange }) {
+export default function EquipmentSelector({ selectedEquipment = [], onChange }) {
   const handleToggle = (id) => {
     if (selectedEquipment.includes(id)) {
       onChange(selectedEquipment.filter((e) => e !== id));

@@ -91,9 +91,11 @@ export default function Home() {
   // Logout handler
   const handleLogout = () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem("wodProfile");
-      // Optionally clear user-specific favorites/history
-      window.location.reload();
+      // Call API to clear HTTP-only cookie
+      fetch('/api/logout', { method: 'POST' }).then(() => {
+        localStorage.removeItem("wodProfile");
+        window.location.reload();
+      });
     }
   };
 
@@ -138,18 +140,34 @@ export default function Home() {
     }
     // Otherwise, create it
     try {
-      const createRes = await fetch(`/api/admin/workouts`, {
+      let createRes = await fetch(`/api/admin/workouts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: wod.name || 'Untitled WOD',
-          format: wod.type || wod.format || 'For Time', // Always provide a default
+          format: wod.type || wod.format || 'For Time',
           description: wod.description || '',
           exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
           equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
         })
       });
-      const created = await createRes.json();
+      let created = await createRes.json();
+      if (!createRes.ok && typeof created.error === 'string' && created.error.includes('Unique constraint failed')) {
+        // Retry with a unique name
+        const uniqueName = `${wod.name} (${Date.now().toString().slice(-6)})`;
+        createRes = await fetch(`/api/admin/workouts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: uniqueName,
+            format: wod.type || wod.format || 'For Time',
+            description: wod.description || '',
+            exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
+            equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
+          })
+        });
+        created = await createRes.json();
+      }
       if (!createRes.ok) {
         console.error('Failed to create WOD in DB:', created, wod);
         alert('Failed to create WOD: ' + (created.error || createRes.status));
@@ -184,9 +202,15 @@ export default function Home() {
       // Refresh favorites
       const favRes = await fetch(`/api/user/favorites?userId=${profile.id}`);
       setFavorites(await favRes.json());
-    } else {
-      alert('Missing user or workout info.');
-      console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
+    } else if (workout?.wod) {
+      // Guest: save to localStorage
+      const favs = getLocalFavorites();
+      // Avoid duplicates by name/type/desc
+      if (!favs.some(f => f.wod.name === workout.wod.name && f.wod.type === workout.wod.type && f.wod.description === workout.wod.description)) {
+        favs.unshift(workout);
+        setLocalFavorites(favs);
+        setFavorites(favs);
+      }
     }
   };
 
@@ -239,6 +263,12 @@ export default function Home() {
       // Refresh history
       const histRes = await fetch(`/api/user/history?userId=${profile.id}`);
       setHistory(await histRes.json());
+    } else if (workout?.wod) {
+      // Guest: save to localStorage
+      const hist = getLocalHistory();
+      hist.unshift({ ...workout, generatedAt: new Date().toISOString() });
+      setLocalHistory(hist);
+      setHistory(hist);
     } else {
       alert('Missing user or workout info.');
       console.error('Missing user or workout info:', { profile, workout, profileId: profile?.id, wod: workout?.wod });
@@ -266,184 +296,131 @@ export default function Home() {
     }
   };
 
-  if (!mounted) return null;
+  // LocalStorage helpers for guest users
+  const getLocalFavorites = () => JSON.parse(localStorage.getItem('wodFavorites') || '[]');
+  const setLocalFavorites = (favs) => localStorage.setItem('wodFavorites', JSON.stringify(favs));
+  const getLocalHistory = () => JSON.parse(localStorage.getItem('wodHistory') || '[]');
+  const setLocalHistory = (hist) => localStorage.setItem('wodHistory', JSON.stringify(hist));
+
+  // On mount, load local favorites/history for guests
+  useEffect(() => {
+    if (!profile?.id) {
+      setFavorites(getLocalFavorites());
+      setHistory(getLocalHistory());
+    }
+  }, [profile?.id]);
+
+  // On login, merge local favorites/history into DB, then clear localStorage
+  useEffect(() => {
+    if (profile?.id) {
+      const localFavs = getLocalFavorites();
+      const localHist = getLocalHistory();
+      // Merge favorites
+      localFavs.forEach(async (w) => {
+        const wodId = await ensureWodInDb(w.wod);
+        if (wodId) {
+          await fetch('/api/user/favorites', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: profile.id, wodId })
+          });
+        }
+      });
+      // Merge history
+      localHist.forEach(async (w) => {
+        const wodId = await ensureWodInDb(w.wod);
+        if (wodId) {
+          await fetch('/api/user/history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: profile.id, wodId })
+          });
+        }
+      });
+      localStorage.removeItem('wodFavorites');
+      localStorage.removeItem('wodHistory');
+    }
+  }, [profile?.id]);
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans transition-colors duration-200">
-      {/* Navigation Tabs */}
-      <nav className="bg-black/80 backdrop-blur-md shadow flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-white/10 gap-2 sm:gap-0 relative">
-        <div className="flex items-center gap-2 mb-2 sm:mb-0">
-          <img
-            src="/logo.png"
-            alt="WOD Shuffler Logo"
-            width={40}
-            height={40}
-            className="h-10 w-10 rounded bg-white/10 border border-white/20 object-contain"
-            style={{ objectFit: 'contain' }}
-          />
-          <span className="font-bold text-lg sm:text-xl tracking-tight text-blue-400">WOD Shuffler</span>
-        </div>
-        {/* Hamburger for mobile */}
-        <button
-          className="sm:hidden absolute right-4 top-3 z-20 text-white text-2xl focus:outline-none"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </button>
-        {/* Nav links - always in flow, use max-h for animation */}
-        <div
-          className={`w-full sm:w-auto transition-all duration-300 overflow-hidden
-            ${menuOpen ? 'max-h-[500px] py-4' : 'max-h-0 py-0'}
-            sm:max-h-none sm:py-0 flex flex-col sm:flex-row gap-2 items-center justify-center`}
-          style={{ background: menuOpen ? 'rgba(0,0,0,0.95)' : 'transparent', borderBottom: menuOpen ? '1px solid rgba(255,255,255,0.1)' : 'none', borderRadius: menuOpen ? '0 0 1rem 1rem' : '0' }}
-        >
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='generator' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('generator'); setMenuOpen(false); }}
-          >WOD Generator</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='metcon' ? 'bg-green-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('metcon'); setMenuOpen(false); }}
-          >Metcon Generator</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='favorites' ? 'bg-pink-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('favorites'); setMenuOpen(false); }}
-          >Favorites</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='history' ? 'bg-blue-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('history'); setMenuOpen(false); }}
-          >History</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='profile' ? 'bg-gray-600 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('profile'); setMenuOpen(false); }}
-          >Profile</button>
-          <button
-            className={`ml-2 px-3 py-1 rounded ${activeTab==='timer' ? 'bg-blue-800 text-white' : 'bg-white/10 text-white'} text-sm font-semibold transition-colors`}
-            onClick={() => { setActiveTab('timer'); setMenuOpen(false); }}
-          >Timer</button>
-          {profile?.email === ADMIN_EMAIL && (
-            <a href="/admin" className="ml-2 px-3 py-1 rounded bg-yellow-500 text-black text-sm font-semibold transition-colors">Admin</a>
-          )}
-        </div>
-      </nav>
-
-      {/* Quick Stats */}
-      <div className="max-w-2xl mx-auto flex flex-col sm:flex-row justify-between items-center px-2 sm:px-4 py-3 mt-3 mb-2 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md gap-2 sm:gap-0">
-        {/* Removed local Generated WODs stat */}
-        {profile?.id && (
-          <div className="flex flex-col items-center">
-            <span className="text-pink-400 font-bold text-2xl">{favorites.length}</span>
-            <span className="text-xs text-white/70">Favorites</span>
-          </div>
-        )}
-        {(profile?.id || profile?.email === ADMIN_EMAIL) && (
-          <div className="flex flex-col items-center">
-            <span className="text-blue-400 font-bold text-2xl">{globalWodsGenerated}</span>
-            <span className="text-xs text-white/70">Global WODs Generated</span>
-          </div>
-        )}
-      </div>
-
-      {/* Main Content by Tab */}
-      <main className="max-w-2xl mx-auto p-1 sm:p-2 mt-2 fade-in">
-        <div className="rounded-2xl glassy shadow-lg p-2 sm:p-4 border border-white/10 fade-in">
-          {activeTab === 'profile' ? (
-            <div>
-              <UserProfile profile={profile} onSave={handleSaveProfile} />
-              {profile?.email && (
-                <button onClick={handleLogout} className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-2 rounded-md font-semibold transition-colors min-h-[44px]">Logout</button>
-              )}
-            </div>
-          ) : activeTab === 'favorites' ? (
-            <FavoritesList
-              favorites={favorites}
-              onRemove={handleRemoveFavorite}
-              onRegenerate={handleRegenerateFavorite}
-            />
-          ) : activeTab === 'history' ? (
-            <HistoryList
-              history={history}
-              onClear={handleClearHistory}
-            />
-          ) : activeTab === 'metcon' ? (
-            <MetconOnlyGenerator
-              intensity={intensity}
-              onFavorite={handleFavorite}
-              onGenerate={handleAddToHistory}
-            />
-          ) : activeTab === 'timer' ? (
-            <WODTimer />
-          ) : (
-            <>
-              <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-white">WOD Shuffler</h1>
-              <p className="text-center text-white/70 mb-4 text-sm sm:text-base">Create personalized CrossFit workouts tailored to your goals and intensity level</p>
-              <div className={`transition-all duration-500 overflow-hidden ${collapsed ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[1000px] opacity-100'}`}> 
-                <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
-                <section className="mb-4">
-                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Target Muscle Groups</h2>
-                  <BodyPartSelector selectedBodyParts={bodyParts} onChange={setBodyParts} />
-                  <div className="flex flex-col sm:flex-row justify-between items-center mt-1 text-xs gap-1 sm:gap-0">
-                    <span className="text-blue-400 font-semibold">{bodyParts.length}/3 muscle groups selected</span>
-                    <button className="text-xs text-red-400 hover:underline" onClick={() => setBodyParts([])}>Clear All</button>
-                  </div>
-                </section>
-                <section className="mb-4">
-                  <h2 className="text-base sm:text-lg font-semibold mb-1 text-white">Intensity Level</h2>
-                  <div className="flex gap-2 mt-2 flex-wrap justify-center">
-                    <div
-                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='scaled'?'border-green-400 bg-green-900/30 ring-2 ring-green-400':'border-white/10 bg-white/5'}`}
-                      onClick={() => setIntensity('scaled')}
-                    >
-                      <div className="flex items-center gap-1 font-bold text-green-400">⚡<span>Scaled</span></div>
-                      <div className="text-[10px] text-white/60">Beginner</div>
-                    </div>
-                    <div
-                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='rx'?'border-blue-400 bg-blue-900/30 ring-2 ring-blue-400':'border-white/10 bg-white/5'}`}
-                      onClick={() => setIntensity('rx')}
-                    >
-                      <div className="flex items-center gap-1 font-bold text-blue-400">🔥<span>RX</span></div>
-                      <div className="text-[10px] text-white/60">Standard</div>
-                    </div>
-                    <div
-                      className={`rounded p-2 border text-xs flex flex-col items-center cursor-pointer min-w-[80px] ${intensity==='athlete'?'border-pink-400 bg-pink-900/30 ring-2 ring-pink-400':'border-white/10 bg-white/5'}`}
-                      onClick={() => setIntensity('athlete')}
-                    >
-                      <div className="flex items-center gap-1 font-bold text-pink-400">🚀<span>Athlete</span></div>
-                      <div className="text-[10px] text-white/60">Elite</div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <button
-                onClick={handleGenerate}
-                className="w-full bg-blue-600 text-white py-2 px-2 rounded-md hover:bg-blue-700 text-base font-semibold mb-4 transition-colors duration-150 min-h-[44px]"
-                disabled={bodyParts.length === 0}
-              >
-                Generate WOD
-              </button>
-              {collapsed && (
-                <button
-                  onClick={handleCollapseReset}
-                  className="w-full bg-gray-700 text-white py-2 px-2 rounded-md hover:bg-gray-800 text-base font-semibold mb-4 transition-colors duration-150"
-                >
-                  Edit Selection
+    <div className={`min-h-screen p-4 ${theme}`}>
+      <header className="flex justify-between items-center mb-4">
+        <div className="text-2xl font-bold">WOD Generator</div>
+        <div className="flex items-center">
+          <button onClick={toggleTheme} className="mr-4 p-2 rounded bg-gray-200 dark:bg-gray-700">
+            {theme === 'dark' ? 'Light' : 'Dark'} Mode
+          </button>
+          <div className="relative">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded bg-gray-200 dark:bg-gray-700">
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg">
+                {NAV_LINKS.map((link) => (
+                  <a key={link.name} href={link.href} className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    {link.name}
+                  </a>
+                ))}
+                <div className="border-t border-gray-300 dark:border-gray-600 my-2" />
+                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                  Logout
                 </button>
-              )}
-              {bodyParts.length > 0 && collapsed && (
-                <WorkoutGenerator
-                  muscleGroups={bodyParts}
-                  intensity={intensity}
-                  equipment={equipment}
-                  key={workoutKey}
-                  onFavorite={handleFavorite}
-                  onGenerate={handleAddToHistory}
-                />
-              )}
-            </>
-          )}
+              </div>
+            )}
+          </div>
         </div>
+      </header>
+      <main className="flex flex-col lg:flex-row">
+        <section className="lg:w-1/4 mb-4 lg:mb-0">
+          <h2 className="text-xl font-semibold mb-2">Body Parts</h2>
+          <BodyPartSelector selectedParts={bodyParts} onChange={setBodyParts} />
+          <h2 className="text-xl font-semibold mb-2 mt-4">Equipment</h2>
+          <EquipmentSelector selectedEquipment={equipment} onChange={setEquipment} />
+          <h2 className="text-xl font-semibold mb-2 mt-4">Intensity</h2>
+          <div className="flex gap-2">
+            <button onClick={() => setIntensity("rx")} className={`flex-1 px-4 py-2 rounded ${intensity === "rx" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
+              RX
+            </button>
+            <button onClick={() => setIntensity("scaled")} className={`flex-1 px-4 py-2 rounded ${intensity === "scaled" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700"}`}>
+              Scaled
+            </button>
+          </div>
+        </section>
+        <section className="lg:w-3/4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Workout Generator</h2>
+            <button onClick={handleGenerate} className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">
+              Generate WOD
+            </button>
+          </div>
+          <WorkoutGenerator key={workoutKey} bodyParts={bodyParts} intensity={intensity} equipment={equipment} />
+          <div className="mt-4">
+            <button onClick={() => setShowFavorites(!showFavorites)} className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
+              {showFavorites ? 'Hide' : 'Show'} Favorites
+            </button>
+            <button onClick={() => setShowHistory(!showHistory)} className="ml-2 px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
+              {showHistory ? 'Hide' : 'Show'} History
+            </button>
+          </div>
+          {showFavorites && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">Favorites</h3>
+              <FavoritesList favorites={favorites} onRemove={handleRemoveFavorite} onRegenerate={handleRegenerateFavorite} />
+            </div>
+          )}
+          {showHistory && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">History</h3>
+              <HistoryList history={history} />
+            </div>
+          )}
+        </section>
       </main>
+      <footer className="mt-4 text-center text-gray-500">
+        <p>
+          &copy; {new Date().getFullYear()} WOD Generator. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
