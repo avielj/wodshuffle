@@ -132,8 +132,8 @@ export default function Home() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: wod.name,
-          format: wod.type || wod.format || '',
+          name: wod.name || 'Untitled WOD',
+          format: wod.type || wod.format || 'For Time', // Always provide a default
           description: wod.description || '',
           exercises: Array.isArray(wod.exercises) ? wod.exercises : [],
           equipment: Array.isArray(wod.equipment) ? wod.equipment : [],
