@@ -399,27 +399,32 @@ export default function WODTimer() {
               {timerType !== "tabata" && <div className="text-sm text-gray-300">Round: {round}</div>}
             </div>
             <div className="flex gap-2 flex-wrap justify-center mt-4">
+              {/* Ensure equal spacing between all timer control buttons */}
               {!running && !countdown && (
                 <button
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
+                  style={{ marginRight: '0.5rem' }}
                   onClick={startCountdown}
                 >Start</button>
               )}
               {running && !paused && (
                 <button
                   className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded font-bold shadow"
+                  style={{ marginRight: '0.5rem' }}
                   onClick={pause}
                 >Pause</button>
               )}
               {running && paused && (
                 <button
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold shadow"
+                  style={{ marginRight: '0.5rem' }}
                   onClick={resume}
                 >Resume</button>
               )}
               {(running || paused || countdown) && (
                 <button
                   className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-bold shadow"
+                  style={{ marginRight: '0.5rem' }}
                   onClick={reset}
                 >Reset</button>
               )}
