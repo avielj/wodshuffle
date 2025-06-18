@@ -50,21 +50,7 @@ export default function RootLayout({ children }) {
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2127645768957841" crossOrigin="anonymous"></script>
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* AdSense responsive ad unit */}
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '16px 0' }}>
-          <ins className="adsbygoogle"
-            style={{ display: 'block', width: '100%', maxWidth: 728, height: 90 }}
-            data-ad-client="ca-pub-2127645768957841"
-            data-ad-slot="1234567890"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        </div>
-        <script dangerouslySetInnerHTML={{ __html: "(adsbygoogle = window.adsbygoogle || []).push({});" }} />
-        {/* <nav className="w-full flex justify-center py-4 bg-black/30 mb-4">
-          <div className="flex gap-2 sm:gap-4 text-lg font-semibold">
-            <Link href="/timer" className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-semibold shadow flex items-center justify-center min-w-[44px] min-h-[44px] transition">Timer</Link>
-          </div>
-        </nav> */}
+        {/* Removed AdSense ad unit from layout body to prevent site push-down */}
         {children}
       </body>
     </html>
